@@ -1,0 +1,29 @@
+---
+export interface Props {
+    className?: string;
+}
+
+const { className } = Astro.props;
+---
+
+<div
+class={`mx-auto max-w-7xl relative w-full px-2 sm:px-3 md:px-4 lg:px-5   ${className}`}
+    style={{
+        boxShadow: `
+            /* Sombra izquierda (más intensa) */
+            12px 0 10px -4px rgba(0, 0, 0, 0.3),
+            /* Sombra derecha (más intensa) */
+            -12px 0 10px -4px rgba(0, 0, 0, 0.3),
+            /* Sombra inferior sutil para anclar al fondo */
+            0 0px 0px rgba(0, 0, 0, 0.05)
+        `,
+        /* Efecto de bisel con bordes iluminados */
+        borderLeft: '1px solid rgba(255, 255, 255, 0.7)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.7)',
+        
+        position: 'relative',
+        zIndex: 0
+    }}
+>
+    <slot />
+</div>

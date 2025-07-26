@@ -1,0 +1,235 @@
+---
+import Container from "../shared/Container.astro";
+import TimeLine from "../shared/TimeLine.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+import Icon from "../shared/Icon.astro";
+
+const pasos = [
+    {
+        title: "Siembra Orgánica",
+        content:
+            "Usamos semillas seleccionadas, sin modificación genética ni agroquímicos.",
+        bgIcon: "bg-orange-100",
+        iconColor: "text-green-600",
+        icon: `siembraorganica`,
+    },
+    {
+        title: "Riego Tecnificado",
+        content:
+            "Optimización del agua en zonas altoandinas mediante técnicas sostenibles.",
+        bgIcon: "bg-blue-100",
+        iconColor: "text-blue-600",
+        icon: `riegotecnificado`,
+    },
+    {
+        title: "Compost Natural",
+        content:
+            "Abono producido con residuos locales, sin químicos ni fertilizantes artificiales.",
+        bgIcon: "bg-green-100",
+        iconColor: "text-green-600",
+        icon: `compostnatural`,
+    },
+    {
+        title: "Cosecha y Embalaje",
+        content:
+            "Realizado a mano por productores locales, asegurando frescura y conservación.",
+        bgIcon: "bg-orange-100",
+        iconColor: "text-orange-600",
+        icon: `cosechayembalaje`,
+    },
+    {
+        title: "Logística Responsable",
+        content:
+            "Coordinamos entregas rápidas en Lima minimizando emisiones y desperdicio.",
+        bgIcon: "bg-yellow-100",
+        iconColor: "text-yellow-600",
+        icon: `logisticaresponsable`,
+    },
+];
+---
+
+<section class="asi-cultivamos" id="asi-cultivamos">
+    <Container className="bg-rv-light py-12 lg:py-16">
+        <div class="text-center mb-16">
+            <ScrollAnimation animation="fadeInUp" delay="0.1">
+                <h2 class="title">Así cultivamos nuestra alfalfa</h2>
+            </ScrollAnimation>
+            <ScrollAnimation animation="fadeInUp" delay="0.3">
+                <p class="paragraph">
+                    Cada paso en nuestro proceso refleja respeto por la tierra,
+                    compromiso comunitario y calidad verdadera.
+                </p>
+            </ScrollAnimation>
+        </div>
+
+        <div class="relative">
+            <!-- Línea central animada -->
+            <div
+                class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-green-600 h-full timeline-line"
+            >
+            </div>
+
+            <div class="space-y-16">
+                {
+                    pasos.map((paso, index) => (
+                        <ScrollAnimation
+                            animation={
+                                index % 2 === 0 ? "fadeInRight" : "fadeInLeft"
+                            }
+                            delay={0.2 * (index + 1)}
+                            duration="0.8"
+                            threshold="0.2"
+                        >
+                            <TimeLine
+                                title={paso.title}
+                                content={paso.content}
+                                bgIcon={paso.bgIcon}
+                                iconColor={paso.iconColor}
+                                icon={paso.icon}
+                                side={index % 2 === 0 ? "right" : "left"}
+                            >
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div
+                                            class={`w-16 h-16 ${paso.bgIcon} rounded-lg flex items-center justify-center`}
+                                        >
+                                            <Icon
+                                                name={paso.icon}
+                                                class:list={["card-icon"]}
+                                                size={80}
+                                                inheritColor={false}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-green-800 mb-2">
+                                            {paso.title}
+                                        </h3>
+                                        <p class="text-green-700">
+                                            {paso.content}
+                                        </p>
+                                    </div>
+                                </div>
+                            </TimeLine>
+                        </ScrollAnimation>
+                    ))
+                }
+            </div>
+        </div>
+    </Container>
+</section>
+
+<style>
+    .timeline-item {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 5s ease-out;
+    }
+
+    .timeline-item.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .timeline-content {
+        transition: all 0.6s ease-out;
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    .timeline-item[data-side="right"] .timeline-content {
+        transform: translateX(50px);
+    }
+
+    .timeline-item.animate .timeline-content {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .timeline-dot {
+        transition: all 0.6s ease-out;
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    .timeline-item.animate .timeline-dot {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .timeline-line {
+        height: 0;
+        opacity: 0;
+        transition:
+            height 3s ease-in-out,
+            opacity 0.5s ease-out;
+        box-shadow: 0 12px 8px rgba(var(--rv-dark-rgb), 0.8);
+    }
+
+    .timeline-line.animate {
+        height: 100%;
+        opacity: 1;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .timeline-item {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .timeline-item .w-5\/12 {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .timeline-line {
+            left: 2rem;
+        }
+
+        .timeline-dot {
+            position: relative;
+            left: -1.5rem;
+        }
+
+        .timeline-content {
+            transform: translateY(30px);
+        }
+
+        .timeline-item[data-side="right"] .timeline-content {
+            transform: translateY(30px);
+        }
+
+        .timeline-item.animate .timeline-content {
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const observerOptions = {
+            threshold: window.innerWidth < 768 ? 0.1 : 0.3,
+            rootMargin: "0px 0px -50px 0px", // Activa la animación un poco antes
+        };
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("animate");
+                    obs.unobserve(entry.target); // Solo una vez
+                }
+            });
+        }, observerOptions);
+
+        // Observa todos los elementos timeline-item
+        const timelineItems = document.querySelectorAll(".timeline-item");
+        timelineItems.forEach((el) => observer.observe(el));
+
+        // Observa la línea central
+        const timelineLine = document.querySelector(".timeline-line");
+        if (timelineLine) {
+            observer.observe(timelineLine);
+        }
+    });
+</script>

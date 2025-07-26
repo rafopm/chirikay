@@ -1,0 +1,85 @@
+---
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  inheritColor?: boolean;
+}
+
+const { 
+  name, 
+  size = 100, 
+  class: className = '',
+  inheritColor = true
+} = Astro.props;
+
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+let svgContent = '';
+let viewBox = '0 0 100 100';
+let aspectRatio = 1;
+
+try {
+  // Obtener la ruta del archivo actual
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  
+  // Construir la ruta al archivo SVG
+  const svgFilePath = join(process.cwd(), 'public', 'images', 'icons', `${name}.svg`);
+  
+  // Leer el archivo directamente
+  svgContent = readFileSync(svgFilePath, 'utf-8');
+  
+  // Extraer viewBox
+  const viewBoxMatch = svgContent.match(/viewBox="([^"]+)"/);
+  if (viewBoxMatch) {
+    viewBox = viewBoxMatch[1];
+    const [x, y, width, height] = viewBox.split(' ').map(Number);
+    if (width && height) {
+      aspectRatio = width / height;
+    }
+  }
+  
+  // Extraer contenido interno
+  const innerSVGMatch = svgContent.match(/<svg[^>]*>(.*?)<\/svg>/s);
+  if (innerSVGMatch) {
+    svgContent = innerSVGMatch[1];
+    
+    if (inheritColor) {
+      svgContent = svgContent.replace(/fill="#[^"]*"/g, 'fill="currentColor"');
+      svgContent = svgContent.replace(/stroke="#[^"]*"/g, 'stroke="currentColor"');
+      svgContent = svgContent.replace(/fill=#[^\s>]*/g, 'fill="currentColor"');
+      svgContent = svgContent.replace(/stroke=#[^\s>]*/g, 'stroke="currentColor"');
+    }
+  }
+} catch (error) {
+  console.error(`Error loading icon ${name}:`, error);
+  // Fallback: mostrar un ícono genérico
+  svgContent = '<rect width="100%" height="100%" fill="currentColor" opacity="0.3" />';
+  viewBox = '0 0 100 100';
+  aspectRatio = 1;
+}
+
+const calculatedHeight = Math.round(size / aspectRatio);
+---
+
+<svg 
+  width={size} 
+  height={calculatedHeight}
+  class={`icon ${className}`}
+  viewBox={viewBox}
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+  set:html={svgContent}
+/>
+
+<style>
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+    shape-rendering: geometricPrecision;
+  }
+</style>

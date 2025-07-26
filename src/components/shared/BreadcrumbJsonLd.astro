@@ -1,0 +1,37 @@
+---
+import { SITE, ROUTE_NAMES } from "../../consts";
+
+const pathname = Astro.url.pathname;
+const site = SITE.URL.endsWith("/") ? SITE.URL.slice(0, -1) : SITE.URL;
+
+const segments = pathname.split("/").filter(Boolean);
+
+function formatBreadcrumbName(text: string) {
+  return text.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+const items = [{
+  "@type": "ListItem",
+  position: 1,
+  name: "Inicio",
+  item: `${site}/`
+}];
+
+let url = site;
+segments.forEach((segment, index) => {
+  url += `/${segment}`;
+  const name = ROUTE_NAMES[segment] || formatBreadcrumbName(segment);
+  items.push({
+    "@type": "ListItem",
+    position: index + 2,
+    name,
+    item: url
+  });
+});
+---
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items
+})} />

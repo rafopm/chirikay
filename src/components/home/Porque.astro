@@ -1,0 +1,151 @@
+---
+import Container from "../shared/Container.astro";
+import Icon from "../shared/Icon.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+
+const features = [
+  {
+    title: "Nutrición Viva:",
+    description: "Más proteína, fibra, y minerales esenciales.",
+    icon: `nutricion`,
+    delay: `0.1`,
+  },
+  {
+    title: "Cosechada y entregada rápidamente:",
+    description: "Mantiene frescura, color y olor natural.",
+    icon: `entrega`,
+    delay: `0.3`,
+  },
+  {
+    title: "Alta digestibilidad:",
+    description: "Mejora la conversión alimenticia de ganado y cuyes.",
+    icon: `digestibilidad`,
+    delay: `0.5`,
+  },
+  {
+    title: "Variedades Premium:",
+    description: "Moapa y California adaptadas al clima andino.",
+    icon: `variedades`,
+    delay: `0.7`,
+  },
+];
+---
+
+<section class="porque-nuestra-alfalfa pt-8 ">
+  <Container className="bg-rv-very-light py-12 lg:py-16 rounded-t-3xl">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <ScrollAnimation animation="fadeInUp" delay="0.1">
+        <h2 class="title">Lo que hace única nuestra alfalfa</h2>
+      </ScrollAnimation>
+      <ScrollAnimation animation="fadeInUp" delay="0.3">
+        <p class="paragraph">
+          Cultivada a más de 3,300 msnm, bajo sol altoandino y en suelos libres
+          de químicos, nuestra alfalfa ofrece un nivel nutricional superior que
+          no solo alimenta: fortalece.
+        </p>
+      </ScrollAnimation>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Features List -->
+      <div class="space-y-8">
+        {
+          features.map((feature) => (
+            <ScrollAnimation animation="fadeInLeft" delay={feature.delay}>
+              <div class="group">
+                <div class="flex items-center space-x-4">
+                  <div>
+                    <Icon
+                      name={feature.icon}
+                      class:list={["card-icon"]}
+                      size={80}
+                      inheritColor={false}
+                    />
+                  </div>
+
+                  <div>
+                    <h3 class="text-xl font-semibold text-green-800 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+          ))
+        }
+      </div>
+
+      <!-- Image -->
+      <div class="relative">
+        <ScrollAnimation animation="fadeInRight" delay="0.3">
+          <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+            <img
+              src="/images/alfalfa.webp"
+              alt="Plantas de alfalfa verde fresca"
+              class="w-full h-80 sm:h-96 object-cover transition-transform duration-300 hover:scale-105"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-green-900/20 to-transparent"
+            >
+            </div>
+          </div>
+        </ScrollAnimation>
+        <!-- Decorative elements -->
+        <div
+          class="absolute -top-4 -right-4 w-24 h-24 bg-green-200 rounded-full opacity-20"
+        >
+        </div>
+        <div
+          class="absolute -bottom-6 -left-6 w-32 h-32 bg-amber-200 rounded-full opacity-20"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Proven Fact Section -->
+    <div
+      class="mt-16 bg-rv-accent backdrop-blur-sm rounded-2xl p-8 border border-green-100 shadow-lg"
+    >
+      <div class="flex items-start space-x-4">
+        <div class="flex-shrink-0">
+          <div class="flex items-center justify-center text-rv-very-light">
+            <Icon
+              name="check"
+              class:list={["card-icon"]}
+              size={60}
+              inheritColor={true}
+            />
+          </div>
+        </div>
+        <div class="">
+          <h3 class="text-xl font-semibold text-rv-very-light mb-2">
+            Dato comprobado:
+          </h3>
+          <p class="leading-relaxed text-rv-very-light">
+            La alfalfa cultivada en altura presenta hasta un <span
+              class="font-semibold text-rv-light">15% más de proteína</span
+            > que en zonas bajas. Estudios y observaciones demuestran consistentemente
+            que estas condiciones elevadas favorecen la síntesis de proteínas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  /* Custom animations */
+  .group:hover .flex-shrink-0 {
+    transform: scale(1.1);
+  }
+
+  /* Smooth transitions */
+  * {
+    transition: all 0.3s ease;
+  }
+</style>

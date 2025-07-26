@@ -1,0 +1,67 @@
+---
+import { WHATSAPP } from "../../consts";
+import Button from "./Button.astro";
+const { title, description, imgurl, alt, url, slug } = Astro.props;
+const { origin, pathname } = Astro.url;
+---
+<div
+    class="card-container max-w-sm bg-qs-bg-very-light border border-gray-200 rounded-lg shadow-md hover:bg-qs-bg-light overflow-hidden flex flex-col"
+>
+    <a href={url} class="overflow-hidden block">
+        <img
+            class="img-card w-full"
+            src={imgurl}
+            alt={alt}
+            loading="lazy"
+            transition:name={`img-${slug}`}
+            width="357"
+            height="238"
+        />
+    </a>
+    <div class="p-5 flex flex-col flex-grow justify-between">
+        <div>
+            <a href={url}>
+                <h3 class="text-qs-dark text-[18px] font-qs-primary mb-2">
+                    {title}
+                </h3>
+            </a>
+            <p class="mb-3 font-primary text-qs-dark description-content">
+                {description}
+            </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-2 items-center">
+            <Button
+                text="Comprar"
+                url={`https://wa.me/${WHATSAPP}?text=Me%20interesa%20este%20producto%20${origin}${url}`}
+                variant="primary"
+            />
+
+            <Button
+                text="Ver más"
+                url={url}
+                variant="secondary"
+            />
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-container {
+        box-shadow: 0 4px 12px rgba( 0, 0, 0, 25%);
+    }
+
+    .img-card {
+        border-radius: 10px 10px 0px 0px;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
+    }
+    .card-container:hover .img-card {
+        transform: scale(1.05);
+        filter: saturate(1.3);
+    }
+    .description-content {
+        min-height: 100px;
+    }
+</style>

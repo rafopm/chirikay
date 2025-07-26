@@ -1,0 +1,128 @@
+---
+import Container from "./Container.astro";
+
+interface Crumb {
+    name: string;
+    url: string;
+}
+
+const { url, title, class: className = "" } = Astro.props;
+
+const createBreadcrumbs = (url: string): Crumb[] => {
+    if (!url) return [];
+    const parts = url.split("/").filter((part) => part);
+
+    let path = "";
+    const crumbs = parts.map((part) => {
+        path += `/${part}`;
+        return { name: part, url: path };
+    });
+
+    if (crumbs?.length === 1) {
+        crumbs[0].name = title || crumbs[0].name;
+    } else {
+        crumbs[crumbs.length - 1].name = title;
+    }
+
+    return crumbs;
+};
+
+const breadcrumbs = createBreadcrumbs(url);
+breadcrumbs[breadcrumbs.length - 1].name = title;
+---
+
+<nav class={`breadcrumb-blur pt-2 pb-1 px-5 text-white ${className}`} aria-label="Breadcrumb">
+    <Container className="flex items-center font-semibold justify-center py-2   bg-transparent">
+        <ol class="inline-flex items-center space-x-0 md:space-x-1 rtl:space-x-reverse">
+            <li class="inline-flex items-center mr-1">
+                <a
+                    href="/"
+                    class="inline-flex items-center text-sm text-qs-dark hover:text-qs-accent-blue"
+                >
+                    <svg
+                        class="w-3 h-3 me-1"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"
+                        ></path>
+                    </svg>
+                    Inicio
+                </a>
+            </li>
+            {
+                breadcrumbs.map((crumb, index) => (
+                    <li
+                        aria-current={
+                            index === breadcrumbs.length - 1
+                                ? "page"
+                                : undefined
+                        }
+                    >
+                        <div class="mr-1 flex items-center text-qs-accent-blue">
+                            <svg
+                                class={`rtl:rotate-180 w-3 h-3 mx-0 md:mx-1 text-qs-accent-blue ${
+                                    index === breadcrumbs.length - 1 ? "hidden" : ""
+                                }`}
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 6 10"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="m1 9 4-4-4-4"
+                                />
+                            </svg>
+                            {index === breadcrumbs.length - 1 ? (
+                                <span class="ms-1 text-sm font-medium text-qs-accent-blue md:ms-2 ">
+                                    {crumb.name.replace(/-/g, " ")}
+                                </span>
+                            ) : (
+                                <a
+                                    href={crumb.url}
+                                    class="ms-1 text-sm font-medium text-qs-dark hover:text-qs-accent-blue md:ms-2 capitalize "
+                                >
+                                    {crumb.name.replace(/-/g, " ")}
+                                </a>
+                            )}
+                        </div>
+                    </li>
+                ))
+            }
+        </ol>
+    </Container>
+</nav>
+
+<style>
+    .breadcrumb-blur {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 6;
+        background-color: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px); /* Para Safari */
+    }
+    
+    /* Asegurar que funcione en todos los navegadores */
+    @supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
+        .breadcrumb-blur {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+    }
+    
+    /* Fallback para navegadores que no soportan backdrop-filter */
+    @supports not (backdrop-filter: blur(8px)) and not (-webkit-backdrop-filter: blur(8px)) {
+        .breadcrumb-blur {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+    }
+</style>

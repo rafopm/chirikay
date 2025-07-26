@@ -1,0 +1,58 @@
+---
+import Container from "../shared/Container.astro";
+
+export interface Props {
+    iconSrc?: string;
+    iconAlt?: string;
+}
+
+const { iconSrc, iconAlt = "Icono de equidad y respeto" } = Astro.props;
+---
+
+<section class="py-8">
+    <Container>
+        <!-- Títulos principales -->
+        <div class="text-center mb-8">
+            <h3 class="subtitle font-bold">Desarrollo con raíces y futuro</h3>
+            <h2 class="title">
+                Hacia el 2029: Una Comunidad Productiva, Unida y Sostenible
+            </h2>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <!-- Lado izquierdo - Imagen -->
+
+            <!-- Texto en la parte inferior -->
+            <div class="flex-grow flex items-end">
+                <div class="leading-relaxed">
+                    <p class="md:text-lg">
+                        En Quisquicha, soñamos con una agricultura que
+                        transforme vidas. Para el 2029, aspiramos a ser una
+                        organización líder en la producción y comercialización
+                        de cultivos andinos de alta calidad —como la arveja y
+                        otros productos que nacen de nuestra tierra—
+                        abasteciendo los mercados más exigentes con identidad,
+                        responsabilidad y equidad. Más allá del crecimiento
+                        económico, nuestra visión es social: que cada agricultor
+                        y agricultora tenga oportunidades reales de prosperar
+                        sin tener que dejar su comunidad. Trabajamos por un
+                        futuro donde jóvenes, mujeres y familias completas
+                        encuentren en el campo dignidad, estabilidad y orgullo.
+                        Cada producto que entregamos lleva también una parte de
+                        ese propósito.
+                    </p>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <img
+                    src="/images/home/desarrollo-con-raices.webp"
+                    alt="Familias agricultoras de Quisquicha reunidas"
+                    class="w-full h-auto rounded-lg shadow-lg object-cover"
+                    loading="lazy" 
+                />
+            </div>
+        </div>
+    </Container>
+</section>

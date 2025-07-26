@@ -1,0 +1,63 @@
+---
+//TimeLine.astro
+const { title, content, bgIcon, iconColor, icon, side } = Astro.props;
+const isLeft = side === "left";
+---
+
+<div class="timeline-item flex items-center justify-between" data-side={side}>
+  {isLeft ? (
+    <>
+      <div class="w-5/12 bg-white rounded-lg p-6 shadow-lg timeline-content">
+        <slot />
+      </div>
+      <div class="relative z-10 w-12 h-12 bg-green-600 rounded-full flex items-center justify-center timeline-dot">
+        <div class="w-6 h-6 bg-white rounded-full"></div>
+      </div>
+      <div class="w-5/12"></div>
+    </>
+  ) : (
+    <>
+      <div class="w-5/12"></div>
+      <div class="relative z-10 w-12 h-12 bg-green-600 rounded-full flex items-center justify-center timeline-dot">
+        <div class="w-6 h-6 bg-white rounded-full"></div>
+      </div>
+      <div class="w-5/12 bg-white rounded-lg p-6 shadow-lg timeline-content">
+        <slot />
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+    .timeline-item {
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content {
+        transition: all 0.3s ease;
+    }
+
+    .timeline-dot {
+        transition: all 0.3s ease;
+        box-shadow: 0 12px 8px rgba(var(--rv-dark-rgb), 0.8);
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .timeline-item {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .timeline-item .w-5\/12 {
+            width: 100%;
+            margin: 0;
+        }
+
+        .timeline-dot {
+          display: none;
+            position: relative;
+            margin: 0;
+        }
+    }
+</style>

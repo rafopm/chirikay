@@ -1,0 +1,124 @@
+---
+import Container from "../shared/Container.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+import Icon from "../shared/Icon.astro";
+---
+
+<section class="py-16">
+  <Container>
+    <div class="text-center mb-8">
+      <ScrollAnimation animation="fadeInDown" delay={0.2}>
+        <h3 class="subtitle font-bold">Compromiso Ambiental</h3>
+      </ScrollAnimation>
+      <ScrollAnimation animation="fadeInUp" delay={0.4}>
+        <h2 class="title">Cultivamos con Respeto, Cosechamos con Conciencia</h2>
+      </ScrollAnimation>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-16">
+      <!-- Card 1: Aprendizaje Continuo -->
+      <ScrollAnimation animation="fadeInLeft" delay={0.4}>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <Icon
+              name="aprendizaje-continuo"
+              class:list={["card-icon"]}
+              size={80}
+              inheritColor={false}
+            />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-qs-accent-blue mb-2">
+              APRENDIZAJE CONTINUO EN EL CAMPO
+            </h3>
+            <p class="leading-relaxed">
+              Recibimos asistencia técnica en gestión agrícola, ambiental y
+              comercial. Cada cosecha es también una oportunidad para aprender y
+              mejorar.
+            </p>
+          </div>
+        </div>
+      </ScrollAnimation>
+
+      <!-- Card 2: Tecnología Apropiada -->
+      <ScrollAnimation animation="fadeInRight" delay={0.6}>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 px-2">
+            <Icon
+              name="tecnologia"
+              class:list={["card-icon"]}
+              size={80}
+              inheritColor={false}
+            />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-qs-accent-blue mb-2">
+              TECNOLOGÍA APROPIADA, APLICADA CON SABIDURÍA LOCAL
+            </h3>
+            <p class="leading-relaxed">
+              Combinamos riego tecnificado con prácticas tradicionales y abonos
+              naturales. Usamos lo que tenemos, cuidando lo que importa.
+            </p>
+          </div>
+        </div>
+      </ScrollAnimation>
+
+      <!-- Card 3: Organización que Empodera -->
+      <ScrollAnimation animation="fadeInLeft" delay={0.8}>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <Icon
+              name="organizacion"
+              class:list={["card-icon"]}
+              size={80}
+              inheritColor={false}
+            />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg text-qs-accent-blue font-bold mb-2">
+              ORGANIZACIÓN QUE EMPODERA
+            </h3>
+            <p class="leading-relaxed">
+              Nos agrupamos en comités especializados para tomar decisiones
+              informadas y democráticas.
+            </p>
+          </div>
+        </div>
+      </ScrollAnimation>
+
+      <!-- Card 4: Impacto Colectivo -->
+      <ScrollAnimation animation="fadeInRight" delay={0.8}>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <Icon
+              name="impacto"
+              class:list={["card-icon"]}
+              size={80}
+              inheritColor={false}
+            />
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-qs-accent-blue mb-2">
+              IMPACTO COLECTIVO
+            </h3>
+            <p class="leading-relaxed">
+              Cada mejora en nuestros procesos —desde las composteras hasta el
+              orden contable— es parte de una visión mayor: generar
+              oportunidades reales en el campo.
+            </p>
+          </div>
+        </div>
+      </ScrollAnimation>
+    </div>
+
+    <!-- Bottom Paragraph -->
+    <p
+      class="text-center text-qs-accent-blue text-lg leading-relaxed max-w-4xl mx-auto"
+    >
+      Apostamos por una agricultura que no solo alimente, sino que cuide, enseñe
+      y transforme. Ese es nuestro verdadero compromiso con la tierra... y
+      contigo.
+    </p>
+  </Container>
+</section>

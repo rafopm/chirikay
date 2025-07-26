@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {
+    texto: string;
+};
+
+import { WHATSAPP } from "../../consts";
+
+const { origin, pathname } = Astro.url;
+const fullUrl = `${origin}${pathname}`;
+
+const { texto, ...props } = Astro.props;
+
+---
+<div class="flex justify-center items-center">
+    <a 
+  href={`https://wa.me/${WHATSAPP}?text=Me%20interesa%20este%20producto%20${encodeURIComponent(fullUrl)}`} 
+  class="bg-qs-accent flex justify-center items-center px-3 py-0 w-[300px] h-[40px] font-bold text-qs-text-dark rounded-lg hover:qs-text-dark hover:text-qs-text-light "
+  target="_blank">
+  <img src="/images/icons/whatsapp.svg" class="w-6 h-6 icon-whatsapp mr-2" alt="">
+   {texto}
+</a>
+</div>
+
+<style>
+    .icon-whatsapp{
+        filter: invert(1);
+    }
+</style>

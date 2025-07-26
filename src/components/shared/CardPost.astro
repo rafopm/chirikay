@@ -1,0 +1,67 @@
+---
+import Calendar from "../Icons/Calendar.astro";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  thumbImage?: string;
+  url?: string;
+  date?: Date;
+  slug: string;
+}
+
+const { title, description, thumbImage, date, url, slug } = Astro.props;
+---
+
+<article
+  class="card max-w-lg overflow-hidden shadow-lg bg-rv-light hover:bg-rv-very-light"
+>
+  <div class="img-wrapper">
+    <img
+      class="card-img w-full"
+      src={thumbImage}
+      alt={`Imagen de ${title}`}
+      loading="lazy"
+      transition:name={`img-${slug}`}
+    />
+  </div>
+
+  <div class="px-6 py-4 text-wrapper">
+    <span class="flex flex-row date-calendar">
+      <Calendar width="20" height="20" color="var(--rv-dark)" />
+      <span class="post-date my-0 ml-2 text-rv-text-dark"
+        >{date?.toLocaleDateString()}</span
+      >
+    </span>
+    <h3 class="title-card mb-2 text-rv-dark font-primary">{title}</h3>
+    <p class="description text-rv-dark font-gotham mb-10">
+      {description}
+    </p>
+    <div class="flex mb-4 button-wrapper">
+      <a
+        href={url || `/blog/${slug}/`}
+        class="flex w-[200px] px-3 py-2 text-sm font-bold text-rv-primary hover:text-rv-accent focus:ring-4 focus:outline-none focus:ring-rv-accent"
+      >
+        Continuar leyendo ...
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+  }
+
+  .card:hover .img-wrapper {
+    transition: 0.5s ease-in-out;
+    filter: saturate(1.3);
+  }
+
+  .card-img {
+    height: 200px;
+    object-fit: cover;
+  }
+</style>

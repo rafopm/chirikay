@@ -1,0 +1,113 @@
+---
+import Breadcrumb from "./Breadcrumb.astro";
+
+const { title, image } = Astro.props;
+const url = Astro.url.pathname;
+
+---
+
+<style>
+    .banner {
+        position: relative;
+        height: 500px;
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .bg-color {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+    }
+
+    .bg-color::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .container {
+        z-index: 1;
+    }
+
+    .banner-title {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 20px;
+        text-align: center;
+        transition: 0.3s;
+
+        margin-top: 100px;
+        align-content: center;
+        align-items: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .banner-title h2 {
+        font-size: 3rem;
+
+        position: relative;
+        color: var(--rv-dark);
+
+        z-index: 12;
+    }
+
+    .banner-title h2 span {
+        display: inline-block;
+        transition: transform 0.3s;
+        line-height: 1;
+    }
+
+    .breadcrumb {
+        justify-content: center;
+        max-width: 100%;
+        transition: all 0.3s ease-in-out;
+    }
+
+    @media screen and (max-width: 600px) {
+        .banner {
+            height: 400px;
+        }
+        .banner-title {
+            top: 250px;
+        }
+
+        .banner-title h2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div
+    class="banner row"
+    style={`background: linear-gradient(
+    to bottom,
+    rgba(var(--rv-text-dark-rgb), 0.2),
+    rgba(var(--rv-text-dark-rgb), 0.1)
+  ), url(${image || "/images/home/campo-raiz-viva.webp"}); 
+  background-position: center top; 
+  background-repeat: no-repeat; 
+  background-size: 100% auto; 
+  background-attachment: fixed;`}
+>
+    <div class="banner-title">
+        <h2 class="animate__animated animate__bounceInLeft">
+            <span>{title}</span>
+        </h2>
+        <div
+            class="breadcrumb animate__animated animate__bounceInLeft animate__delay-1s"
+        >
+            <Breadcrumb url={url} title={title} />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+---
+import { SITE, CONTACT, SOCIAL, BUSINESS_HOURS } from "../../consts";
+
+
+const baseUrl = String(SITE.URL);
+const siteURL = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+const logoUrl = new URL("/images/logo/logo.webp", siteURL).toString();
+
+
+const localBusinessData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: SITE.AUTHOR,
+  image: logoUrl,
+  "@id": siteURL,
+  url: siteURL,
+  telephone: CONTACT.PHONE,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: CONTACT.ADDRESS,
+    addressLocality: SITE.GEO.ADRESS_LOCALITY,
+    addressRegion: SITE.GEO.ADRESS_REGION,
+    postalCode: CONTACT.POSTAL_CODE,
+    addressCountry: SITE.GEO.REGION
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: Number(SITE.GEO.LATITUDE),
+    longitude: Number(SITE.GEO.LONGITUDE)
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: BUSINESS_HOURS.WEEKDAYS.days,
+      opens: BUSINESS_HOURS.WEEKDAYS.opens,
+      closes: BUSINESS_HOURS.WEEKDAYS.closes
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: BUSINESS_HOURS.SATURDAY.days,
+      opens: BUSINESS_HOURS.SATURDAY.opens,
+      closes: BUSINESS_HOURS.SATURDAY.closes
+    }
+  ],
+  sameAs: Object.values(SOCIAL)
+    .filter(url => typeof url === 'string')
+    .filter(url => url && !url.endsWith('/') && url !== SITE.URL)
+};
+
+
+const localBusinessJSON = JSON.stringify(localBusinessData);
+---
+
+<script type="application/ld+json" set:html={localBusinessJSON} />

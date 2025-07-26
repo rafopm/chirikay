@@ -1,0 +1,114 @@
+---
+import { CONTACT, SITE } from "../../consts";
+import Button from "../shared/Button.astro";
+import Container from "../shared/Container.astro";
+import Icon from "../shared/Icon.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+import VideoLazy from "../shared/VideoLazy.astro";
+
+// AlfalfaProduct.astro
+---
+
+<section class="nuestro-producto" id="nuestro-producto">
+    <Container className="bg-rv-light py-12 lg:py-16">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <ScrollAnimation animation="fadeInUp" delay="0.1">
+                    <h2 class="title">Nuestro Producto: Alfalfa RaízViva</h2>
+                </ScrollAnimation>
+                <ScrollAnimation animation="fadeInUp" delay="0.3">
+                    <p class="paragraph">
+                        Contáctanos directamente y recibe tu pedido, sin
+                        intermediarios, en Lima o en ferias locales.
+                    </p>
+                </ScrollAnimation>
+            </div>
+
+            <!-- Main Content -->
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <!-- Video Section -->
+                <div class="order-2 md:order-1">
+                    <VideoLazy
+                        videoId="rROjCDD1BNU"
+                        title="Alfalfa RaízViva - Video del Producto"
+                    />
+                </div>
+
+
+                <!-- Product Info Section -->
+                <div class="order-1 md:order-2 text-center md:text-left">
+                    <!-- Logo/Icon -->
+                    <div class="flex justify-center md:justify-start mb-8">
+                        <div class="flex items-start justify-start">
+                            <Icon
+                                name="favicon"
+                                class="text-rv-accent p-4 flex-shrink-0"
+                                size={160}
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="mb-8">
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                            Desde estos campos, donde el clima andino y nuestro
+                            cuidado orgánico forjan una alfalfa excepcional, te
+                            invitamos a experimentar la diferencia.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Lleva a tu ganado la pureza que solo la altura puede
+                            dar. Un solo mensaje te conecta con la fuente de la
+                            mejor alimentación.
+                        </p>
+                    </div>
+
+                    <!-- WhatsApp Button -->
+                    <div class="flex justify-center md:justify-start">
+                        <Button
+                            ariaLabel="Quiero Comprar Alfalfa"
+                            text="Quiero Comprar Alfalfa"
+                            icon="whatsapp"
+                            iconPosition="left"
+                            style="classic"
+                            color="var(--rv-accent)"
+                            textColor="var(--rv-very-light)"
+                            hoverColor="var(--rv-dark)"
+                            shadowColor="var(--rv-dark)"
+                            size="xl"
+                            href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="px-8"
+                        />
+                    </div>
+
+                    <!-- Additional Info -->
+                    <div class="mt-6 text-sm text-gray-500">
+                        <p>📱 Respuesta inmediata por WhatsApp</p>
+                        <p>🚚 Entrega directa sin intermediarios</p>
+                        <p>🌱 Producto 100% orgánico</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Container>
+</section>
+
+<style>
+    /* Ensure video is responsive and maintains aspect ratio */
+    iframe {
+        pointer-events: none;
+        border-radius: 0.5rem;
+    }
+
+    .color-icon {
+        color: white !important;
+    }
+    /* Custom hover effects */
+    .hover\:shadow-xl:hover {
+        box-shadow:
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+</style>

@@ -1,0 +1,101 @@
+---
+import Container from "../shared/Container.astro";
+import Lightbox from "../shared/Lightbox.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+---
+
+<section class="py-12 bg-white">
+  <Container>
+    <!-- Encabezado -->
+    <div class="text-center mb-8">
+      <ScrollAnimation animation="fadeInDown" delay={0.2}>
+        <h3 class="subtitle font-bold ">El Corazón de Quisquicha</h3>
+      </ScrollAnimation>
+      <ScrollAnimation animation="fadeInUp" delay={0.4}>
+        <h2 class="title">Sembrando Futuro en Quisquicha desde 2015</h2>
+      </ScrollAnimation>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Imagen izquierda -->
+      <ScrollAnimation animation="fadeInLeft" delay={0.6}>
+        <div class="relative">
+          <img
+            src="/images/home/asociacion-los-innovadores-de-quisquicha-thumb.webp"
+            alt="Familias agricultoras de Quisquicha reunidas"
+            class="w-full h-auto rounded-lg shadow-lg object-cover hero-image"
+            id="hero-image"
+             data-lightbox-src="/images/home/asociacion-los-innovadores-de-quisquicha.webp"
+             loading="lazy" 
+          />
+          <!-- Badge flotante sobre la imagen -->
+          <div class="absolute top-4 left-4 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-md">
+            Desde 2015
+          </div>
+        </div>
+      </ScrollAnimation>
+
+      <!-- Texto derecho expandido -->
+      <div class="space-y-6">
+        <ScrollAnimation animation="fadeInRight" delay={0.8}>
+          <div class="leading-relaxed text-base md:text-lg text-gray-800 space-y-4">
+            <p>
+              Somos una asociación de <strong>15 familias agricultoras</strong> que decidimos unirnos
+              en 2015 para construir un futuro mejor desde nuestra comunidad en
+              <strong>Quisquicha, Mariatana, Huarochirí</strong>.
+            </p>
+            <p>
+              Trabajamos con <span class="text-blue-700 font-semibold">compromiso</span>,
+              <span class="text-green-700 font-semibold">inclusión</span> y
+              <span class="text-amber-700 font-semibold">respeto por la tierra</span>,
+              cultivando productos de calidad con identidad andina.
+            </p>
+            <p>
+              Nuestra fuerza está en el trabajo colectivo y en la esperanza que sembramos
+              en cada cosecha. Aquí, producimos con cariño y propósito, honrando las 
+              tradiciones ancestrales mientras abrazamos técnicas sostenibles modernas.
+            </p>
+          </div>
+        </ScrollAnimation>
+        
+        <!-- Quote inspiracional -->
+        <ScrollAnimation animation="bounceIn" delay={1.2}>
+          <blockquote class="bg-gray-50 border-l-4 border-green-500 p-4 rounded-r-lg italic text-gray-700 mt-6">
+            <p class="text-base">"En cada semilla que plantamos, depositamos nuestros sueños y el amor por nuestra tierra ancestral."</p>
+            <footer class="text-sm text-gray-500 mt-2 font-medium">— Familias de Quisquicha</footer>
+          </blockquote>
+        </ScrollAnimation>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<Lightbox id="honey-lightbox" />
+
+<style>
+  .hero-image {
+   cursor: pointer;
+  }
+</style>
+<script>
+  function initHoneySection() {
+    const heroImage = document.getElementById('hero-image') as HTMLImageElement;
+    
+    // Abrir lightbox al hacer clic en la imagen
+    heroImage?.addEventListener('click', function() {
+      const lightboxSrc = this.getAttribute('data-lightbox-src') || this.src;
+      const lightboxFunctions = (window as any)['honey-lightboxFunctions'];
+      
+      if (lightboxFunctions && lightboxSrc) {
+        lightboxFunctions.open(lightboxSrc, this.alt);
+      }
+    });
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', initHoneySection);
+  
+  // Reinicializar en navegación SPA de Astro
+  document.addEventListener('astro:after-swap', initHoneySection);
+</script>

@@ -1,0 +1,56 @@
+---
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+import Card from "../shared/Card.astro";
+import Container from "../shared/Container.astro";
+
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('productos')).sort(
+  (b, a) => b.data.order - a.data.order,
+);
+---
+
+<section
+  class="section productos"
+  itemscope
+  itemtype="http://schema.org/Service"
+>
+  <Container>
+    <div class="bg-qs-accent-blue  p-4 rounded-md mb-8">
+      <p class="font-semibold font-secondary  text-2xl text-qs-bg-very-light">ℹ️ Disponibilidad variable:</p>
+      <p class="font-primary text-qs-bg-very-light text-xl">
+        Algunos de nuestros productos son de temporada y la mayoría están sujetos a disponibilidad. 🌱  
+        <strong class="font-semibold font-secondary">¡Te invitamos a consultarnos!</strong> Siempre hacemos nuestro mejor esfuerzo para ofrecerte productos frescos y de calidad directamente desde nuestros campos.
+      </p>
+    </div>
+    
+
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        products.map((producto, index) => {
+          const { id, data } = producto;
+          const delay = 0.2 + (index * 0.15);
+
+          return (
+            <ScrollAnimation
+              animation="fadeInUp"
+              delay={delay}
+              duration={0.6}
+              threshold={0.1}
+              rootMargin="0px 0px -50px 0px"
+            >
+              <Card
+                title={data.title}
+                description={data.description}
+                imgurl={data.imgthumburl}
+                alt={data.alt}
+                url={`/productos/${id}/`}
+                slug={id}
+              />
+            </ScrollAnimation>
+          );
+        })
+      }
+    </div>
+  </Container>
+</section>

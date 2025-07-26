@@ -1,0 +1,61 @@
+---
+import Container from "../shared/Container.astro";
+import ScrollAnimation from "../shared/ScrollAnimation.astro";
+---
+
+<section class="py-12" id="certificacion">
+  <Container>
+    <!-- Encabezado -->
+    <div class="text-center mb-8">
+      <ScrollAnimation animation="fadeInDown" delay={0.2}>
+        <h3 class="subtitle font-bold">Agricultura Familiar del Perú</h3>
+      </ScrollAnimation>
+      <ScrollAnimation animation="fadeInUp" delay={0.4}>
+        <h2 class="title">Certificados con Orgullo por el MIDAGRI</h2>
+      </ScrollAnimation>
+    </div>
+
+    <!-- Contenido principal - Imagen y texto lado a lado -->
+    <div class="flex flex-col lg:flex-row items-center gap-8">
+      <!-- Logo (izquierda) -->
+      <div class="flex-shrink-0">
+        <ScrollAnimation animation="fadeInLeft" delay={0.6}>
+          <img
+            src="/images/home/agricultura-familiar-del-peru.webp"
+            alt="Logo Agricultura Familiar del Perú"
+            class="max-w-[360px] h-auto rounded-md shadow-md"
+            loading="lazy" 
+          />
+        </ScrollAnimation>
+      </div>
+
+      <!-- Texto informativo (derecha) -->
+      <div class="text-lg leading-relaxed">
+        <ScrollAnimation animation="fadeInRight" delay={0.8}>
+          <p class="mb-4">
+            Nuestra asociación cuenta con la <strong
+              >licencia oficial otorgada por el Ministerio de Desarrollo Agrario y
+              Riego (MIDAGRI)</strong
+            > para usar el sello de <em>"Agricultura Familiar del Perú"</em>.
+          </p>
+          <p class="mb-4">
+            Este distintivo reconoce que nuestros productos provienen de pequeños
+            productores organizados, comprometidos con el desarrollo rural, la
+            calidad y la sostenibilidad.
+          </p>
+          <p class="mb-2">
+            🔖 <strong>Código de licencia:</strong> 00683-2025-MCAF-MIDAGRI
+            <br />
+            📅 <strong>Fecha de emisión:</strong> 28 de marzo de 2025
+          </p>
+        </ScrollAnimation>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  #certificacion {
+  scroll-margin-top: 100px; 
+}
+</style>

@@ -1,0 +1,29 @@
+---
+import Layout from "../../layouts/BlogPost.astro";
+import Container from "../../components/shared/Container.astro";
+import Posts from "../../components/Pages/Posts.astro";
+---
+
+<Layout
+  title="Blog RaízViva – Rikchariy Chacrayoq"
+  metatitle="Historias que Florecen en la Altura | Raíz Viva"
+  metadescription="Testimonios, saberes y vivencias de nuestras familias agricultoras en Lahuaytambo. Aprende cómo desde el campo sembramos oportunidades y esperanza con Raíz Viva."
+  description="En nuestro blog compartimos más que historias: compartimos el alma de nuestra comunidad. Desde la chacra hasta tu mesa, conoce cómo vivimos, cultivamos y soñamos desde los 3,304 msnm en los Andes peruanos."
+  heroimage="/images/home/campo-raiz-viva.webp"
+  heroimagethumb="/images/home/campo-raiz-viva-thumb.webp"
+  slug="/blog/"
+>
+  <main class="pt-8">
+    <Container className="bg-rv-very-light py-12 lg:py-16 rounded-t-3xl">
+      <div class="pt-10">
+        <h1 class="text-center text-3xl mb-6 font-bold text-qs-dark">
+          Blog Raíz Viva: Voces que Brotan de Nuestra Tierra
+        </h1>
+        <p class="text-center text-lg mb-8 text-qs-dark/70">
+          Aquí compartimos nuestras vivencias, aprendizajes y los retos que enfrentamos como agricultoras y agricultores andinos. Este espacio es para ti que quieres conocernos, apoyarnos y crecer junto a nosotros. ¡Bienvenid@ al corazón de Lahuaytambo!
+        </p>
+        <Posts />
+      </div>
+    </Container>
+  </main>
+</Layout>

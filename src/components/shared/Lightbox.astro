@@ -1,0 +1,161 @@
+---
+export interface Props {
+  id?: string;
+}
+
+const { id = 'lightbox' } = Astro.props;
+---
+
+<div id={id} class="lightbox">
+  <div class="lightbox-content">
+    <span class="lightbox-close">&times;</span>
+    <img id={`${id}-image`} src="" alt="" />
+  </div>
+</div>
+
+<style>
+  /* Lightbox Styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 95%;
+    max-height: 95%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+
+  .lightbox-close:hover {
+    color: #ccc;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes zoomIn {
+    from { 
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to { 
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .lightbox-close {
+      top: -30px;
+      font-size: 28px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .lightbox-content {
+      max-width: 98%;
+      max-height: 98%;
+    }
+
+    .lightbox-close {
+      top: -25px;
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script define:vars={{ id }}>
+  document.addEventListener('astro:page-load', function() {
+    const lightbox = document.getElementById(id);
+    const lightboxImage = document.getElementById(`${id}-image`);
+    const closeBtn = lightbox?.querySelector('.lightbox-close');
+
+    // Función para abrir lightbox
+    function openLightbox(imageSrc, imageAlt) {
+      if (lightboxImage && lightbox) {
+        lightboxImage.src = imageSrc;
+        lightboxImage.alt = imageAlt || '';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // Función para cerrar lightbox
+    function closeLightbox() {
+      if (lightbox) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Cerrar lightbox con el botón X
+    closeBtn?.addEventListener('click', function() {
+      closeLightbox();
+    });
+
+    // Cerrar lightbox al hacer clic fuera de la imagen
+    lightbox?.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Cerrar lightbox con la tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Exponer funciones globalmente para que otros componentes puedan usarlas
+    window[`${id}Functions`] = {
+      open: openLightbox,
+      close: closeLightbox
+    };
+  });
+</script>

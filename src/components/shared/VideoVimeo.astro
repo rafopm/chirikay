@@ -1,0 +1,247 @@
+---
+const { videoId, videoTitle, videoImagePreload, videoImagPreloadMobile } =
+    Astro.props;
+---
+
+<style>
+    .video-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        aspect-ratio: 9/16;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        transition: opacity 0.8s ease;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        background-color: black;
+        background-image: url("/images/bg-pattern.png");
+        background-repeat: repeat;
+    }
+
+    .control-button {
+        position: absolute;
+        top: 50%;
+        
+        cursor: pointer;
+        font-size: 2rem;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.8);
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        z-index: 1;
+        transition:
+            transform 0.3s ease-in-out,
+            opacity 0.3s ease-in-out;
+        animation: zoom 2s infinite ease alternate;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes zoom {
+        0% {
+            transform: scale(1) translateY(-50%) ;
+            filter: saturate(1);
+        }
+
+        100% {
+            transform: scale(1.1) translateY(-45%) ;
+            filter: saturate(20);
+        }
+    }
+
+    #play-pause-button {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        border: 0;
+        cursor: pointer;
+        font-size: 1.5rem;
+        opacity: 1; /* Estado inicial */
+        transition: opacity 0.3s ease;
+    }
+
+    .video-container:hover #play-pause-button {
+        opacity: 1;
+    }
+
+    #play-pause-button:hover {
+        opacity: 1; /* Mostrar botón completamente al hacer hover */
+    }
+
+    #play-pause-button.playing {
+        opacity: 0; /* Ocultar cuando el video está reproduciéndose */
+    }
+
+    #play-pause-button.playing:hover {
+        opacity: 1; /* Mostrar al hacer hover incluso cuando está oculto */
+    }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+
+        clip: rect(0, 0, 0, 0);
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    @media screen and (max-width: 768px) {
+        .button-container {
+            width: 90%;
+        }
+    }
+</style>
+
+<figure class="flex flex-col justify-center align-center text-qm-900">
+    <div class="video-container rounded relative">
+        <button
+            id="play-pause-button"
+            class="control-button"
+            aria-label="Reproducir o pausar video"
+        >
+            <span class="visually-hidden">Reproducir o pausar video</span>
+            <svg
+                width="102"
+                height="102"
+                viewBox="0 0 102 102"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M47.4599 68.2185L65.2083 53.4504C65.5678 53.1513 65.8572 52.7767 66.0557 52.3532C66.2543 51.9298 66.3572 51.4678 66.3572 51C66.3572 50.5323 66.2543 50.0703 66.0557 49.6469C65.8572 49.2234 65.5678 48.8488 65.2083 48.5497L47.4599 33.7816C46.9944 33.3945 46.4284 33.148 45.828 33.0709C45.2276 32.9938 44.6176 33.0892 44.0695 33.346C43.5213 33.6029 43.0576 34.0105 42.7326 34.5212C42.4077 35.0319 42.2348 35.6246 42.2344 36.23V65.7701C42.2348 66.3755 42.4077 66.9682 42.7326 67.4789C43.0576 67.9896 43.5213 68.3972 44.0695 68.654C44.6176 68.9109 45.2276 69.0063 45.828 68.9292C46.4284 68.8521 46.9944 68.6056 47.4599 68.2185Z"
+                    fill="#FFF4C2"></path>
+                <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M9.5625 51C9.5625 28.1224 28.1224 9.5625 51 9.5625C73.8776 9.5625 92.4375 28.1224 92.4375 51C92.4375 73.8776 73.8776 92.4375 51 92.4375C28.1224 92.4375 9.5625 73.8776 9.5625 51ZM51 15.9375C31.6432 15.9375 15.9375 31.6432 15.9375 51C15.9375 70.3568 31.6432 86.0625 51 86.0625C70.3568 86.0625 86.0625 70.3568 86.0625 51C86.0625 31.6432 70.3568 15.9375 51 15.9375Z"
+                    fill="#FFF4C2"></path>
+            </svg>
+        </button>
+        <img
+            src={videoImagePreload}
+            srcset={`
+            ${videoImagPreloadMobile} 767w,
+            ${videoImagePreload} 1440w
+        `}
+            alt="Video placeholder"
+            class="video-placeholder"
+            id="video-placeholder"
+        />
+        <iframe
+            data-src={`https://player.vimeo.com/video/${videoId}?autoplay=0&loop=1&byline=0&title=0&controls=0&muted=0&dnt=1`}
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title={videoTitle}
+            id="vimeo-video"
+            style="display: none;"></iframe>
+    </div>
+    <figcaption class="px-5 italic text-center text-qm-800 text-bold">
+        {videoTitle}
+    </figcaption>
+</figure>
+
+<script is:inline src="/scripts/vimeo-player.js"></script>
+
+<script is:inline>
+    const playSVG = `
+<svg width="102" height="102" viewBox="0 0 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M47.4599 68.2185L65.2083 53.4504C65.5678 53.1513 65.8572 52.7767 66.0557 52.3532C66.2543 51.9298 66.3572 51.4678 66.3572 51C66.3572 50.5323 66.2543 50.0703 66.0557 49.6469C65.8572 49.2234 65.5678 48.8488 65.2083 48.5497L47.4599 33.7816C46.9944 33.3945 46.4284 33.148 45.828 33.0709C45.2276 32.9938 44.6176 33.0892 44.0695 33.346C43.5213 33.6029 43.0576 34.0105 42.7326 34.5212C42.4077 35.0319 42.2348 35.6246 42.2344 36.23V65.7701C42.2348 66.3755 42.4077 66.9682 42.7326 67.4789C43.0576 67.9896 43.5213 68.3972 44.0695 68.654C44.6176 68.9109 45.2276 69.0063 45.828 68.9292C46.4284 68.8521 46.9944 68.6056 47.4599 68.2185Z"
+        fill="#FFF4C2" />
+    <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M9.5625 51C9.5625 28.1224 28.1224 9.5625 51 9.5625C73.8776 9.5625 92.4375 28.1224 92.4375 51C92.4375 73.8776 73.8776 92.4375 51 92.4375C28.1224 92.4375 9.5625 73.8776 9.5625 51ZM51 15.9375C31.6432 15.9375 15.9375 31.6432 15.9375 51C15.9375 70.3568 31.6432 86.0625 51 86.0625C70.3568 86.0625 86.0625 70.3568 86.0625 51C86.0625 31.6432 70.3568 15.9375 51 15.9375Z"
+        fill="#FFF4C2" />
+</svg>`;
+
+    const pauseSVG = `
+    <svg width="102" height="102" viewBox="0 0 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.5625 51C9.5625 28.1224 28.1224 9.5625 51 9.5625C73.8776 9.5625 92.4375 28.1224 92.4375 51C92.4375 73.8776 73.8776 92.4375 51 92.4375C28.1224 92.4375 9.5625 73.8776 9.5625 51ZM51 15.9375C31.6432 15.9375 15.9375 31.6432 15.9375 51C15.9375 70.3568 31.6432 86.0625 51 86.0625C70.3568 86.0625 86.0625 70.3568 86.0625 51C86.0625 31.6432 70.3568 15.9375 51 15.9375Z" fill="#FFF4C2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M41.4375 35.0625C43.1979 35.0625 44.625 36.4896 44.625 38.25V63.75C44.625 65.5104 43.1979 66.9375 41.4375 66.9375C39.6771 66.9375 38.25 65.5104 38.25 63.75V38.25C38.25 36.4896 39.6771 35.0625 41.4375 35.0625Z" fill="#FFF4C2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M60.5625 35.0625C62.3229 35.0625 63.75 36.4896 63.75 38.25V63.75C63.75 65.5104 62.3229 66.9375 60.5625 66.9375C58.8021 66.9375 57.375 65.5104 57.375 63.75V38.25C57.375 36.4896 58.8021 35.0625 60.5625 35.0625Z" fill="#FFF4C2"/>
+</svg>
+`;
+
+    let isPlaying = false;
+
+    document.addEventListener("astro:page-load", () => {
+        const playPauseButton = document.getElementById("play-pause-button");
+        const iframe = document.getElementById("vimeo-video");
+        const placeholder = document.getElementById("video-placeholder");
+
+        // Variable para almacenar el reproductor
+        let player = null;
+
+        playPauseButton.addEventListener("click", () => {
+            if (!isPlaying) {
+                if (!player) {
+                    // Inicializar el reproductor solo una vez
+                    const videoSrc = iframe.getAttribute("data-src");
+                    iframe.setAttribute("src", videoSrc);
+                    iframe.style.display = "block";
+                    placeholder.style.opacity = "0";
+                    setTimeout(() => {
+                        placeholder.style.display = "none";
+                    }, 500);
+
+                    player = new Vimeo.Player(iframe);
+                }
+
+                // Reproducir el video
+                player
+                    .play()
+                    .then(() => {
+                        playPauseButton.innerHTML = pauseSVG;
+                        playPauseButton.classList.add("playing");
+                        isPlaying = true;
+                    })
+                    .catch((error) => {
+                        console.error("Error al reproducir el video:", error);
+                    });
+            } else {
+                // Pausar el video
+                player
+                    .pause()
+                    .then(() => {
+                        playPauseButton.innerHTML = playSVG;
+                        playPauseButton.classList.remove("playing");
+                        isPlaying = false;
+                    })
+                    .catch((error) => {
+                        console.error("Error al pausar el video:", error);
+                    });
+            }
+        });
+    });
+</script>

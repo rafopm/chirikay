@@ -1,0 +1,47 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  platform: string;
+  url: string;
+}
+
+const { platform, url } = Astro.props;
+
+
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  title={`Contactar vía ${platform}`}
+  class="social-icon-link icon-animation"
+>
+  <Icon name={platform} class:list={["text-cedit-800 "]} size={28} />
+  
+</a>
+
+<style>
+  .social-icon-link {
+    transition: transform 0.2s ease-in-out;
+    display: inline-block;
+  }
+  .social-icon-link:hover {
+    transform: scale(1.2);
+  }
+  .icon-animation {
+    animation: pulse 1.5s infinite;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+</style>

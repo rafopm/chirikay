@@ -1,0 +1,134 @@
+---
+import { SITE, META, FONTS, ICONS, EXTERNAL_RESOURCES, PWA } from "../consts";
+import BreadcrumbJsonLd from './shared/BreadcrumbJsonLd.astro';
+import LocalBusinessJSON from './shared/LocalBusinessJSON.astro';
+
+interface Props {
+  title: string;
+  metadescription?: string;
+  image?: string;
+  updateDate?: string;
+}
+
+
+const {
+  title,
+  metadescription = SITE.DESCRIPTION,
+  image = "/images/image-og.webp",
+  updateDate,
+} = Astro.props;
+
+const preloadLinks = Object.entries(FONTS).flatMap(([family, weights]) =>
+  Object.entries(weights).map(([weight, path]) => ({
+    href: path,
+    type: "font/woff2",
+    as: "font"
+  }))
+);
+
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
+const ogImage = Astro.site ? new URL(image, Astro.site) : image;
+---
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content={META.VIEWPORT} />
+<meta name="language" content={SITE.LANGUAGE} />
+<meta name="robots" content={META.ROBOTS} />
+<meta name="googlebot" content={META.ROBOTS} />
+<meta name="author" content={SITE.AUTHOR} />
+<meta name="copyright" content={SITE.COPYRIGHT} />
+<meta name="theme-color" content={META.THEME_COLOR} />
+
+
+<meta name="geo.region" content={SITE.GEO.REGION} />
+<meta name="geo.placename" content={SITE.GEO.PLACENAME} />
+<meta name="geo.position" content={`${SITE.GEO.LATITUDE};${SITE.GEO.LONGITUDE}`} />
+<meta name="ICBM" content={`${SITE.GEO.LATITUDE};${SITE.GEO.LONGITUDE}`} />
+
+
+<meta name="mobile-web-app-capable" content={META.MOBILE.WEB_APP_CAPABLE} />
+<meta name="apple-mobile-web-app-capable" content={META.MOBILE.APPLE.WEB_APP_CAPABLE} />
+<meta name="apple-mobile-web-app-status-bar-style" content={META.MOBILE.APPLE.STATUS_BAR_STYLE} />
+<meta name="format-detection" content={META.MOBILE.FORMAT_DETECTION} />
+<meta name="HandheldFriendly" content={META.MOBILE.HANDHELD_FRIENDLY} />
+<meta name="x-ua-compatible" content={META.BROWSER_COMPATIBILITY} />
+
+
+{updateDate && (
+  <>
+    <meta name="date" content={updateDate} />
+    <meta property="article:modified_time" content={updateDate} />
+  </>
+)}
+
+
+{META.FAVICON.SVG && (
+  <link rel="icon" href={META.FAVICON.SVG} type="image/svg+xml" />
+)}
+{META.FAVICON.ICO && (
+  <link rel="alternate icon" href={META.FAVICON.ICO} type="image/x-icon" />
+)}
+
+
+{ICONS.APPLE.map(icon => (
+  <link rel="apple-touch-icon" sizes={icon.sizes} href={icon.href} />
+))}
+
+
+{ICONS.FAVICON.map(icon => (
+  <link rel="icon" type={icon.type} sizes={icon.sizes} href={icon.href} />
+))}
+
+
+{ICONS.MS.CONFIG.map(tile => (
+  <meta name={tile.name} content={tile.content} />
+))}
+<meta name="msapplication-TileColor" content={ICONS.MS.TILE_COLOR} />
+<meta name="msapplication-config" content="/browserconfig.xml" />
+
+
+<link rel="mask-icon" href={ICONS.SAFARI_PIN.href} color={ICONS.SAFARI_PIN.color} />
+
+
+<link rel="manifest" href={META.FAVICON.MANIFEST} />
+
+
+{preloadLinks.map(link => (
+	<link rel="preload" as={link.as} href={link.href} type={link.type} crossorigin="anonymous" />
+  ))}
+
+
+<link rel="canonical" href={canonicalURL} />
+
+
+<title>{title ? title : SITE.TITLE}</title>
+<meta name="title" content={title ? title : SITE.TITLE} />
+<meta name="description" content={metadescription} />
+
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title ?  title : SITE.TITLE} />
+<meta property="og:description" content={metadescription} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={SITE.TITLE} />
+
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title ?  title : SITE.TITLE} />
+<meta property="twitter:description" content={metadescription} />
+<meta property="twitter:image" content={ogImage} />
+
+
+<LocalBusinessJSON />
+<BreadcrumbJsonLd />
+
+
+<!-- {EXTERNAL_RESOURCES.VIMEO.map(url => (
+  <>
+    <link rel="preconnect" href={url} key={url} />
+    <link rel="dns-prefetch" href={url} key={`dns-${url}`} />
+  </>
+))} -->

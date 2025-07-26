@@ -1,0 +1,78 @@
+---
+export interface AnimationProps {
+  animationType: string;
+  delay?: string;
+  rootMargin?: string;
+}
+import "animate.css";
+const {
+  animationType = "animate__fadeInUp",
+  delay = "0s",
+  rootMargin = "0px 0px 300px 0px",
+} = Astro.props;
+
+---
+
+<div
+  class="animation-container opacity-0"
+  data-animate={animationType}
+  data-rootmargin={rootMargin}
+  data-delay={`animate__delay-${delay}s`}
+>
+  <slot />
+</div>
+
+<style>
+  .opacity-0 {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+</style>
+
+<script is:inline >
+  document.addEventListener("astro:page-load", () => {
+    const element = document.querySelector(".animation-container");
+    const rootMargin = element?.getAttribute("data-rootmargin") || "";
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const element = entry.target;
+          const animationClass = element.getAttribute("data-animate") || "";
+          const animationDelay = element.getAttribute("data-delay") || "";
+
+          if (entry.isIntersecting && entry.intersectionRatio > 0) {
+            // Agregar clases de animación y mostrar el elemento
+            element.classList.add(
+              "animate__animated",
+              animationClass,
+              animationDelay,
+            );
+         
+            
+            element.classList.remove("opacity-0");
+
+          } 
+          // else if (!entry.isIntersecting && entry.intersectionRatio === 0) {
+          //   // Resetear el elemento cuando sale del viewport
+          //   element.classList.remove(
+          //     "animate__animated",
+          //     animationClass,
+          //     animationDelay,
+          //   );
+          //   element.classList.add("opacity-0");
+          // }
+        });
+      },
+      {
+        threshold: [0.1],
+        rootMargin,
+      },
+    );
+
+    const animationElements = document.querySelectorAll(".animation-container");
+    animationElements.forEach((item) => {
+      observer.observe(item);
+    });
+  });
+</script>

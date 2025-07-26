@@ -1,0 +1,201 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => a.data.order.valueOf() - b.data.order.valueOf(),
+);
+
+import { SITE, CONTACT, SOCIAL } from "../consts";
+import Icon from "./shared/Icon.astro";
+
+const currentYear = new Date().getFullYear();
+
+const contactData = {
+  whatsapp: CONTACT.WHATSAPP,
+  location: CONTACT.ADDRESS,
+  socialMedia: [
+    {
+      platform: "Facebook",
+      url: SOCIAL.FACEBOOK,
+      icon: "/images/icons/facebook.svg",
+    },
+  ],
+};
+---
+
+<footer class="footer-section bg-slate-900 text-white">
+  <div class="mx-auto max-w-7xl px-6 py-16">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-16">
+      <!-- Logo Section -->
+      <div class="lg:col-span-2">
+        <div class="mb-8">
+          <a
+            href="/"
+            class="logo-container inline-block group"
+            aria-label="Ir al inicio"
+          >
+            <img
+              src="/images/logo/logo-raiz-viva.svg"
+              alt={SITE.TITLE}
+              class="logo-image h-40 w-auto transition-all duration-300 ease-out group-hover:scale-105"
+              height="48"
+            />
+          </a>
+        </div>
+        <p class="text-slate-300 text-sm leading-relaxed max-w-md">
+          {SITE.DESCRIPTION}
+        </p>
+      </div>
+
+      <!-- Blog Section -->
+      <div>
+        <h3
+          class="text-sm font-semibold uppercase tracking-wider text-white mb-6"
+        >
+          Blog
+        </h3>
+        <nav class="space-y-3">
+          {
+            posts.slice(0, 5).map((post) => (
+              <a
+                href={`/blog/${post.id}`}
+                class="block text-sm text-slate-300 hover:text-white transition-colors duration-200 hover:translate-x-1 transform"
+              >
+                {post.data.title}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+
+      <!-- Contact Section -->
+      <div>
+        <h3
+          class="text-sm font-semibold uppercase tracking-wider text-white mb-6"
+        >
+          Contacto
+        </h3>
+        <div class="space-y-4">
+          <!-- WhatsApp -->
+          <a
+            href={`https://wa.me/${CONTACT.WHATSAPP}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link group flex items-start gap-3"
+          >
+            <div class="contact-icon bg-green-500">
+              <Icon
+                name="whatsapp"
+                class="text-white"
+                size={16}
+              />
+            </div>
+            <div>
+              <span class="contact-text"
+                >{CONTACT.WHATSAPP}</span
+              >
+            </div>
+          </a>
+
+          <!-- Location -->
+          <a
+            href={`https://maps.google.com/?q=${CONTACT.COORDINATES}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link group flex items-start gap-3"
+          >
+            <div class="contact-icon bg-red-500">
+              <Icon
+                name="location"
+                class="text-white"
+                size={16}
+              />
+            </div>
+            <div>
+              <span class="contact-text leading-tight">
+                {contactData.location}
+              </span>
+            </div>
+          </a>
+
+          <!-- Social Media -->
+          {
+            contactData.socialMedia.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact-link group flex items-start gap-3"
+              >
+                <div class="contact-icon bg-blue-500">
+                  <Icon
+                    name="facebook"
+                    class="text-white"
+                    size={16}
+                  />
+                </div>
+                <div>
+                  <span class="contact-text">
+                    {social.platform}
+                  </span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="border-t border-slate-800">
+    <div class="mx-auto max-w-7xl px-6 py-6">
+      <div
+        class="flex flex-col items-center justify-between gap-4 sm:flex-row"
+      >
+        <p class="text-xs text-slate-400">
+          © {currentYear}
+          <a
+            href="/"
+            class="font-medium text-slate-300 hover:text-white transition-colors duration-200 ml-1"
+          >
+            {SITE.AUTHOR}
+          </a>
+          . Todos los derechos reservados.
+        </p>
+        <div class="flex items-center gap-6"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-section {
+    background: linear-gradient(
+      135deg,
+      var(--rv-accent) 0%,
+      var(--rv-dark) 100%
+    );
+  }
+
+  .logo-image {
+    filter: brightness(0) invert(1);
+  }
+
+  .contact-link {
+    @apply text-slate-300 hover:text-white transition-all duration-200;
+  }
+
+  .contact-link:hover {
+    transform: translateX(2px);
+  }
+
+  .contact-icon {
+    @apply flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 group-hover:scale-110 flex-shrink-0;
+  }
+
+  .contact-text {
+    @apply text-sm block;
+  }
+</style>

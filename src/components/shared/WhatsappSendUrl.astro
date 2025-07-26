@@ -1,0 +1,43 @@
+---
+import Button from "./Button.astro";
+import { CONTACT } from "../../consts";
+
+interface Props {
+  text?: string;
+  variant?: string;
+  message?: string;
+}
+
+const {
+  text = "Comprar",
+  variant = "primary",
+  message = "Me interesa este producto",
+} = Astro.props;
+const currentUrl = Astro.url.href;
+const encodedMessage = encodeURIComponent(`${message}: ${currentUrl}`);
+const whatsappUrl = `https://wa.me/${CONTACT.WHATSAPP}?text=${encodedMessage}`;
+---
+
+<div style="
+  display: flex;
+  justify-content: center;
+  margin: 2.5rem 0;
+">
+  <Button text={text} url={whatsappUrl} variant={variant} />
+
+  <Button
+    ariaLabel={text}
+    text={text}
+    href={whatsappUrl}
+    icon="whatsapp"
+    iconPosition="left"
+    style="classic"
+    color="var(--rv-dark)"
+    textColor="var(--rv-light)"
+    hoverColor="var(--rv-light)"
+    hoverTextColor="var(--rv-dark)"
+    shadowColor="var(--rv-dark)"
+    size="xl"
+    class="px-[60px]"
+  />
+</div>

@@ -1,0 +1,251 @@
+---
+interface Props {
+  ariaLabel?: string;
+  href?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
+  rel?: string;
+  text?: string;
+  style?:
+    | "classic"
+    | "flat"
+    | "3d"
+    | "glass"
+    | "outline"
+    | "minimal"
+    | "rounded";
+  color?: string;
+  textColor?: string;
+  hoverColor?: string;
+  hoverTextColor?: string;
+  shadowColor?: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  class?: string;
+  icon?: string;
+  iconPosition?: "left" | "right" | "only";
+  iconSize?: number;
+  fullWidth?: boolean;
+  [key: string]: any;
+}
+
+const {
+  ariaLabel,
+  href,
+  target,
+  rel,
+  text,
+  style = "classic",
+  color = "blue-500",
+  textColor = "white",
+  hoverColor,
+  hoverTextColor,
+  shadowColor,
+  size = "md",
+  type = "button",
+  disabled = false,
+  class: className = "",
+  icon,
+  iconPosition = "left",
+  iconSize,
+  fullWidth = false,
+  ...rest
+} = Astro.props;
+
+const baseColor = color;
+const autoHoverColor = hoverColor || baseColor;
+const autoShadowColor = shadowColor || baseColor;
+const autoHoverTextColor = hoverTextColor || textColor;
+
+const iconSizes = {
+  xs: iconSize || 12,
+  sm: iconSize || 14,
+  md: iconSize || 16,
+  lg: iconSize || 18,
+  xl: iconSize || 20,
+};
+
+const isIconOnly = iconPosition === "only";
+const showText = text && !isIconOnly;
+const showIcon = icon;
+
+const baseClasses =
+  "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+
+const sizeClasses = {
+  xs: "px-2 py-1 text-xs",
+  sm: "px-3 py-1.5 text-sm",
+  md: "px-4 py-2 text-sm",
+  lg: "px-5 py-2.5 text-base",
+  xl: "px-6 py-3 text-base",
+};
+
+const styleClasses = {
+  classic: "rounded-md border shadow-sm",
+  flat: "rounded-md border-0",
+  "3d": "rounded-md border-b-4 shadow-md transform active:translate-y-0.5",
+  glass:
+    "rounded-lg backdrop-blur-sm bg-opacity-20 border border-opacity-30 shadow-lg",
+  outline: "rounded-md border-2 bg-transparent",
+  minimal: "rounded-md border-0 bg-transparent",
+  rounded: "rounded-full border shadow-sm",
+};
+
+const buttonClasses = [
+  baseClasses,
+  sizeClasses[size],
+  styleClasses[style],
+  `btn-${style}`,
+  fullWidth ? "w-full" : "",
+  disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+
+const IconComponent = showIcon ? (await import("./Icon.astro")).default : null;
+const buttonId = `btn-${Math.random().toString(36).substr(2, 9)}`;
+
+if (isIconOnly && !ariaLabel) {
+  console.warn(
+    "El botón con solo ícono requiere un atributo 'ariaLabel' para accesibilidad."
+  );
+}
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      class={`${buttonClasses} ${buttonId}`}
+      style={`--btn-bg: ${baseColor}; --btn-text: ${textColor}; --btn-hover: ${autoHoverColor}; --btn-hover-text: ${autoHoverTextColor}; --btn-border: ${baseColor}; --btn-shadow: ${autoShadowColor};`}
+      aria-label={ariaLabel || text}
+      {...rest}
+    >
+      {showIcon && (iconPosition === "left" || isIconOnly) && IconComponent && (
+        <IconComponent
+          name={icon}
+          size={iconSizes[size]}
+          class={showText ? "mr-2" : ""}
+        />
+      )}
+      {showText && <span>{text}</span>}
+      {showIcon && iconPosition === "right" && IconComponent && (
+        <IconComponent name={icon} size={iconSizes[size]} class="ml-2" />
+      )}
+      <slot />
+    </a>
+  ) : (
+    <button
+      type={type}
+      disabled={disabled}
+      class={`${buttonClasses} ${buttonId}`}
+      style={`--btn-bg: ${baseColor}; --btn-text: ${textColor}; --btn-hover: ${autoHoverColor}; --btn-hover-text: ${autoHoverTextColor}; --btn-border: ${baseColor}; --btn-shadow: ${autoShadowColor};`}
+      aria-label={ariaLabel || text}
+      {...rest}
+    >
+      {showIcon && (iconPosition === "left" || isIconOnly) && IconComponent && (
+        <IconComponent
+          name={icon}
+          size={iconSizes[size]}
+          class={showText ? "mr-2" : ""}
+        />
+      )}
+      {showText && <span>{text}</span>}
+      {showIcon && iconPosition === "right" && IconComponent && (
+        <IconComponent name={icon} size={iconSizes[size]} class="ml-2" />
+      )}
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .btn-classic {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+    box-shadow: 0 1px 2px 0 var(--btn-shadow);
+  }
+
+  .btn-classic:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    color: var(--btn-hover-text);
+    box-shadow: 0 4px 6px -1px var(--btn-shadow);
+  }
+
+  .btn-flat {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+
+  .btn-flat:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    color: var(--btn-hover-text);
+  }
+
+  .btn-3d {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+    border-bottom-color: var(--btn-shadow);
+    box-shadow: 0 4px 6px -1px var(--btn-shadow);
+  }
+
+  .btn-3d:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px var(--btn-shadow);
+    color: var(--btn-hover-text);
+  }
+
+  .btn-glass {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 var(--btn-shadow);
+  }
+
+  .btn-glass:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    color: var(--btn-hover-text);
+    box-shadow: 0 12px 40px 0 var(--btn-shadow);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--btn-bg);
+    border-color: var(--btn-bg);
+  }
+
+  .btn-outline:hover:not(:disabled) {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+
+  .btn-minimal {
+    background-color: transparent;
+    color: var(--btn-bg);
+  }
+
+  .btn-minimal:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    color: var(--btn-hover-text);
+  }
+
+  .btn-rounded {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-border);
+    box-shadow: 0 2px 4px 0 var(--btn-shadow);
+  }
+
+  .btn-rounded:hover:not(:disabled) {
+    background-color: var(--btn-hover);
+    box-shadow: 0 4px 12px 0 var(--btn-shadow);
+    color: var(--btn-hover-text);
+  }
+</style>
