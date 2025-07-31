@@ -31,7 +31,7 @@ const cardsData = [
 
 <section class="hero-container">
     <!-- Imagen del hero -->
-    <picture>
+    <picture class="hero-image">
         <source
             srcset="/images/home/campo-raiz-viva-mobile.webp"
             media="(max-width: 480px)"
@@ -49,96 +49,70 @@ const cardsData = [
     </picture>
 
     <!-- Contenido del hero -->
-    <div class="mx-auto my-auto max-w-7xl relative w-full h-full">
-        <div class="text-content gap-4 relative z-50 bg-none mx-2">
+    <div
+        class="mx-auto my-auto relative w-full h-full flex items-center justify-center"
+    >
+        <div class="text-content gap-4 relative z-50 bg-none mx-2 text-center">
             <h1
-                class="animate__animated animate__fadeInLeft delay-0s text-white mt-0 text-3xl md:text-5xl lg:text-4xl xl:text-6xl leading-tight font-bold-custom"
+                class="animate__animated animate__fadeInLeft delay-0s font-primary text-white mt-0 text-4xl md:text-6xl lg:text-5xl xl:text-7xl leading-tight font-bold-custom"
             >
-                Alfalfa viva de los andes:
+                Cultivamos Salud y Sabor
                 <br class="hidden md:block" />
                 <span
-                    class="text-rv-light text-3xl md:text-5xl lg:text-4xl xl:text-6xl font-semibold"
-                    >Nutrición que se siente, raíces que inspiran.</span
+                    class="text-rv-light text-4xl md:text-6xl lg:text-5xl xl:text-7xl"
+                    >desde Huarochirí - Lima</span
                 >
             </h1>
 
             <p
-                class="animate__animated animate__fadeInLeft delay-1s text-white mt-4 text-xl lg:text-xl xl:text-2xl hidden lg:block"
+                class="animate__animated animate__fadeInLeft delay-1s font-secondary text-white mt-8 text-3xl lg:text-3xl xl:text-3xl hidden lg:block mx-auto max-w-4xl"
             >
-                Cultivada con pasión a 3,300 m s. n. m. por familias andinas de
-                Lahuaytambo, Huarochirí. Alfalfa 100% orgánica, fresca y llena
-                de propósito.
+                Chirimoya natural, orgánica y deliciosa,
+                <br class="hidden md:block" />
+                <span> de nuestras manos a tu mesa </span>
             </p>
 
-            <span
-                class="animate__animated animate__fadeInLeft delay-2s flex gap-8 justify-left items-center mt-2 md:mt-6 hidden md:flex"
+            <div
+                class="animate__animated animate__fadeInLeft delay-2s flex gap-8 justify-center items-center mt-8 md:mt-12 hidden md:flex"
             >
                 <Button
-                    ariaLabel="Quiero Comprar Alfalfa"
-                    text="Quiero Comprar Alfalfa"
+                    ariaLabel="Conocer el proceso"
+                    text="Conocer el proceso"
                     icon="whatsapp"
                     iconPosition="left"
-                    style="classic"
-                    color="var(--rv-accent)"
-                    textColor="var(--rv-very-light)"
+                    style="rounded"
+                    color="var(--rv-cta)"
+                    textColor="var(--rv-very-dark)"
                     hoverColor="var(--rv-dark)"
+                    hoverTextColor="var(--rv-very-light)"
                     shadowColor="var(--rv-dark)"
                     size="xl"
-                    href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
+                    href="#testimonial"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="font-secondary font-semibold"
                 />
 
                 <Button
-                    ariaLabel="Conócenos"
-                    text="Conócenos"
-                    href="#testimonial"
+                    ariaLabel="Comprar ahora"
+                    text="Comprar ahora"
+                    href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
                     icon="apoyo"
                     iconPosition="left"
-                    style="classic"
+                    style="rounded"
                     color="var(--rv-light)"
                     textColor="var(--rv-dark)"
                     hoverColor="var(--rv-dark)"
                     hoverTextColor="var(--rv-light)"
                     shadowColor="var(--rv-dark)"
                     size="xl"
-                    class="px-[60px]"
+                    class="px-[60px] font-secondary font-semibold"
                 />
-            </span>
-        </div>
-    </div>
-
-    <!-- Cards en la parte inferior del hero -->
-    <div class="cards-container">
-        <div class="cards-grid">
-            {
-                cardsData.map((data, index) => (
-                    <ScrollAnimation
-                        animation="fadeInUp"
-                        delay={index * 0.1}
-                        duration={0.6}
-                        threshold={0.1}
-                        rootMargin="0px 0px -50px 0px"
-                    >
-                        <div class="card-container text-center h-[140px] lg:h-[140px] xl:h-[180px] ">
-                            <div class="card-icon-wrapper">
-                                <Icon
-                                    name={data.imgthumburl}
-                                    class:list={["card-icon"]}
-                                    size={80}
-                                    inheritColor={false}
-                                />
-                            </div>
-                            <div class="card-text-wrapper">
-                                <p class="card-title">{data.title}</p>
-                            </div>
-                        </div>
-                    </ScrollAnimation>
-                ))
-            }
+            </div>
         </div>
     </div>
 </section>
+
 <style>
     /* Estilos base del contenedor hero */
     .hero-container {
@@ -150,16 +124,27 @@ const cardsData = [
         isolation: isolate;
     }
 
-    /* Estilos de la imagen hero */
+    /* Contenedor para el efecto de borde interno */
     .hero-image {
         position: absolute;
         top: 0;
         right: 0;
         width: 100%;
         height: 100%;
+        z-index: 2;
+        /* Marco Polaroid */
+        padding: 15px;
+        background-color: var(--rv-very-light);
+    }
+
+    /* Imagen con bordes redondeados hacia adentro */
+    .hero-image img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         object-position: center;
-        z-index: 2;
+        border-radius: 30px;
+        clip-path: inset(0 round 30px);
     }
 
     /* Estilos del contenido de texto */
@@ -167,18 +152,19 @@ const cardsData = [
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         max-width: 1200px;
-        width: 75%;
+        width: 90%;
         position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        padding-left: 2rem;
-        gap: 4px;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 2rem;
+        gap: 1rem;
     }
 
     .text-content h1.font-bold-custom {
-        font-weight: 600;
+        font-weight: 900;
         text-shadow:
             1px 4px 2px black,
             0 0 1em gray,
@@ -193,98 +179,22 @@ const cardsData = [
             4px 4px 2px var(--rv-dark),
             0 0 2em var(--rv-dark),
             0 0 0.3em var(--rv-dark);
-        margin-top: 1rem;
-    }
-
-    /* Estilos de las cards */
-    .cards-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 60;
-        transform: translateY(5%);
-    }
-
-    .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0;
-    }
-
-    .card-container {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: space-between;
-        padding: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        background-color: rgba(var(--rv-light-rgb), 0.85);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        transition:
-            transform 0.3s ease-in-out,
-            filter 0.3s ease-in-out;
-    }
-
-    .card-container:hover {
-        transform: scale(1.05);
-        filter: saturate(1.3);
-    }
-
-    /* Sección del ícono (60%) */
-    .card-icon-wrapper {
-        flex: 0 0 60%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-    }
-
-    .card-icon {
-        max-width: 80px;
-        max-height: 80px;
-        width: 100%;
-        height: auto;
-    }
-
-    /* Sección del texto (40%) */
-    .card-text-wrapper {
-        flex: 0 0 40%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-    }
-
-    .card-title {
-        text-align: center;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--rv-dark);
-        line-height: 1.2;
-    }
-
-    .card-container:hover {
-        transform: scale(1.05);
-        filter: saturate(1.3);
+        margin-top: 2rem;
     }
 
     /* Media queries responsive */
     @media (max-width: 1023px) {
         .text-content {
-            width: 70%;
-            padding-left: 1.5rem;
+            width: 90%;
+            padding: 1.5rem;
         }
 
-        .cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            padding: 0 1.5rem;
+        .text-content h1 {
+            font-size: 4.5rem !important;
+        }
+
+        .text-content h1 span {
+            font-size: 4.5rem !important;
         }
     }
 
@@ -298,22 +208,24 @@ const cardsData = [
             height: 100vh;
             height: 100dvh;
         }
+
         .text-content {
             width: 90%;
-            left: 50%;
-            transform: translate(-50%, 0%);
-            padding: 1.5rem;
-            top: 400px;
+            padding: 1rem;
+            top: 50%;
         }
 
-        .cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            padding: 0 1rem;
+        .text-content h1 {
+            font-size: 3rem !important;
         }
 
-        .cards-container {
-            transform: none;
+        .text-content h1 span {
+            font-size: 3rem !important;
+        }
+
+        .text-content p {
+            font-size: 2rem !important;
+            margin-top: 1.5rem;
         }
     }
 
@@ -331,60 +243,37 @@ const cardsData = [
         }
 
         .text-content {
-            width: 92%;
+            width: 90%;
             padding: 1rem;
-            top: 240px;
+            top: 50%;
         }
 
-        .cards-container {
-            transform: none !important;
+        .text-content h1 {
+            font-size: 2.5rem !important;
         }
 
-        .cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            padding: 0 1rem;
+        .text-content h1 span {
+            font-size: 2.5rem !important;
         }
 
-        .card-icon-wrapper {
-            padding: 0.3rem;
-        }
-        .card-text-wrapper {
-            padding: 0.3rem;
-        }
-    }
-
-    /* Media queries para orientación */
-    @media (max-width: 768px) and (orientation: portrait) {
-        .text-content {
-            width: 100%;
-            left: 0;
-            transform: translateY(-50%);
-            padding-left: 1.5rem;
+        .text-content p {
+            font-size: 1.5rem !important;
+            margin-top: 1rem;
         }
     }
 
     @media (max-width: 768px) and (orientation: landscape) {
         .text-content {
-            width: 70%;
-            left: 0;
-            transform: translateY(-50%);
-            padding-left: 1.5rem;
+            width: 90%;
+            padding: 1rem;
         }
 
-        .cards-grid {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            padding: 0 1rem;
+        .text-content h1 {
+            font-size: 3.5rem !important;
         }
 
-        .card-container {
-            height: 160px;
-            padding: 0.5rem;
-        }
-
-        .card-icon {
-            width: 80px;
+        .text-content h1 span {
+            font-size: 3.5rem !important;
         }
     }
 </style>

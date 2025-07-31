@@ -1,19 +1,19 @@
 // Información básica del sitio
 export const SITE = {
-  URL: "https://raizviva.pe",
-  TITLE: "RaízViva | Alfalfa Orgánica de los Andes Peruanos",
-  DESCRIPTION: "Alfalfa orgánica de calidad superior, cultivada a +3,300 msnm por familias en Lahuaytambo. Nutrición pura para ganado y equinos. Apoya el desarrollo rural andino.",
-  AUTHOR: "Asociación Agro-productora RaízViva Lahuaytambo HRI",
-  MARCA: "RaízViva",
-  COPYRIGHT: `RaízViva ${new Date().getFullYear()}`,
+  URL: "https://chirikay.pe",
+  TITLE: "ChiriKay | Chirimoya Orgánica de Huarochirí",
+  DESCRIPTION: "Chirimoyas 100% orgánicas cultivadas en comunidad en Huarochirí, Perú. Dulces, cremosas y saludables, fruto de la agricultura familiar andina.",
+  AUTHOR: "Asociación de Agricultores Orgánicos Cultivando Salud",
+  MARCA: "ChiriKay",
+  COPYRIGHT: `ChiriKay ${new Date().getFullYear()}`,
   LANGUAGE: "es",
   GEO: {
-    LATITUDE: -12.1041232,
-    LONGITUDE: -76.3897286,
-    ADRESS_LOCALITY: "Lahuaytambo",
+    LATITUDE: -12.049267,  // coordenadas aproximadas de Huarochirí
+    LONGITUDE: -76.476921,
+    ADRESS_LOCALITY: "Huarochirí",
     ADRESS_REGION: "Lima",
     REGION: "PE",
-    PLACENAME: "Lima, Perú"
+    PLACENAME: "Huarochirí, Lima - Perú"
   }
 };
 
@@ -41,11 +41,13 @@ export const META = {
 
 // Fuentes
 export const FONTS: Record<string, Record<string, string>> = {
-  GOLDPLAY: {
-    REGULAR: "/fonts/Goldplay-Regular.woff2",
-    SEMIBOLD: "/fonts/Goldplay-SemiBold.woff2",
-    BOLDITALIC: "/fonts/Goldplay-BoldIt.woff2",
-    BLACK: "/fonts/Goldplay-Black.woff2"
+  SPECTRAL: {
+    REGULAR: "/fonts/Spectral-Regular.woff2",
+    SEMIBOLD: "/fonts/Spectral-SemiBold.woff2",
+    BOLD: "/fonts/Spectral-Bold.woff"
+  },
+  JETBRAINSMONO: {
+    VARIABLE: "/fonts/JetBrainsMono.woff2"
   }
 };
 
@@ -96,8 +98,8 @@ export const EXTERNAL_RESOURCES = {
 
 // Contacto
 export const CONTACT = {
-  WHATSAPP: "+51988021480",
-  PHONE: "+51988021480",
+  WHATSAPP: "+51913723496",
+  PHONE: "+51913723496",
   EMAIL: "rikchariychacrayoq@gmail.com",
   ADDRESS: "Calle Lahuaytambo S/N, Lahuaytambo, Huarochirí, Lima - Perú",
   POSTAL_CODE: "15550",
@@ -147,7 +149,7 @@ export const ROUTE_NAMES: Record<string, string> = {
 export const PWA = {
   MANIFEST: {
     name: SITE.TITLE,
-    short_name: "RaízViva",
+    short_name: "ChiriKay",
     description: SITE.DESCRIPTION,
     start_url: "/",
     display: "standalone",

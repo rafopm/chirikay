@@ -1,128 +1,111 @@
-/* === FUENTES: Goldplay === */
+/* === FUENTES: JetBrains Mono & Spectral === */
 @font-face {
-	font-family: 'Goldplay';
-	src: url('/fonts/Goldplay-Regular.woff2') format('woff2'),
-		url('/fonts/Goldplay-Regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+    font-family: 'JetBrains Mono';
+    src: url('/fonts/JetBrainsMono.woff2') format('woff2'),
+        url('/fonts/JetBrainsMono.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-	font-family: 'Goldplay';
-	src: url('/fonts/Goldplay-SemiBold.woff2') format('woff2'),
-		url('/fonts/Goldplay-SemiBold.woff') format('woff');
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
+    font-family: 'Spectral';
+    src: url('/fonts/Spectral-Regular.woff2') format('woff2'),
+        url('/fonts/Spectral-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-	font-family: 'Goldplay';
-	src: url('/fonts/Goldplay-BoldIt.woff2') format('woff2'),
-		url('/fonts/Goldplay-BoldIt.woff') format('woff');
-	font-weight: 700;
-	font-style: italic;
-	font-display: swap;
+    font-family: 'Spectral';
+    src: url('/fonts/Spectral-SemiBold.woff2') format('woff2'),
+        url('/fonts/Spectral-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-	font-family: 'Goldplay';
-	src: url('/fonts/Goldplay-Black.woff2') format('woff2'),
-		url('/fonts/Goldplay-Black.woff') format('woff');
-	font-weight: 900;
-	font-style: normal;
-	font-display: swap;
+    font-family: 'Spectral';
+    src: url('/fonts/Spectral-Bold.woff2') format('woff2'),
+        url('/fonts/Spectral-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* === VARIABLES GLOBALES === */
 :root {
-	--rv-dark: #2B4E19;
-	--rv-dark-rgb: 43, 78, 25;
+    --rv-dark: #396316;
+    --rv-dark-rgb: 57, 99, 22;
 
-	--rv-very-dark: #132B08;
-	--rv-very-dark-rgb: 19, 43, 8;
+    --rv-very-dark: #305116;
+    --rv-very-dark-rgb: 48, 81, 22;
 
-	--rv-very-light: #F2FCE9;
-	--rv-very-light-rgb: 242, 252, 233;
+    --rv-very-light: #F5FDE8;
+    --rv-very-light-rgb: 245, 253, 232;
 
-	--rv-light: #E3F8CF;
-	--rv-light-rgb: 227, 248, 207;
+    --rv-light: #E6FACD;
+    --rv-light-rgb: 230, 250, 205;
 
-	--rv-gray: #F6F6F6;
-	--rv-gray-rgb: 246, 246, 246;
+    --rv-gray: #F6F6F6;
+    --rv-gray-rgb: 246, 246, 246;
 
-	--rv-cta: #5EB623;
-	--rv-cta-rgb: 94, 182, 35;
+    --rv-cta: #8FDF3C;
+    --rv-cta-rgb: 143, 223, 60;
 
-	--rv-accent: #0A7F36;
-	--rv-accent-rgb: 10, 127, 54;
+    --rv-accent: #2E2D2C;
+    --rv-accent-rgb: 46, 45, 44;
 
-	--font-primary: 'Goldplay', sans-serif;
+    --font-primary: 'Spectral', serif;
+    --font-seconday: 'JetBrains Mono', monospace;
 }
 
 /* === MODO OSCURO === */
 .dark {
-	--rv-dark: #F2FCE9;
-	--rv-dark-rgb: 242, 252, 233;
+    --rv-dark: #F5FDE8;
+    --rv-dark-rgb: 245, 253, 232;
 
-	--rv-very-light: #132B08;
-	--rv-very-light-rgb: 19, 43, 8;
+    --rv-very-light: #305116;
+    --rv-very-light-rgb: 48, 81, 22;
 
-	--rv-light: #2B4E19;
-	--rv-light-rgb: 43, 78, 25;
+    --rv-light: #396316;
+    --rv-light-rgb: 57, 99, 22;
 
-	--rv-gray: #1E1E1E;
+    --rv-gray: #1E1E1E;
 
-	--rv-cta: #A6E97A;
-	--rv-accent: #59DC8D;
+    --rv-cta: #B8F573;
+    --rv-accent: #E6FACD;
 }
 
 .text-dark {
-	color: var(--rv-dark);
+    color: var(--rv-dark);
 }
 
 .bg-dark {
-	background-color: var(--rv-dark);
+    background-color: var(--rv-dark);
 }
 
 .text-light {
-	color: var(--rv-light);
+    color: var(--rv-light);
 }
 
-/* === UTILIDADES === */
+
+
+
 body {
-	font-family: var(--font-primary);
-	margin: 0;
-	padding: 0;
-	position: relative;
-	z-index: 1;
-	text-align: left;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	font-size: 1rem;
-	color: var(--rv-dark);
-	background-color: var(--rv-very-light);
-}
-
-body::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-image: url('/images/pattern-leaf.svg');
-	background-repeat: repeat;
-	background-size: 40px 62.4px;
-	z-index: -5;
-	pointer-events: none;
-}
-
-.dark body::after {
-	opacity: 0.12;
-	filter: invert(80%);
-	/* Opcional: ajusta el patrón para modo oscuro */
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 1rem;
+    color: var(--rv-dark);
+    background-color: var(--rv-very-light);
 }
 
 
@@ -132,117 +115,137 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
-	font-family: var(--font-primary);
-	font-weight: 900;
-	font-display: swap;
-	color: var(--rv-dark);
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-display: swap;
+    color: var(--rv-dark);
 }
 
 h1 {
-	font-size: 3.052em;
+    font-size: 3.052em;
 }
 
 h2 {
-	font-size: 2.441em;
+    font-size: 2.441em;
 }
 
 h3 {
-	font-size: 1.953em;
+    font-size: 1.953em;
 }
 
 h4 {
-	font-size: 1.563em;
+    font-size: 1.563em;
 }
 
 h5 {
-	font-size: 1.25em;
+    font-size: 1.25em;
 }
 
 a {
-	color: var(--rv-accent);
+    color: var(--rv-accent);
 }
 
 a:hover {
-	color: var(--rv-cta);
+    color: var(--rv-cta);
 }
 
 p {
-	margin-bottom: 1em;
-	color: var(--rv-dark);
+    margin-bottom: 1em;
+    color: var(--rv-dark);
 }
 
 .prose p {
-	margin-bottom: 2em;
+    margin-bottom: 2em;
 }
 
 .title {
-	text-align: center;
-	font-size: 48px;
-	font-weight: 900;
-	font-family: var(--font-primary);
-	color: var(--rv-dark);
-	line-height: 1.2;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    font-family: var(--font-primary);
+    color: var(--rv-dark);
+    line-height: 1.2;
 }
 
 .subtitle {
-	font-weight: 600;
-	font-size: 32px;
-	font-family: var(--font-primary);
-	margin: 0 20px;
-	color: var(--rv-accent);
+    font-weight: 600;
+    font-size: 32px;
+    font-family: var(--font-primary);
+    margin: 0 20px;
+    color: var(--rv-accent);
 }
 
 .paragraph {
-	margin-bottom: 2rem;
-	font-size: 20px;
-	font-family: var(--font-primary);
+    margin-bottom: 2rem;
+    font-size: 20px;
+    font-family: var(--font-secondary);
+}
+
+/* === CARDS === */
+.card-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    font-family: var(--font-primary);
+    color: var(--rv-dark);
+    line-height: 1.2;
+}
+
+.card-subtitle {
+    font-weight: 600;
+    font-size: 18px;
+    font-family: var(--font-primary);
+    margin: 0 20px;
+    color: var(--rv-accent);
+}
+
+.card-paragraph {
+    font-size: 14px;
+    font-family: var(--font-secondary);
 }
 
 /* === SCROLLBAR === */
 ::-webkit-scrollbar {
-	width: 12px;
+    width: 12px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-image: linear-gradient(to bottom, var(--rv-light), var(--rv-accent));
-	border: 1px solid var(--rv-very-light);
-	border-radius: 10px;
+    background-image: linear-gradient(to bottom, var(--rv-light), var(--rv-cta),var(--rv-dark),var(--rv-cta), var(--rv-light));
+    border: 1px solid var(--rv-very-light);
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-	background-color: var(--rv-very-light);
-	border-radius: 10px;
+    background-color: var(--rv-very-light);
+    border-radius: 10px;
 }
-
 
 /* === MEDIA QUERIES === */
 @media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
+    body {
+        font-size: 18px;
+    }
 
-	.title {
-		font-size: 2rem;
-	}
+    .title {
+        font-size: 2rem;
+    }
 
-	.subtitle {
-		font-size: 1.5rem;
-	}
+    .subtitle {
+        font-size: 1.5rem;
+    }
 
-	.paragraph {
-		font-size: 1.2rem;
-	}
+    .paragraph {
+        font-size: 1.2rem;
+    }
 }
 
-
 @media (prefers-reduced-motion: reduce) {
-	* {
-	  animation: none !important;
-	  transition: none !important;
-	}
-  }
-  
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
 
 /* === TAILWIND INTEGRACIÓN === */
 @tailwind base;
@@ -250,43 +253,45 @@ p {
 @tailwind utilities;
 
 @layer utilities {
-	.bg-rv-dark {
-		background-color: var(--rv-dark);
-	}
+    .bg-rv-dark {
+        background-color: var(--rv-dark);
+    }
 
-	.bg-rv-very-light {
-		background-color: var(--rv-very-light);
-	}
+    .bg-rv-very-light {
+        background-color: var(--rv-very-light);
+    }
 
-	.bg-rv-light {
-		background-color: var(--rv-light);
-	}
+    .bg-rv-light {
+        background-color: var(--rv-light);
+    }
 
-	.bg-rv-gray {
-		background-color: var(--rv-gray);
-	}
+    .bg-rv-gray {
+        background-color: var(--rv-gray);
+    }
 
-	.bg-rv-cta {
-		background-color: var(--rv-cta);
-	}
+    .bg-rv-cta {
+        background-color: var(--rv-cta);
+    }
 
-	.bg-rv-accent {
-		background-color: var(--rv-accent);
-	}
+    .bg-rv-accent {
+        background-color: var(--rv-accent);
+    }
 
-	.text-rv-dark {
-		color: var(--rv-dark);
-	}
+    .text-rv-dark {
+        color: var(--rv-dark);
+    }
 
-	.text-rv-light {
-		color: var(--rv-light);
-	}
+    .text-rv-light {
+        color: var(--rv-light);
+    }
 
-	.border-rv-cta {
-		border-color: var(--rv-cta);
-	}
+    .border-rv-cta {
+        border-color: var(--rv-cta);
+    }
 
-	.border-rv-accent {
-		border-color: var(--rv-accent);
-	}
+    .border-rv-accent {
+        border-color: var(--rv-accent);
+    }
+
+
 }

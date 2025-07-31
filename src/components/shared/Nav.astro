@@ -9,37 +9,58 @@ const { origin, pathname } = Astro.url;
 ---
 
 <nav id="main-nav" class={navClass}>
-    <div class="mx-auto max-w-7xl relative w-full px-2 ">
+    <div class="nav-background"></div>
+    <div class="mx-auto max-w-7xl relative w-full px-4">
         <div id="nav-inner" class="nav-inner">
-            <div class="flex items-center justify-between w-full mx-0 md:mx-4">
-                <!-- Logo -->
-                <a href="/" class="logo-container block w-auto h-auto relative">
-                    <div class="absolute inset-0 bg-white blur-md  opacity-60 md:opacity-80 rounded-full scale-110 -z-10"></div>
-                    <img
-                        src="/images/logo/logo-raiz-viva.svg"
-                        alt="Raíz Viva"
-                        class="logo-image w-[220px] sm:w-[280px] md:w-[300px] lg:w-[320px] transition-all duration-300 relative z-10"
-                        height="auto"
-                        fetchpriority="high"
-                    />
-                </a>
-
-                <!-- Menú para desktop con efectos mejorados -->
+            <div class="flex items-center justify-between w-full">
+                <!-- Menú izquierdo para desktop -->
                 <div
-                    class="hidden lg:flex items-center gap-2 mr-10 nav-menu-desktop"
+                    class="menu-background-container hidden lg:flex items-center gap-2"
                 >
-                 
-                    <HeaderLink href="/blog" class="nav-link-enhanced">
-                        <span class="nav-text">Blog</span>
-                    </HeaderLink>
-                    <HeaderLink href="/contactanos" class="nav-link-enhanced">
-                        <span class="nav-text">Contáctanos</span>
-                    </HeaderLink>
+                    <div class="nav-menu-desktop">
+                        <HeaderLink href="/blog" class="nav-link-enhanced">
+                            <span class="nav-text font-secondary">Blog</span>
+                        </HeaderLink>
+                    </div>
                 </div>
 
-                <!-- Botón hamburguesa mejorado -->
+                <!-- Logo centrado -->
                 <div
-                    class="lg:hidden order-2 space-x-3 rounded-lg mx-4 md:space-x-0 rtl:space-x-reverse z-50"
+                    class="logo-background-container flex-1 flex justify-start lg:justify-center"
+                >
+                    <a
+                        href="/"
+                        class="logo-container block w-auto h-auto relative focus-none"
+                    >
+                        <img
+                            src="/images/logo/logo.png"
+                            alt="Raíz Viva"
+                            class="logo-image w-[180px] sm:w-[180px] md:w-[180px] lg:w-[180px] xl:w-[300px] transition-all duration-500 relative z-10"
+                            height="auto"
+                            fetchpriority="high"
+                        />
+                    </a>
+                </div>
+
+                <!-- Menú derecho para desktop -->
+                <div
+                    class="menu-background-container hidden lg:flex items-center gap-2"
+                >
+                    <div class="nav-menu-desktop">
+                        <HeaderLink
+                            href="/contactanos"
+                            class="nav-link-enhanced"
+                        >
+                            <span class="nav-text font-secondary"
+                                >Contáctanos</span
+                            >
+                        </HeaderLink>
+                    </div>
+                </div>
+
+                <!-- Botón hamburguesa -->
+                <div
+                    class="hamburger-background-container lg:hidden absolute right-4 space-x-3 rounded-lg mx-4 md:space-x-0 rtl:space-x-reverse z-50"
                 >
                     <button
                         id="toggle-menu"
@@ -65,7 +86,6 @@ const { origin, pathname } = Astro.url;
                     <div class="mobile-menu-overlay"></div>
                     <div class="mobile-menu-content">
                         <ul class="mobile-nav-list">
-                            
                             <li class="mobile-nav-item">
                                 <HeaderLink
                                     href="/blog"
@@ -79,7 +99,9 @@ const { origin, pathname } = Astro.url;
                                     href="/contactanos"
                                     class="mobile-nav-link"
                                 >
-                                    <span class="mobile-nav-text">Contáctanos</span>
+                                    <span class="mobile-nav-text"
+                                        >Contáctanos</span
+                                    >
                                 </HeaderLink>
                             </li>
                         </ul>
@@ -92,22 +114,41 @@ const { origin, pathname } = Astro.url;
 
 <script is:inline>
     document.addEventListener("astro:page-load", () => {
-        const logoRaizViva = document.querySelector(".logoRaizViva");
         const toggleButton = document.getElementById("toggle-menu");
         const navbar = document.getElementById("navbar-cta");
         const mainNav = document.getElementById("main-nav");
         const hamburger = document.querySelector(".hamburger-button");
+        const navInner = document.getElementById("nav-inner");
 
-        // Scroll effects
+        const logoContainer = document.querySelector(
+            ".logo-background-container",
+        );
+        const logoImage = document.querySelector(".logo-image");
+        const menuContainers = document.querySelectorAll(
+            ".menu-background-container",
+        );
+        const hamburgerContainer = document.querySelector(
+            ".hamburger-background-container",
+        );
+
+        // Scroll effects con fondos independientes
+        let ticking = false;
         window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                logoRaizViva?.classList.add("fixeda");
-                mainNav?.classList.add("scrolled");
-                mainNav?.classList.add("nav-visible");
-            } else {
-                logoRaizViva?.classList.remove("fixeda");
-                mainNav?.classList.remove("scrolled");
-                mainNav?.classList.remove("nav-visible");
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const add = scrollY > 50;
+                    mainNav?.classList.toggle("scrolled", add);
+                    navInner?.classList.toggle("scrolled", add);
+                    logoContainer?.classList.toggle("scrolled", add);
+                    logoImage?.classList.toggle("scrolled", add);
+                    menuContainers.forEach((el) =>
+                        el.classList.toggle("scrolled", add),
+                    );
+                    hamburgerContainer?.classList.toggle("scrolled", add);
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
 
@@ -117,7 +158,7 @@ const { origin, pathname } = Astro.url;
                 toggleButton?.getAttribute("aria-expanded") === "true";
             toggleButton?.setAttribute("aria-expanded", !isExpanded);
 
-            navbar?.classList.toggle("hidden");
+            navbar.classList.toggle("showing");
             hamburger?.classList.toggle("active");
 
             if (!navbar?.classList.contains("hidden")) {
@@ -174,42 +215,120 @@ const { origin, pathname } = Astro.url;
 <style>
     /* Base Navigation Styles */
     nav {
-    position: fixed;
-    width: 100%;
-    padding: 0.75rem 0;
-    z-index: 50;
-    background: transparent;
-    backdrop-filter: none;
-    box-shadow: none;
-    border: none;
-    transition: box-shadow 0.3s ease, backdrop-filter 0.3s ease; 
-}
+        position: fixed;
+        width: 100%;
+        height: 100px;
+
+        min-height: 100px;
+        padding: 0.75rem 0;
+        z-index: 50;
+        transition: padding 0.3s ease;
+    }
+
+    /* Fondo completo del nav */
+    .nav-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+        backdrop-filter: none;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: -1;
+    }
+
+    /* Efectos cuando se hace scroll */
+    nav.scrolled .nav-background,
+    nav.not-home .nav-background {
+        background: white;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(var(--rv-dark-rgb), 0.1);
+        opacity: 1;
+    }
+
+    nav.scrolled,
+    nav.not-home {
+        padding: 0.5rem 0;
+        height: 80px;
+        min-height: 80px;
+    }
+
+    nav-placeholder {
+        display: none;
+    }
 
     .nav-inner {
         @apply flex items-center justify-between px-0 md:px-4;
-        border-radius: 1rem;
         transition: all 0.4s ease-in-out;
+        position: relative;
+        padding: 0.5rem 0;
     }
 
-    nav.scrolled .nav-inner {
-        background-color: rgba(255,255,255, 0.95);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 12px 24px rgba(var(--rv-dark-rgb), 0.7);
-        animation: navSlideDown 0.6s ease forwards;
+    nav.not-home .nav-inner,
+    .nav-inner.scrolled {
+        height: 100px;
     }
 
-    /* Fondo para páginas que no son home */
-    nav.not-home .nav-inner {
-        background-color: rgba(255,255,255, 0.95);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 12px 24px rgba(var(--rv-dark-rgb), 0.7);
-        animation: navSlideDown 0.6s ease forwards;
+    /* Contenedores con fondos independientes */
+    .logo-background-container,
+    .menu-background-container,
+    .hamburger-background-container {
+        background: transparent;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+    }
+    .menu-background-container {
+        background: white;
+
+        border-radius: 20px;
+        min-width: 200px;
+        justify-content: center;
     }
 
-    @keyframes navSlideDown {
+    nav.not-home .logo-background-container,
+    .logo-background-container.scrolled {
+        padding-top: 60px;
+    }
+
+    /* Layout específico para desktop - logo centrado */
+    @media (min-width: 1024px) {
+        .logo-background-container {
+            z-index: 10;
+        }
+    }
+
+    /* Efectos de scroll para contenedores individuales */
+    nav.scrolled .menu-background-container,
+    nav.not-home .menu-background-container,
+    .menu-background-container.scrolled {
+    
+      
+        animation: containerSlideDown 0.6s ease forwards;
+        transform: translateY(0);
+        opacity: 1;
+        transition:
+            transform 0.3s,
+            opacity 0.3s;
+    }
+
+    nav.scrolled .hamburger-background-container,
+    nav.not-home .hamburger-background-container,
+    .hamburger-background-container.scrolled {
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 16px rgba(var(--rv-dark-rgb), 0.1);
+        border: 1px solid rgba(var(--rv-dark-rgb), 0.05);
+        animation: containerSlideDown 0.6s ease forwards;
+    }
+
+    @keyframes containerSlideDown {
         0% {
             opacity: 0;
-            transform: translateY(-100%);
+            transform: translateY(-10px);
         }
         100% {
             opacity: 1;
@@ -217,14 +336,74 @@ const { origin, pathname } = Astro.url;
         }
     }
 
-    .logo-image:hover{
-        transform: scale(105%);
-        transition:all 0.5s ease-out;
+    /* Logo styles */
+    .logo-container {
+        position: relative;
     }
-    
-    /* Desktop Navigation Links - Nuevo estilo minimalista */
+
+    .logo-image {
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Elimina el outline por defecto y añade uno personalizado */
+    .logo-container {
+        outline: none;
+    }
+
+    .logo-container:focus-visible {
+        outline: 2px solid var(--rv-accent);
+        outline-offset: 4px;
+        border-radius: 8px;
+    }
+
+    /* Opcional: estilo para el hover que combine con el focus */
+    .logo-container:hover {
+        transform: scale(1.02);
+        transition: transform 0.2s ease;
+    }
+
+    /* Logo se reduce a la mitad cuando hace scroll */
+    nav.scrolled .logo-image,
+    nav.not-home .logo-image,
+    .logo-image.scrolled {
+        width: 110px !important;
+    }
+
+    @media (min-width: 640px) {
+        nav.scrolled .logo-image,
+        nav.not-home .logo-image,
+        .logo-image.scrolled {
+            width: 160px !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        nav.scrolled .logo-image,
+        nav.not-home .logo-image,
+        .logo-image.scrolled {
+            width: 160px !important;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        nav.scrolled .logo-image,
+        nav.not-home .logo-image,
+        .logo-image.scrolled {
+            width: 160px !important;
+        }
+    }
+
+    .logo-image:hover {
+        transform: scale(105%);
+        transition: all 0.5s ease-out;
+    }
+
+    /* Desktop Navigation Links */
     .nav-menu-desktop {
-        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0;
     }
 
     .nav-link-enhanced {
@@ -243,7 +422,6 @@ const { origin, pathname } = Astro.url;
         border: 2px solid transparent;
     }
 
-    /* Nuevo efecto hover - línea lateral animada */
     .nav-link-enhanced:before {
         content: "";
         position: absolute;
@@ -257,7 +435,6 @@ const { origin, pathname } = Astro.url;
         transform-origin: bottom;
     }
 
-    /* Efecto de fondo sutil en hover */
     .nav-link-enhanced:after {
         content: "";
         position: absolute;
@@ -265,8 +442,9 @@ const { origin, pathname } = Astro.url;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, 
-            rgba(var(--rv-accent-rgb), 0.05), 
+        background: linear-gradient(
+            135deg,
+            rgba(var(--rv-accent-rgb), 0.05),
             rgba(var(--rv-cta-rgb), 0.03)
         );
         opacity: 0;
@@ -287,7 +465,6 @@ const { origin, pathname } = Astro.url;
         color: var(--rv-accent);
         transform: translateX(8px);
         background: rgba(var(--rv-very-light-rgb), 0.5);
- 
         font-weight: 600;
         border-color: rgba(var(--rv-accent-rgb), 0.2);
     }
@@ -296,20 +473,6 @@ const { origin, pathname } = Astro.url;
         text-shadow: 0 0 20px rgba(var(--rv-accent-rgb), 0.3);
     }
 
-    /* Efecto adicional: subrayado animado en desktop hover */
-    .nav-link-enhanced:hover .nav-text:before {
-        content: "";
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, var(--rv-accent), var(--rv-cta));
-        transform: translateX(-50%);
-        transition: width 0.3s ease;
-    }
-
-    /* Estado activo desktop - completamente diferente */
     .nav-link-enhanced.active {
         color: var(--rv-accent);
         background: rgba(var(--rv-accent-rgb), 0.08);
@@ -325,21 +488,6 @@ const { origin, pathname } = Astro.url;
         width: 5px;
     }
 
-    .nav-link-enhanced.active .nav-text {
-        position: relative;
-    }
-
-    .nav-link-enhanced.active .nav-text:after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, var(--rv-accent), transparent);
-        border-radius: 1px;
-    }
-
     .nav-text {
         position: relative;
         z-index: 2;
@@ -347,8 +495,7 @@ const { origin, pathname } = Astro.url;
 
     /* Enhanced Hamburger Button */
     .hamburger-button {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
+        background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.2);
         position: relative;
         overflow: hidden;
@@ -406,6 +553,13 @@ const { origin, pathname } = Astro.url;
 
     /* Enhanced Mobile Menu */
     .mobile-menu {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition:
+            opacity 0.3s ease,
+            transform 0.3s ease;
         backdrop-filter: blur(20px);
     }
 
@@ -450,7 +604,7 @@ const { origin, pathname } = Astro.url;
         animation-delay: 0.3s;
     }
 
-    /* Mobile Navigation - Nuevo estilo minimalista */
+    /* Mobile Navigation */
     .mobile-nav-link {
         position: relative;
         display: flex;
@@ -471,7 +625,6 @@ const { origin, pathname } = Astro.url;
         overflow: hidden;
     }
 
-    /* Efecto de barrido lateral en mobile */
     .mobile-nav-link:before {
         content: "";
         position: absolute;
@@ -479,9 +632,10 @@ const { origin, pathname } = Astro.url;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-            transparent, 
-            rgba(var(--rv-accent-rgb), 0.1), 
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(var(--rv-accent-rgb), 0.1),
             transparent
         );
         transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -505,7 +659,6 @@ const { origin, pathname } = Astro.url;
         text-shadow: 0 0 15px rgba(var(--rv-accent-rgb), 0.4);
     }
 
-    /* Estado activo mobile */
     .mobile-nav-link.active {
         color: #fff;
         background: linear-gradient(135deg, var(--rv-accent), var(--rv-cta));
@@ -515,57 +668,12 @@ const { origin, pathname } = Astro.url;
         transform: scale(1.05);
     }
 
-    .mobile-nav-link.active:before {
-        display: none;
-    }
-
-    .mobile-nav-link.active .mobile-nav-text {
-        position: relative;
-    }
-
-    .mobile-nav-link.active .mobile-nav-text:after {
-        content: "●";
-        position: absolute;
-        right: -25px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.8);
-        animation: pulse 2s infinite;
-    }
-
-    /* Mejorar la transición del texto en mobile */
     .mobile-nav-text {
         position: relative;
         transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* Logo Animations */
-    .logoRaizViva {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .logoRaizViva:hover {
-        transform: scale(1.05);
-        filter: brightness(1.1);
-    }
-
-    .fixeda {
-        animation: slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
     /* Animations */
-    @keyframes slideDown {
-        0% {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0%);
-            opacity: 1;
-        }
-    }
-
     @keyframes slideInUp {
         0% {
             opacity: 0;
@@ -578,7 +686,8 @@ const { origin, pathname } = Astro.url;
     }
 
     @keyframes pulse {
-        0%, 100% {
+        0%,
+        100% {
             opacity: 1;
             transform: translateY(-50%) scale(1);
         }
@@ -589,6 +698,11 @@ const { origin, pathname } = Astro.url;
     }
 
     .mobile-menu.showing {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+
         animation: fadeIn 0.5s ease-out forwards;
     }
 
@@ -603,7 +717,7 @@ const { origin, pathname } = Astro.url;
         }
     }
 
-    /* Efecto de resplandor en focus para accesibilidad */
+    /* Focus accessibility */
     .nav-link-enhanced:focus-visible,
     .mobile-nav-link:focus-visible {
         outline: 2px solid var(--rv-accent);
@@ -618,10 +732,15 @@ const { origin, pathname } = Astro.url;
             padding: 1rem 2rem;
             min-width: 240px;
         }
-        
-        .mobile-nav-link.active .mobile-nav-text:after {
-            right: -20px;
-            font-size: 0.7rem;
+
+        .logo-background-container,
+        .hamburger-background-container {
+            padding: 0.25rem;
+        }
+
+        nav.not-home .logo-background-container,
+        .logo-background-container.scrolled {
+            padding-top: 20px;
         }
     }
 
@@ -634,5 +753,16 @@ const { origin, pathname } = Astro.url;
         .lg\:flex {
             display: flex !important;
         }
+    }
+
+    @media (max-width: 1023px) {
+        nav,
+        nav.scrolled {
+            padding: 0.75rem 0;
+            height: 80px;
+        }
+        .logo-image {
+            width: 160px !important;
+        } /* sin cambios bruscos */
     }
 </style>

@@ -1,0 +1,462 @@
+---
+import Container from "../shared/Container.astro";
+import Icon from "../shared/Icon.astro";
+
+export interface TimelineItem {
+  id: string;
+  title: string;
+  period: string;
+  description: string;
+  icon: string;
+  details?: string;
+}
+
+export interface Props {
+  items: TimelineItem[];
+}
+
+const { items} = Astro.props;
+---
+
+<div class={`horizontal-timeline-container`}>
+  <!-- Línea horizontal central -->
+  <div class="absolute left-0 w-full h-1 bg-transparent z-0 timeline-line-container">
+    <div class="relative w-full h-full">
+      <!-- Círculo central -->
+      <div class="absolute left-1/2 top-[12px] lg:top-[28px] transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-rv-dark shadow-lg rounded-full z-10 central-dot"></div>
+      
+      <!-- Líneas horizontales -->
+      <div class="absolute left-1/2 top-[4px] lg:top-[20px] h-4 bg-rv-dark timeline-line-first  shadow-lg " style="width: 50%"></div>
+      <div class="absolute left-0 top-[4px] lg:top-[20px] h-4  bg-rv-dark timeline-line-middle hidden  shadow-lg " style="width: 100%"></div>
+      <div class="absolute right-1/2 top-[4px] lg:top-[20px]  h-4  bg-rv-dark timeline-line-last hidden  shadow-lg " style="width: 50%"></div>
+    </div>
+  </div>
+
+  <div class="timeline-wrapper" id="timeline-wrapper" tabindex="-1">
+    <div class="timeline-track" id="timeline-track">
+      {items.map((item, index) => (
+        <div class="timeline-item relative" data-index={index} id={`timeline-item-${index}`} tabindex="0">
+          <Container className="flex items-center justify-center gap-8 lg:gap-12">
+            <!-- Ícono grande a la izquierda -->
+            <div class="timeline-icon">
+              <Icon name={item.icon} size={200} inheritColor={false} class=" " />
+            </div>
+
+            <!-- Card a la derecha -->
+            <div class="timeline-card">
+              <div class="card-content">
+                <h3 class="card-title">{item.title}</h3>
+                <span class="flex items-center gap-2 text-rv-dark pb-2">
+                  <Icon name="calendar" size={20} class="card-icon" />
+                  <p class="card-period">{item.period}</p>
+                </span>
+                <p class="card-description">{item.description}</p>
+                {item.details && <p class="card-details">{item.details}</p>}
+              </div>
+            </div>
+          </Container>
+
+          <!-- Indicador de progreso corregido -->
+          <div class="progress-indicator">
+            <div class="progress-line"></div>
+            <div class="progress-dot"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+  }
+
+  .horizontal-timeline-container {
+    @apply relative w-full py-4 lg:py-8;
+    height: 500px;
+    min-height: 500px;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior: contain;
+  }
+
+
+  .timeline-line-container {
+    top: calc(
+      60% + 8rem
+    ); 
+
+  transition: height 0.3s ease;
+  }
+
+  .timeline-line-container > .relative {
+  transition: transform 0.3s ease;
+}
+
+  .timeline-wrapper {
+    @apply relative w-full overflow-hidden;
+    height: 460px;
+    min-height: 460px;
+    transition: all 0.3s ease-out;
+    overscroll-behavior-y: contain;
+    z-index: 1;
+  }
+
+  .timeline-track {
+    @apply flex transition-transform duration-500 ease-in-out h-full will-change-transform;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+  }
+
+  .timeline-item {
+    @apply flex-shrink-0 w-full h-auto flex flex-col justify-center items-center px-4 md:px-8 lg:px-16;
+    scroll-snap-align: center;
+  }
+
+  .timeline-card {
+    @apply bg-white rounded-2xl shadow-lg p-2 md:p-6 lg:p-8 max-w-md md:max-w-lg lg:max-w-2xl w-full relative z-20;
+    @apply border border-green-200 hover:shadow-xl transition-shadow duration-300;
+  }
+
+  .timeline-icon {
+  @apply absolute -top-20 lg:-top-20 left-1/2 transform -translate-x-1/2 z-50;
+  @apply w-24 h-24 md:w-32 md:h-32 bg-green-100 rounded-full flex items-center justify-center;
+  @apply shadow-lg border-4 border-white;
+  overflow: hidden; 
+}
+
+  .icon-content {
+    @apply text-white text-xl md:text-2xl;
+  }
+
+  .card-content {
+    @apply pt-2 md:pt-4 text-start;
+  }
+
+  .card-title {
+    @apply text-start text-xl md:text-2xl lg:text-3xl font-bold text-rv-dark mb-2 lg:mb-2 ;
+  }
+
+  .card-period {
+    @apply text-sm md:text-base text-rv-dark font-medium  ;
+  }
+
+  .card-description {
+    @apply text-sm font-secondary md:text-base lg:text-lg text-rv-dark leading-relaxed mb-2;
+  }
+
+  .card-details {
+    @apply text-sm font-secondary text-rv-very-dark leading-relaxed border-t border-green-100 pt-2;
+  }
+
+  .progress-indicator {
+  @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10;
+}
+
+.progress-line {
+  @apply w-[4px] h-16 bg-rv-cta -top-12;
+  position: relative;
+}
+
+.progress-dot {
+  @apply w-6 h-6 bg-rv-cta rounded-full absolute top-[16px] -left-[10px];
+}
+
+  /* Mostrar la línea correcta según el slide activo */
+  [data-index="0"] ~ .timeline-line-middle,
+  [data-index="0"] ~ .timeline-line-last {
+    display: none;
+  }
+
+  [data-index="0"] ~ .timeline-line-first {
+    display: block;
+  }
+
+  [data-index]:not([data-index="0"]):not([data-index=""]):not([data-index="1"])
+    ~ .timeline-line-middle {
+    display: block;
+  }
+
+  [data-index]:not([data-index="0"]):not([data-index=""]):not([data-index="1"])
+    ~ .timeline-line-first,
+  [data-index]:not([data-index="0"]):not([data-index=""]):not([data-index="1"])
+    ~ .timeline-line-last {
+    display: none;
+  }
+
+  [data-index="1"] ~ .timeline-line-last {
+    display: block;
+  }
+
+  [data-index="1"] ~ .timeline-line-first,
+  [data-index="1"] ~ .timeline-line-middle {
+    display: none;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .timeline-card {
+      @apply mx-2;
+    }
+  }
+
+  .timeline-line-first,
+.timeline-line-middle,
+.timeline-line-last {
+  transition: opacity 0.3s ease, width 0.3s ease;
+  opacity: 1;
+}
+
+.timeline-line-first.hidden,
+.timeline-line-middle.hidden,
+.timeline-line-last.hidden {
+  opacity: 0;
+  
+}
+
+.timeline-line-first,
+.timeline-line-middle,
+.timeline-line-last {
+  display: block !important; /* Forzamos que siempre estén presentes */
+}
+
+@keyframes morphLine {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.timeline-line-first:not(.hidden),
+.timeline-line-middle:not(.hidden),
+.timeline-line-last:not(.hidden) {
+  animation: morphLine 0.3s ease-out forwards;
+  transform-origin: left center;
+}
+</style>
+
+<script>
+  class HorizontalTimeline {
+    private wrapper: HTMLElement;
+    private track: HTMLElement;
+    private items: NodeListOf<HTMLElement>;
+    private currentIndex: number = 0;
+    private isTimelineComplete: boolean = false;
+    private isTimelineStarted: boolean = false;
+    private touchStartX: number = 0;
+    private touchEndX: number = 0;
+    private isScrolling: boolean = false;
+    private observer: IntersectionObserver;
+    private lastScrollTime: number = 0;
+
+    // Constantes ajustadas
+    private readonly SCROLL_THRESHOLD = 5;
+    private readonly SCROLL_COOLDOWN = 100;
+    private readonly CENTER_THRESHOLD = 0.4;
+
+    constructor() {
+      this.wrapper = document.getElementById("timeline-wrapper");
+      this.track = document.getElementById("timeline-track");
+      this.items = document.querySelectorAll(".timeline-item");
+
+      if (this.wrapper && this.track && this.items.length > 0) {
+        this.init();
+      }
+    }
+
+    private init(): void {
+      this.setupEventListeners();
+      this.updateNavigation();
+      this.setupIntersectionObserver();
+      this.updateTimelineLines();
+    }
+
+    private setupEventListeners(): void {
+      this.wrapper.addEventListener("wheel", this.handleWheel.bind(this), {
+        passive: false,
+      });
+      this.wrapper.addEventListener(
+        "touchstart",
+        this.handleTouchStart.bind(this),
+        { passive: true },
+      );
+      this.wrapper.addEventListener(
+        "touchend",
+        this.handleTouchEnd.bind(this),
+        { passive: true },
+      );
+
+      document.addEventListener("keydown", this.handleKeydown.bind(this));
+    }
+
+    private handleWheel(e: WheelEvent): void {
+      const now = Date.now();
+
+      if (now - this.lastScrollTime < this.SCROLL_COOLDOWN) {
+        e.preventDefault();
+        return;
+      }
+      this.lastScrollTime = now;
+
+      const isCentered = this.isTimelineCentered();
+
+      // Solo procesar eventos si está centrado
+      if (!isCentered) return;
+
+      // Lógica de navegación mejorada
+      if (
+        this.currentIndex === this.items.length - 1 &&
+        e.deltaY > this.SCROLL_THRESHOLD
+      ) {
+        this.completeTimeline();
+        e.preventDefault();
+        return;
+      } else if (this.currentIndex === 0 && e.deltaY < -this.SCROLL_THRESHOLD) {
+        this.exitTimelineUp();
+        e.preventDefault();
+        return;
+      }
+
+      // Scroll horizontal
+      e.preventDefault();
+      if (this.isScrolling) return;
+
+      this.isScrolling = true;
+      setTimeout(() => (this.isScrolling = false), 100);
+
+      if (e.deltaY > this.SCROLL_THRESHOLD) {
+        this.nextSlide();
+      } else {
+        this.prevSlide();
+      }
+    }
+
+    private isTimelineCentered(): boolean {
+      const rect = this.wrapper.getBoundingClientRect();
+      return (
+        rect.top <= window.innerHeight * this.CENTER_THRESHOLD &&
+        rect.bottom >= window.innerHeight * (1 - this.CENTER_THRESHOLD)
+      );
+    }
+
+    private completeTimeline(): void {
+      if (this.isScrolling) return;
+
+      this.isTimelineComplete = true;
+      document.body.classList.remove("timeline-active");
+
+      // Scroll instantáneo sin delay
+      const scrollAmount = window.innerHeight * 0.8;
+      window.scrollBy(0, scrollAmount);
+
+      setTimeout(() => {
+        this.isTimelineComplete = false;
+      }, 300);
+    }
+
+    private exitTimelineUp(): void {
+      if (this.isScrolling) return;
+
+      this.isTimelineComplete = true;
+      document.body.classList.remove("timeline-active");
+
+      // Scroll instantáneo sin delay
+      const scrollAmount = -window.innerHeight * 0.8;
+      window.scrollBy(0, scrollAmount);
+
+      setTimeout(() => {
+        this.isTimelineComplete = false;
+      }, 300);
+    }
+
+    private nextSlide(): void {
+      if (this.currentIndex < this.items.length - 1) {
+        this.currentIndex++;
+        this.updateSlide();
+        this.isTimelineStarted = true;
+      }
+    }
+
+    private prevSlide(): void {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        this.updateSlide();
+      }
+    }
+
+    private updateSlide(): void {
+      const translateX = -this.currentIndex * 100;
+      this.track.style.transform = `translateX(${translateX}%)`;
+      this.updateNavigation();
+      this.updateTimelineLines();
+    }
+
+    private updateTimelineLines(): void {
+  const timelineLines = document.querySelectorAll(
+    ".timeline-line-first, .timeline-line-middle, .timeline-line-last",
+  );
+
+  // Aplicamos la clase hidden a todas primero (esto activará la transición de salida)
+  timelineLines.forEach((line) => line.classList.add("hidden"));
+
+  // Usamos setTimeout para permitir que la transición de salida ocurra
+  setTimeout(() => {
+    // Removemos la clase hidden de la línea correcta (activando la transición de entrada)
+    if (this.currentIndex === 0) {
+      document.querySelector(".timeline-line-first")?.classList.remove("hidden");
+    } else if (this.currentIndex === this.items.length - 1) {
+      document.querySelector(".timeline-line-last")?.classList.remove("hidden");
+    } else {
+      document.querySelector(".timeline-line-middle")?.classList.remove("hidden");
+    }
+  }, 10); // Pequeño delay para permitir que el navegador procese la transición
+}
+
+    private updateNavigation(): void {
+      // Actualizar clases de navegación si es necesario
+    }
+
+    private setupIntersectionObserver(): void {
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (!this.isTimelineComplete) {
+                document.body.classList.add("timeline-active");
+                this.wrapper.focus();
+              }
+            } else {
+              document.body.classList.remove("timeline-active");
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+          rootMargin: "0px 0px -30% 0px",
+        },
+      );
+      this.observer.observe(this.wrapper);
+    }
+
+    private destroy(): void {
+      this.observer?.disconnect();
+      document.body.classList.remove("timeline-active");
+    }
+  }
+
+  // Inicialización
+  let timelineInstance: HorizontalTimeline | null = null;
+
+  function initTimeline() {
+    timelineInstance?.destroy();
+    timelineInstance = new HorizontalTimeline();
+  }
+
+  document.addEventListener("astro:page-load", initTimeline);
+  document.addEventListener("astro:after-swap", initTimeline);
+</script>

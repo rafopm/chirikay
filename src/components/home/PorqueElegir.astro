@@ -3,81 +3,73 @@ import Container from "../shared/Container.astro";
 import Icon from "../shared/Icon.astro";
 import ScrollAnimation from "../shared/ScrollAnimation.astro";
 
-const cards = [
+// Array de datos para las cards
+const datacard = [
     {
-        icon: "andes",
-        size: 153,
-        title: "Origen Andino con Altura",
-        description: "Nuestros cultivos crecen a más de 3,500 msnm, donde el clima andino da sabor, textura y valor nutricional únicos a cada producto.",
-        animationDelay: 1,
+        title: "Cultivo 100% Orgánico",
+        description:
+            "Sin químicos ni pesticidas, respetando la naturaleza y tu salud",
+        mainIcon: "cultivo-organico",
     },
     {
-        icon: "agricultura",
-        size: 121,
-        title: "Agricultura Responsable",
-        description: "Aplicamos buenas prácticas agrícolas y priorizamos el uso de abonos orgánicos naturales, respetando el ritmo y salud de la tierra.",
-        animationDelay: 1.2,
+        title: "Dulce, Cremosa y Saludable",
+        description:
+            "Sabor único y textura perfecta, rica en nutrientes esenciales",
+        mainIcon: "dulce-cremosa-saludable",
     },
     {
-        icon: "artesanal",
-        size: 85,
-        title: "Producción Artesanal y Comunitaria",
-        description: "Cada producto es cultivado, cosechado y seleccionado por manos expertas, con conocimiento ancestral y trabajo colectivo.",
-        animationDelay: 1.4,
+        title: "Clima Ideal de Huarochirí",
+        description:
+            "Condiciones perfectas de altura y clima para el mejor sabor",
+        mainIcon: "clima-ideal",
     },
+
     {
-        icon: "ambiental",
-        size: 112,
-        title: "Compromiso Ambiental",
-        description: "Usamos composteras, reciclamos residuos de cosecha y optimizamos el uso del agua con riego tecnificado. Cuidamos el planeta mientras cultivamos.",
-        animationDelay: 1.6,
-    },
-    {
-        icon: "diversidad",
-        size: 100,
-        title: "Diversidad que Alimenta",
-        description: "Ofrecemos una variedad de productos frescos, saludables y de temporada, ideales para mercados exigentes y consumidores conscientes.",
-        animationDelay: 1.8,
+        title: "Agricultura Familiar",
+        description: "Tradición y experiencia de generaciones de agricultores",
+        mainIcon: "agricultura-en-familia",
     },
 ];
 ---
 
-<section class="porque-elegir bg-qs-bg-light">
-    <Container>
-        <!-- Header Section -->
-        <div class="header">
-            <ScrollAnimation animation="fadeInDown" delay={0.3}>
-                <h3 class="subtitle font-bold">Desarrollo con raíces y futuro</h3>
-            </ScrollAnimation>
-
-            <ScrollAnimation animation="fadeInUp" delay={0.6}>
-                <h2 class="title">
-                    Lo Natural Sabe Mejor. Lo Nuestro Tiene Historia.
-                </h2>
-            </ScrollAnimation>
+<section class="asi-cultivamos" id="asi-cultivamos">
+    <Container className=" py-12 lg:py-16">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h2 class="title">¿Por Qué Elegir Nuestra Chirimoya?</h2>
+            <p class="paragraph font-secondary pt-4">
+                Cada chirimoya es un acto de amor cultivado en comunidad.
+            </p>
         </div>
 
-        <div class="cards-grid">
+        <!-- Benefits Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {
-                cards.map((card) => (
+                datacard.map((card, index) => (
                     <ScrollAnimation
-                        animation="fadeInUp"
-                        delay={card.animationDelay}
-                        duration={0.6}
-                        class="card-wrapper"
+                        animation={
+                            index % 2 === 0 ? "fadeInRight" : "fadeInLeft"
+                        }
+                        delay={0.2 * (index + 1)}
+                        duration="0.8"
+                        threshold="0.2"
                     >
-                        <div class="card">
-                            <div class="card-icon-container">
-                                <Icon
-                                    name={card.icon}
-                                    class:list={["card-icon"]}
-                                    size={80}
-                                    inheritColor={false}
-                                />
-                            </div>
-                            <div class="card-content">
-                                <h4 class="card-title">{card.title}</h4>
-                                <p class="card-description">{card.description}</p>
+                        <div
+                            class={`benefit-card group relative bg-rv-light rounded-xl shadow-md p-6 transition-all duration-300 ease-in-out cursor-pointer h-[320px] hover:shadow-xl hover:-translate-y-2 hover:bg-green-50`}
+                        >
+                            <div class="card-content text-center h-full flex flex-col items-center">
+                                <div class="icon-container relative m-6 transform transition-transform duration-300 group-hover:scale-110 h-[120px] rounded-full flex items-center justify-center ">
+                                    <Icon
+                                        name={card.mainIcon}
+                                        class:list={["card-icon"]}
+                                        size={110}
+                                        inheritColor={false}
+                                    />
+                                </div>
+                                <h3 class="card-title">{card.title}</h3>
+                                <p class="card-paragraph font-secondary">
+                                    {card.description}
+                                </p>
                             </div>
                         </div>
                     </ScrollAnimation>
@@ -86,207 +78,54 @@ const cards = [
         </div>
     </Container>
 </section>
-<!-- Resto del componente igual hasta la sección de estilos -->
+
 <style>
-    .porque-elegir {
-        padding: 4rem 0;
-        display: flex;
-        align-items: center;
-        background-color: var(--rv-bg-light);
+    /* Keyframes for animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .header {
-        text-align: center;
-        margin-bottom: 3rem;
+    @keyframes pulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.3);
+        }
     }
 
-    .subtitle {
-        color: var(--rv-text-dark);
-        font-family: var(--font-secondary);
-    }
-
-    .title {
-        color: var(--rv-dark);
-        font-family: var(--font-primary);
-    }
-
-    .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 2rem;
-        max-width: 100%;
-        margin: 0 auto;
-    }
-
-    .card {
-        background: var(--rv-accent-blue);
-        border-radius: 20px;
-        padding: 2.5rem 2rem;
-        text-align: center;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 20px rgba(var(--rv-accent-blue-rgb), 0.15);
+    /* Card animations */
+    .benefit-card {
+        animation: fadeInUp 0.6s ease-out forwards;
         position: relative;
         overflow: hidden;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        min-height: 350px;
-        cursor: pointer;
-        border: 1px solid rgba(var(--rv-accent-blue-rgb), 0.1);
     }
 
-    .card::after {
+    .benefit-card::before {
         content: "";
         position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: radial-gradient(circle, rgba(var(--rv-text-light-rgb), 0.3), transparent);
-        border-radius: 50%;
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translate(-50%, -50%);
-        z-index: 1;
+        inset: 0;
+        background: linear-gradient(to right, #4ade80, #22c55e);
+        border-radius: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
     }
 
-    .card:hover {
-        transform: translateY(-12px) rotateY(5deg) rotateX(2deg);
-        box-shadow: 0 20px 40px rgba(var(--rv-accent-blue-rgb), 0.3), 
-                    0 0 20px rgba(var(--rv-accent-blue-rgb), 0.2);
-        background: linear-gradient(115deg, var(--rv-bg-very-light), var(--rv-bg-light), var(--rv-accent));
-        border: 2px solid rgba(var(--rv-text-light-rgb), 0.3);
+    .benefit-card:hover::before {
+        opacity: 0.05;
     }
 
-    .card:hover::after {
-        width: 400px;
-        height: 400px;
-    }
-
-    .card-icon-container {
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-        position: relative;
-        z-index: 2;
-    }
-
-    .card-icon {
-        color: var(--rv-dark);
-        transition: all 0.4s ease;
-        filter: drop-shadow(0 2px 4px rgba(var(--rv-dark-rgb), 0.2));
-    }
-
-    .card:hover .card-icon {
-        transform: scale(1.15) rotate(-5deg);
-        color: var(--rv-text-dark);
-        filter: drop-shadow(0 4px 8px rgba(var(--rv-dark-rgb), 0.3));
-    }
-
-    .card-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        z-index: 2;
-    }
-
-    .card-title {
-        color: var(--rv-bg-light);
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin: 0 0 1rem 0;
-        transition: all 0.3s ease;
-        min-height: 2.6rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-secondary);
-    }
-
-    .card:hover .card-title {
-        color: var(--rv-text-dark);
-        transform: translateY(-2px);
-        text-shadow: 0 2px 4px rgba(var(--rv-dark-rgb), 0.1);
-    }
-
-    .card-description {
-        color: var(--rv-text-light);
-        margin: 0;
-        opacity: 0.9;
-        transition: all 0.3s ease;
-        flex: 1;
-        display: flex;
-        align-items: center;
-        font-family: var(--font-primary);
-    }
-
-    .card:hover .card-description {
-        opacity: 1;
-        color: var(--rv-text-dark);
-        transform: translateY(-1px);
-    }
-
-    /* Responsive Design (igual que antes) */
-    @media (max-width: 1024px) {
-        .cards-grid {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .card {
-            min-height: 320px;
-            padding: 2rem 1.5rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .title {
-            font-size: 2rem;
-        }
-
-        .cards-grid {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            padding: 2rem 1.5rem;
-            min-height: 300px;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-        }
-
-        .honey-elixir {
-            padding: 2rem 0;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .cards-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .title {
-            font-size: 1.5rem;
-        }
-
-        .card {
-            min-height: 280px;
-            padding: 1.5rem 1rem;
-        }
-
-        .card-title {
-            font-size: 1rem;
-        }
-
-        .card-description {
-            font-size: 0.85rem;
-        }
+    /* Pulse effect on hover */
+    .benefit-card:hover .icon-container {
+        animation: pulse 1s infinite;
     }
 </style>
