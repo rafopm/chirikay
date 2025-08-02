@@ -1,0 +1,41 @@
+---
+import MobileNavLink from "./MobileNavLink.astro";
+
+const { currentPath, isOpen = false } = Astro.props;
+const menuItems = [
+  { href: '/blog', text: 'Blog' },
+  { href: '/contactanos', text: 'Contáctanos' }
+];
+---
+
+<div
+  id="navbar-cta"
+  class={`mobile-menu ${isOpen ? '' : 'hidden'} fixed inset-0 w-full h-screen z-40 transition-all duration-500 ease-out lg:hidden opacity-0 invisible pointer-events-none -translate-y-2.5 backdrop-blur-lg`}
+>
+  <div class="mobile-menu-overlay absolute inset-0 bg-[rgba(var(--rv-light-rgb),0.97)]"></div>
+  <div class="mobile-menu-content relative h-full flex items-center justify-center">
+    <ul class="mobile-nav-list flex flex-col items-center gap-8 p-8">
+      {menuItems.map((item, index) => (
+        <li class={`mobile-nav-item opacity-0 translate-y-[30px] animate-[slideInUp_0.6s_ease-out_forwards] animation-delay-${index * 100}`}>
+          <MobileNavLink href={item.href} currentPath={currentPath}>
+            {item.text}
+          </MobileNavLink>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style is:global>
+  .mobile-menu.showing {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to { opacity: 1; backdrop-filter: blur(20px); }
+  }
+</style>

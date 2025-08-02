@@ -1,0 +1,21 @@
+---
+// src/components/navigation/HamburgerButton.astro
+import { navStyles } from '../../config/navigation';
+
+const buttonClasses = `lg:hidden absolute right-4 w-[50px] h-[50px]  md:w-[60px] md:h-[60px] text-sm text-rv-dark flex items-center justify-center rounded-xl ${navStyles.transitions.fast} hover:scale-105 bg-rv-cta border ${navStyles.colors.border} z-50`;
+---
+
+<button
+  id="toggle-menu"
+  type="button"
+  class={buttonClasses}
+  aria-controls="navbar-cta"
+  aria-expanded="false"
+>
+  <span class="sr-only">Open main menu</span>
+  <div class="hamburger-icon flex flex-col gap-1 w-6 h-[18px]">
+    <span class="hamburger-line w-full h-[3px] bg-current rounded-[2px] transition-all duration-300"></span>
+    <span class="hamburger-line w-full h-[3px] bg-current rounded-[2px] transition-all duration-300"></span>
+    <span class="hamburger-line w-full h-[3px] bg-current rounded-[2px] transition-all duration-300"></span>
+  </div>
+</button>

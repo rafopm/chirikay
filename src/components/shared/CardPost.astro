@@ -2,66 +2,102 @@
 import Calendar from "../Icons/Calendar.astro";
 
 export interface Props {
-  title?: string;
-  description?: string;
-  thumbImage?: string;
+  title: string;
+  description: string;
+  thumbImage: string;
   url?: string;
-  date?: Date;
+  date: Date;
   slug: string;
+  className?: string;
 }
 
-const { title, description, thumbImage, date, url, slug } = Astro.props;
+const { 
+  title, 
+  description, 
+  thumbImage, 
+  date, 
+  url, 
+  slug, 
+  className = "" 
+} = Astro.props;
+
+const cardUrl = url || `/blog/${slug}/`;
+const formattedDate = date.toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
 ---
 
 <article
-  class="card max-w-lg overflow-hidden shadow-lg bg-rv-light hover:bg-rv-very-light"
+  class={`group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1 border border-rv-cta   ${className}`}
 >
-  <div class="img-wrapper">
+  <!-- Image Container -->
+  <div class="relative overflow-hidden">
     <img
-      class="card-img w-full"
+      class="h-48 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       src={thumbImage}
-      alt={`Imagen de ${title}`}
+      alt={title}
       loading="lazy"
       transition:name={`img-${slug}`}
     />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
   </div>
 
-  <div class="px-6 py-4 text-wrapper">
-    <span class="flex flex-row date-calendar">
-      <Calendar width="20" height="20" color="var(--rv-dark)" />
-      <span class="post-date my-0 ml-2 text-rv-text-dark"
-        >{date?.toLocaleDateString()}</span
-      >
-    </span>
-    <h3 class="title-card mb-2 text-rv-dark font-primary">{title}</h3>
-    <p class="description text-rv-dark font-gotham mb-10">
+  <!-- Content Container -->
+  <div class="p-6 space-y-4">
+    <!-- Date -->
+    <div class="flex items-center gap-2 text-sm text-rv-dark font-secondary">
+      <Calendar width="16" height="16" color="currentColor" />
+      <time datetime={date.toISOString()}>
+        {formattedDate}
+      </time>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-xl font-semibold text-rv-dark leading-tight line-clamp-2 group-hover:text-rv-accent transition-colors duration-200">
+      {title}
+    </h3>
+
+    <!-- Description -->
+    <p class="text-rv-very-dark leading-relaxed line-clamp-3 font-secondary">
       {description}
     </p>
-    <div class="flex mb-4 button-wrapper">
+
+    <!-- Read More Link -->
+    <div class="pt-2">
       <a
-        href={url || `/blog/${slug}/`}
-        class="flex w-[200px] px-3 py-2 text-sm font-bold text-rv-primary hover:text-rv-accent focus:ring-4 focus:outline-none focus:ring-rv-accent"
+        href={cardUrl}
+        class="inline-flex items-center gap-2 text-sm font-medium text-rv-accent hover:text-rv-very-dark transition-colors duration-200 group/link"
+        aria-label={`Leer más sobre ${title}`}
       >
-        Continuar leyendo ...
+        <span>Continuar leyendo</span>
+        <svg 
+          class="w-4 h-4 transition-transform duration-200 group-hover/link:translate-x-1" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
       </a>
     </div>
   </div>
 </article>
 
 <style>
-  .card {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
+  /* Utility classes for line clamping if not available in your Tailwind config */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-
-  .card:hover .img-wrapper {
-    transition: 0.5s ease-in-out;
-    filter: saturate(1.3);
-  }
-
-  .card-img {
-    height: 200px;
-    object-fit: cover;
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>

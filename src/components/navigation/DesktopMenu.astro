@@ -1,0 +1,29 @@
+---
+// src/components/navigation/DesktopMenu.astro
+import type { NavItem } from '../../config/navigation';
+import { navStyles } from '../../config/navigation';
+import { isActiveRoute } from '../../utils/navigation';
+import NavLink from './NavLink.astro';
+
+interface Props {
+  items: NavItem[];
+  currentPath: string;
+  position: 'left' | 'right';
+}
+
+const { items, currentPath, position } = Astro.props;
+
+const containerClasses = `hidden lg:flex -translate-y-5 items-center ${navStyles.spacing.menuHeight} ${navStyles.spacing.menuWidth} ${navStyles.colors.background} rounded-full px-4 ${navStyles.transitions.medium} ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`;
+---
+
+{items.length > 0 && (
+  <div  >
+    {items.map((item) => (
+      <NavLink 
+        item={item}
+        isActive={isActiveRoute(currentPath, item.href)}
+        variant="desktop"
+      />
+    ))}
+  </div>
+)}

@@ -8,6 +8,34 @@ import "animate.css";
 import HeroSecondary from "../components/shared/HeroSecondary.astro";
 import Whatsapp from "../components/shared/whatsapp.astro";
 import Logos from "../components/home/Logos.astro";
+import NavBar from "../components/shared/Nav/NavBar.astro";
+
+
+import MainNavigation from '../components/navigation/MainNavigation.astro';
+import '../styles/navigation.css';
+
+// Optional: Override navigation config for specific pages
+import { navigationConfig } from '../config/navigation';
+
+// Example: Custom navigation for a specific section
+const customNavConfig = {
+  ...navigationConfig,
+  leftItems: [
+    { href: "/blog", label: "Blog" },
+    { href: "/productos", label: "Productos" }
+  ],
+  rightItems: [
+    { href: "/sobre-nosotros", label: "Sobre Nosotros" },
+    { href: "/contactanos", label: "Contáctanos" }
+  ],
+  mobileItems: [
+    { href: "/blog", label: "Blog" },
+    { href: "/productos", label: "Productos" },
+    { href: "/sobre-nosotros", label: "Sobre Nosotros" },
+    { href: "/contactanos", label: "Contáctanos" }
+  ]
+};
+
 
 const lastModified = new Date().toISOString().split("T")[0];
 
@@ -19,6 +47,7 @@ interface Props {
 	heroimage: string;
 	heroimagethumb: string;
 	slug: string;
+  customNav?: boolean;
 }
 
 const {
@@ -29,6 +58,7 @@ const {
 	heroimage,
 	heroimagethumb,
 	slug,
+  customNav = false,
 } = Astro.props;
 const { pathname } = Astro.url;
 ---
@@ -45,7 +75,7 @@ const { pathname } = Astro.url;
       <meta itemprop="alternateName" content="AP" />
     </div>
 
-    <Nav />
+    <MainNavigation config={customNav ? customNavConfig : undefined} />
 
     <main>
       {pathname !== "/" ? <HeroSecondary title={title} description={description} image={heroimage} imagethumb={heroimagethumb} slug={slug} /> : null}

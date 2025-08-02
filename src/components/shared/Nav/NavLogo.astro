@@ -1,0 +1,31 @@
+---
+const logoSize = {
+  default: 'w-[180px] lg:w-[180px] xl:w-[300px]',
+  scrolled: 'w-[110px] sm:w-[160px]'
+};
+---
+
+<a href="/" class="block w-auto h-auto relative focus:outline-none hover:scale-105 transition-transform duration-200">
+  <img
+    src="/images/logo/logo.png"
+    alt="Raíz Viva"
+    class={`logo-image ${logoSize.default} transition-all duration-500 relative z-10`}
+    height="auto"
+    fetchpriority="high"
+  />
+</a>
+
+<style is:global>
+  nav.scrolled .logo-image,
+  nav.not-home .logo-image,
+  .logo-image.scrolled {
+    width: 110px !important;
+  }
+  @media (min-width: 640px) {
+    nav.scrolled .logo-image,
+    nav.not-home .logo-image,
+    .logo-image.scrolled {
+      width: 160px !important;
+    }
+  }
+</style>

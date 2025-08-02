@@ -1,0 +1,33 @@
+---
+// src/components/navigation/MobileMenu.astro
+import type { NavItem } from '../../config/navigation';
+import { isActiveRoute } from '../../utils/navigation';
+import NavLink from './NavLink.astro';
+
+interface Props {
+  items: NavItem[];
+  currentPath: string;
+}
+
+const { items, currentPath } = Astro.props;
+---
+
+<div
+  id="navbar-cta"
+  class="mobile-menu hidden fixed inset-0 w-full h-screen z-40 transition-all duration-500 ease-out lg:hidden opacity-0 invisible pointer-events-none -translate-y-2.5 backdrop-blur-lg"
+>
+  <div class="mobile-menu-overlay absolute inset-0 bg-[rgba(var(--rv-light-rgb),0.97)]"></div>
+  <div class="mobile-menu-content relative h-full flex items-center justify-center">
+    <ul class="mobile-nav-list flex flex-col items-center gap-8 p-8">
+      {items.map((item, index) => (
+        <li class={`mobile-nav-item opacity-0 translate-y-[30px] animate-[slideInUp_0.6s_ease-out_forwards] ${index > 0 ? `animation-delay-${index * 100}` : ''}`}>
+          <NavLink 
+            item={item}
+            isActive={isActiveRoute(currentPath, item.href)}
+            variant="mobile"
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

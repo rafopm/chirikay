@@ -1,0 +1,77 @@
+---
+interface Props {
+  videoId: string;
+  width?: number;
+  height?: number;
+  title?: string;
+}
+
+const { videoId, width = 325, height = 580, title = "Video de TikTok" } = Astro.props;
+---
+
+<div class="tiktok-container" style={`width: ${width}px; height: ${height}px;`}>
+  <!-- Iframe directo con parámetros optimizados -->
+  <iframe
+    src={`https://www.tiktok.com/embed/v2/${videoId}?lang=es&hide_cover=1&autoplay=1&related=0`}
+    width={width}
+    height={height}
+    class="tiktok-iframe"
+    title={title}
+    allowfullscreen
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    loading="lazy"
+    sandbox="allow-scripts allow-same-origin allow-popups"
+  ></iframe>
+</div>
+
+<style>
+  .tiktok-container {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: #000;
+    transform: translateZ(0); /* Fix para rendering en Chrome */
+  }
+
+  .tiktok-iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 16px;
+    background: transparent;
+  }
+
+  /* Fix para WebGL en Chrome */
+  @supports (-webkit-touch-callout: none) {
+    .tiktok-container {
+      -webkit-transform: translate3d(0,0,0);
+      backface-visibility: hidden;
+      perspective: 1000;
+    }
+  }
+</style>
+
+<script is:inline>
+// Polyfill para navegadores antiguos
+if (!HTMLIFrameElement.prototype.sandbox) {
+  document.querySelectorAll('.tiktok-iframe').forEach(iframe => {
+    iframe.parentNode.replaceChild(
+      document.createRange().createContextualFragment(`
+        <blockquote class="tiktok-embed" data-video-id="${iframe.src.split('/').pop()}">
+          <section>${iframe.title}</section>
+        </blockquote>
+      `),
+      iframe
+    );
+  });
+  
+  if (!window.tiktokEmbedLoader) {
+    window.tiktokEmbedLoader = true;
+    const script = document.createElement('script');
+    script.src = 'https://www.tiktok.com/embed.js';
+    document.head.appendChild(script);
+  }
+}
+</script>

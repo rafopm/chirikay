@@ -1,0 +1,47 @@
+---
+import TikTokVideo from '../../components/shared/TikTokVideo.astro';
+import Container from '../shared/Container.astro';
+import VideoLazy from '../shared/VideoLazy.astro';
+
+interface Props {
+  videoId?: string;
+}
+//https://youtube.com/shorts/rROjCDD1BNU
+const { videoId = "rROjCDD1BNU" } = Astro.props;
+---
+
+<section class="bg-rv-light ">
+
+  <Container className=" grid grid-cols-1 lg:grid-cols-2 gap-12 items-start py-20">
+    <!-- Content Section -->
+    <div class="space-y-6">
+      <h2 class="title">
+        Nuestra Historia
+      </h2>
+      
+      <blockquote class="text-lg italic text-rv-dark border-l-4 border-[#4a5d3a] pl-4">
+        "No solo cultivamos fruta. Cultivamos unión, herencia y futuro."
+      </blockquote>
+      
+      <div class="space-y-4 text-[#5a6b4a] leading-relaxed paragraph">
+        <p>
+          Somos una asociación de familias agricultoras de Huarochirí que ha trabajado la tierra por generaciones. 
+          Nuestra pasión por la chirimoya nació del amor por nuestra comunidad y el deseo de compartir los frutos 
+          más puros de nuestra tierra.
+        </p>
+        
+        <p>
+          Cada día trabajamos unidos, combinando la sabiduría ancestral con técnicas sostenibles modernas, para 
+          ofrecerte la mejor chirimoya del Perú.
+        </p>
+
+        
+      </div>
+    </div>
+    
+    <!-- Video Section -->
+    <div class="flex justify-center lg:justify-end">
+      <VideoLazy videoId={videoId} title="Nuestra historia" />
+    </div>
+  </Container>
+</section>

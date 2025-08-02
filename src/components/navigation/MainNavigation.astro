@@ -1,0 +1,103 @@
+---
+// src/components/navigation/MainNavigation.astro
+import { navigationConfig, navStyles } from '../../config/navigation';
+import { getNavClasses, isHomePage } from '../../utils/navigation';
+import Logo from './Logo.astro';
+import DesktopMenu from './DesktopMenu.astro';
+import MobileMenu from './MobileMenu.astro';
+import HamburgerButton from './HamburgerButton.astro';
+
+interface Props {
+  config?: typeof navigationConfig;
+}
+
+const { config = navigationConfig } = Astro.props;
+
+const isHome = isHomePage(Astro.url.pathname);
+const navClass = getNavClasses(isHome);
+const { pathname } = Astro.url;
+
+const navClasses = `fixed w-full ${navStyles.spacing.navHeight} py-3 z-50 ${navStyles.transitions.fast} ${navClass}`;
+---
+
+<nav 
+  id="main-nav" 
+  class={navClasses}
+>
+  <!-- Navigation Background -->
+  <div class="nav-background absolute inset-0 bg-transparent backdrop-blur-none opacity-0 transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] -z-10"></div>
+  
+  <div class="mx-auto max-w-7xl relative w-full px-4">
+    <div 
+      id="nav-inner" 
+      class="flex items-center justify-between px-0 md:px-4 py-2 transition-all duration-400 ease-in-out relative"
+    >
+      <div class="flex items-center justify-between w-full">
+        <!-- Left Desktop Menu -->
+        <DesktopMenu 
+          items={config.leftItems}
+          currentPath={pathname}
+          position="left"
+        />
+
+        <!-- Centered Logo -->
+        <Logo config={config.logo} />
+
+        <!-- Right Desktop Menu -->
+        <DesktopMenu 
+          items={config.rightItems}
+          currentPath={pathname}
+          position="right"
+        />
+
+        <!-- Mobile Hamburger Button -->
+        <HamburgerButton />
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <MobileMenu 
+    items={config.mobileItems}
+    currentPath={pathname}
+  />
+</nav>
+
+<script>
+  import { ScrollEffects } from '../../utils/scrollEffects';
+  import { MobileMenuController } from '../../utils/navigation';
+
+  document.addEventListener("astro:page-load", () => {
+    // Initialize scroll effects
+    const scrollEffects = new ScrollEffects();
+    
+    // Initialize mobile menu controller
+    const mobileMenu = new MobileMenuController();
+    
+    // Bind mobile menu events
+    const toggleButton = document.getElementById("toggle-menu");
+    toggleButton?.addEventListener("click", () => mobileMenu.toggle());
+
+    // Close menu on outside click
+    document.addEventListener("click", (e) => mobileMenu.closeOnOutsideClick(e));
+
+    // Close mobile menu on resize
+    window.addEventListener("resize", () => mobileMenu.closeOnResize());
+
+    // Close mobile menu when clicking nav links
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const navbar = document.getElementById("navbar-cta");
+        if (!navbar?.classList.contains("hidden")) {
+          mobileMenu.toggle();
+        }
+      });
+    });
+
+    // Cleanup on page unload
+    window.addEventListener("beforeunload", () => {
+      scrollEffects.destroy();
+    });
+  });
+</script>

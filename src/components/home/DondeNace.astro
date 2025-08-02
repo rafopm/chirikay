@@ -1,0 +1,110 @@
+---
+import Container from "../shared/Container.astro";
+import Icon from "../shared/Icon.astro";
+import Map from "../shared/Map.astro";
+
+const title = "Conoce Dónde Nace Nuestra Fruta";
+const subtitle = "San José de Bellavista, San Antonio, Huarochirí, Lima - Perú";
+const description =
+    "Nuestros campos se encuentran en las montañas de Huarochirí, a una altitud perfecta para el cultivo de chirimoya. El clima templado y la tierra fértil crean las condiciones ideales para producir la fruta más deliciosa.";
+const mapEmbedUrl =
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2354.3986585818275!2d-76.63178053143815!3d-11.810572608246872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105fdf8db4438c7%3A0x17189c386dc6676b!2sIglesia%20de%20Bellavista!5e1!3m2!1ses-419!2spe!4v1754064131203!5m2!1ses-419!2spe";
+---
+
+<section class="bg-rv-light">
+    <Container className="py-20">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h2 class="title">
+                {title}
+            </h2>
+            <p class="font-secondary text-3xl ">
+                {subtitle}
+            </p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="space-y-8">
+                <!-- Description -->
+                <div
+                    class="bg-white/70 backdrop-blur-sm border-l-4 border-green-600 p-6 rounded-r-lg shadow-sm"
+                >
+                    <p class="paragraph text-lg font-secondary">
+                        {description}
+                    </p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid gap-6 font-secondary">
+                    <div
+                        class="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    >
+                        <Icon
+                            name="altitud-flat"
+                            size={24}
+                            inheritColor={true}
+                            class=""
+                        />
+
+                        <div class="flex flex-column">
+                            <p class="font-semibold text-gray-800">
+                                Altitud: &nbsp
+                            </p>
+                            <p class="text-gray-600">2,000 - 3,000 msnm</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    >
+                        <Icon
+                            name="termometro-flat"
+                            size={24}
+                            inheritColor={true}
+                            class=""
+                        />
+                        <div class="flex flex-column">
+                            <p class="font-semibold text-gray-800">
+                                Clima: &nbsp
+                            </p>
+                            <p class="text-gray-600">Templado seco</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-center space-x-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    >
+                        <Icon
+                            name="location"
+                            size={24}
+                            inheritColor={true}
+                            class=""
+                        />
+                        <div class="flex flex-column">
+                            <p class="font-semibold text-gray-800">
+                                Ubicación: &nbsp
+                            </p>
+                            <p class="text-gray-600">Sierra de Lima</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content - Map -->
+            <Map
+            mapEmbedUrl={mapEmbedUrl}
+            title="Ubicación de nuestros campos de cultivo orgánico"
+            badgeText="🌱 Campos Orgánicos"
+            aspectRatio={null} 
+            height="100%" 
+            badgePosition="bottom-right"
+            borderRadius="3xl"
+            shadow="xl"
+            ariaLabel="Mapa interactivo mostrando la ubicación de nuestros campos"
+            className="h-full"
+          />
+        </div>
+    </Container>
+</section>

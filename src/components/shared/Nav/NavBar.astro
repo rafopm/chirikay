@@ -1,0 +1,155 @@
+---
+import NavLink from './NavLink.astro';
+import MobileNavLink from './MobileNavLink.astro';
+import HamburgerButton from './HamburgerButton.astro';
+import NavLogo from './NavLogo.astro';
+import MobileMenu from './MobileMenu.astro';
+
+const isHome = Astro.url.pathname === "/";
+const navClass = isHome ? "" : "not-home";
+const { pathname } = Astro.url;
+---
+
+<nav 
+  id="main-nav" 
+  class={`fixed w-full h-24 min-h-[100px] py-3 z-50 transition-all duration-300 ${navClass}`}
+>
+  {/* Fondo del nav */}
+  <div class="nav-background absolute inset-0 bg-transparent backdrop-blur-none opacity-0 transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] -z-10"></div>
+  
+  <div class="mx-auto max-w-7xl relative w-full px-4">
+    <div id="nav-inner" class="flex items-center justify-between px-0 md:px-4 py-2 transition-all duration-400 ease-in-out relative">
+      <div class="flex items-center justify-between w-full">
+        {/* Menú izquierdo desktop */}
+        <div class="hidden lg:flex  ">
+          <NavLink href="/blog" currentPath={pathname}>Blog</NavLink>
+        </div>
+
+        {/* Logo centrado */}
+        <div class="flex-1 flex justify-start lg:justify-center transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">
+          <NavLogo />
+        </div>
+
+        {/* Menú derecho desktop */}
+        <div class="hidden lg:flex ">
+          <NavLink href="/contactanos" currentPath={pathname}>Contáctanos</NavLink>
+        </div>
+
+        {/* Botón hamburguesa mobile */}
+        <HamburgerButton />
+      </div>
+    </div>
+  </div>
+
+  {/* Menú móvil */}
+  <MobileMenu currentPath={pathname} />
+
+</nav>
+
+<script is:inline>
+  // En el script de tu Navbar principal
+document.addEventListener("astro:page-load", () => {
+  const toggleButton = document.getElementById("toggle-menu");
+  const navbar = document.getElementById("navbar-cta");
+  const hamburgerLines = document.querySelectorAll(".hamburger-icon span");
+
+  function toggleMenu() {
+    const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+    toggleButton.setAttribute("aria-expanded", !isExpanded);
+    
+    // Alternar clases para el menú
+    navbar.classList.toggle("hidden");
+    navbar.classList.toggle("opacity-0");
+    navbar.classList.toggle("invisible");
+    navbar.classList.toggle("translate-y-2.5");
+    
+    // Alternar clases para las líneas del hamburguesa
+    hamburgerLines.forEach((line, index) => {
+      if (!isExpanded) {
+        // Transformar a "X"
+        if (index === 0) {
+          line.classList.add("rotate-45", "translate-y-[5.5px]");
+        } else if (index === 1) {
+          line.classList.add("opacity-0");
+        } else if (index === 2) {
+          line.classList.add("-rotate-45", "-translate-y-[5.5px]");
+        }
+      } else {
+        // Volver a hamburguesa
+        if (index === 0) {
+          line.classList.remove("rotate-45", "translate-y-[5.5px]");
+        } else if (index === 1) {
+          line.classList.remove("opacity-0");
+        } else if (index === 2) {
+          line.classList.remove("-rotate-45", "-translate-y-[5.5px]");
+        }
+      }
+    });
+
+    // Alternar overflow del body
+    document.body.style.overflow = isExpanded ? "" : "hidden";
+  }
+
+  toggleButton.addEventListener("click", toggleMenu);
+
+  // Cerrar menú al hacer clic fuera
+  document.addEventListener("click", (e) => {
+    if (!navbar.contains(e.target) && !toggleButton.contains(e.target)) {
+      if (!navbar.classList.contains("hidden")) {
+        toggleMenu();
+      }
+    }
+  });
+
+  // Cerrar menú al redimensionar
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024 && !navbar.classList.contains("hidden")) {
+      toggleMenu();
+    }
+  });
+});
+</script>
+
+<style is:global>
+  /* Efectos cuando se hace scroll */
+  nav.scrolled .nav-background,
+  nav.not-home .nav-background {
+    background: linear-gradient(135deg, var(--rv-accent) 0%, var(--rv-dark) 100%);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(var(--rv-dark-rgb), 0.1);
+    opacity: 1;
+  }
+
+  nav.scrolled,
+  nav.not-home {
+    padding: 0.5rem 0;
+    height: 80px;
+    min-height: 80px;
+  }
+
+  /* Desktop Navigation Links */
+  
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
+  }
+
+  .nav-link:hover::before {
+    left: 100%;
+  }
+
+  @media (max-width: 1023px) {
+    nav,
+    nav.scrolled {
+      padding: 0.75rem 0;
+      height: 80px;
+    }
+  }
+</style>

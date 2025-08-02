@@ -1,47 +1,431 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-type Props = HTMLAttributes<"a">;
+interface Props extends HTMLAttributes<"a"> {
+  href: string;
+  // Estilos base
+  variant?: 'nav' | 'mobile' | 'footer' | 'custom';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  weight?: 'normal' | 'medium' | 'semibold' | 'bold';
+  
+  // Estados visuales
+  showActiveIndicator?: boolean;
+  activeIndicatorPosition?: 'left' | 'right' | 'bottom' | 'top';
+  activeIndicatorStyle?: 'line' | 'dot' | 'glow' | 'underline';
+  
+  // Efectos hover
+  hoverEffect?: 'none' | 'scale' | 'translate' | 'glow' | 'lift' | 'slide';
+  hoverDirection?: 'up' | 'down' | 'left' | 'right';
+  
+  // Transiciones
+  transition?: 'fast' | 'normal' | 'slow' | 'custom';
+  
+  // Colores personalizados
+  color?: string;
+  hoverColor?: string;
+  activeColor?: string;
+  
+  // Espaciado
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  
+  // Bordes y fondos
+  background?: 'none' | 'subtle' | 'solid' | 'gradient';
+  border?: 'none' | 'subtle' | 'solid';
+  borderRadius?: 'none' | 'sm' | 'md' | 'lg' | 'full';
+  
+  // Efectos adicionales
+  showBefore?: boolean;
+  showAfter?: boolean;
+  glowIntensity?: 'low' | 'medium' | 'high';
+  
+  // Layout
+  fullWidth?: boolean;
+  fullHeight?: boolean;
+  display?: 'inline-flex' | 'flex' | 'block';
+  justifyContent?: 'start' | 'center' | 'end' | 'between';
+  alignItems?: 'start' | 'center' | 'end' | 'stretch';
+}
 
-const { href, class: className, ...props } = Astro.props;
+const { 
+  href, 
+  class: className,
+  variant = 'custom',
+  size = 'md',
+  weight = 'medium',
+  showActiveIndicator = true,
+  activeIndicatorPosition = 'left',
+  activeIndicatorStyle = 'line',
+  hoverEffect = 'none',
+  hoverDirection = 'right',
+  transition = 'normal',
+  color,
+  hoverColor,
+  activeColor,
+  padding = 'md',
+  background = 'none',
+  border = 'none',
+  borderRadius = 'md',
+  showBefore = false,
+  showAfter = false,
+  glowIntensity = 'medium',
+  fullWidth = false,
+  fullHeight = false,
+  display = 'inline-flex',
+  justifyContent = 'start',
+  alignItems = 'center',
+  ...props 
+} = Astro.props;
+
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === "/" + subpath?.[0];
+
+// Generar clases dinámicas
+const linkClasses = [
+  'header-link',
+  `variant-${variant}`,
+  `size-${size}`,
+  `weight-${weight}`,
+  `padding-${padding}`,
+  `background-${background}`,
+  `border-${border}`,
+  `radius-${borderRadius}`,
+  `transition-${transition}`,
+  `hover-${hoverEffect}`,
+  `hover-direction-${hoverDirection}`,
+  `indicator-${activeIndicatorPosition}`,
+  `indicator-style-${activeIndicatorStyle}`,
+  `glow-${glowIntensity}`,
+  `display-${display}`,
+  `justify-${justifyContent}`,
+  `align-${alignItems}`,
+  fullWidth && 'full-width',
+  fullHeight && 'full-height',
+  showBefore && 'show-before',
+  showAfter && 'show-after',
+  showActiveIndicator && 'show-indicator',
+  className
+].filter(Boolean);
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
-    <slot />
+<a 
+  href={href} 
+  class:list={[linkClasses, { active: isActive }]} 
+  style={`
+    ${color ? `--link-color: ${color};` : ''}
+    ${hoverColor ? `--link-hover-color: ${hoverColor};` : ''}
+    ${activeColor ? `--link-active-color: ${activeColor};` : ''}
+  `}
+  {...props}
+>
+  <slot />
 </a>
+
 <style>
-    a {
-        font-size: 1.5rem;
-        font-weight: 700;
-        display: block;
-        text-decoration: none;
-        font-family: var(--font-primary);
-        color: var(--rv-dark);
-        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        padding: 5px;
-        position: relative;
-        pointer-events: auto;
-    }
-    @media (max-width: 1024px) {
-        a {
-            font-size: 1rem;
-        }
-    }
+  /* Variables CSS personalizables */
+  .header-link {
+    --link-color: var(--rv-dark);
+    --link-hover-color: var(--rv-accent);
+    --link-active-color: var(--rv-cta);
+    --link-bg: transparent;
+    --link-hover-bg: transparent;
+    --link-active-bg: transparent;
+    --link-border: transparent;
+    --link-hover-border: transparent;
+    --link-active-border: transparent;
+    --indicator-color: var(--rv-accent);
+    --indicator-width: 3px;
+    --indicator-height: 100%;
+    --glow-color: var(--rv-accent-rgb);
+  }
 
+  /* Estilos base */
+  .header-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--link-color);
+    background: var(--link-bg);
+    border: 1px solid var(--link-border);
+    cursor: pointer;
+    overflow: hidden;
+    font-family: var(--font-secondary);
+    user-select: none;
+  }
 
-    a.active,
-    a:hover {
-        color: var(--rv-accent);
-        /* transform: rotateX(360deg); */
-    }
+  /* Display types */
+  .display-inline-flex { display: inline-flex; }
+  .display-flex { display: flex; }
+  .display-block { display: block; }
 
-     @media (max-width: 600px) {
-        a.active::after,
-        a:hover::after {
-            width: 0;
-        }
+  /* Justify content */
+  .justify-start { justify-content: flex-start; }
+  .justify-center { justify-content: center; }
+  .justify-end { justify-content: flex-end; }
+  .justify-between { justify-content: space-between; }
+
+  /* Align items */
+  .align-start { align-items: flex-start; }
+  .align-center { align-items: center; }
+  .align-end { align-items: flex-end; }
+  .align-stretch { align-items: stretch; }
+
+  /* Full width */
+  .full-width {
+    width: 100%;
+    min-width: 100%;
+    display: flex;
+  }
+
+  /* Full height */
+  .full-height {
+    height: 100%;
+    min-height: 100%;
+  }
+
+  /* Tamaños */
+  .size-sm { font-size: 0.875rem; }
+  .size-md { font-size: 1rem; }
+  .size-lg { font-size: 1.125rem; }
+  .size-xl { font-size: 1.25rem; }
+
+  /* Pesos de fuente */
+  .weight-normal { font-weight: 400; }
+  .weight-medium { font-weight: 500; }
+  .weight-semibold { font-weight: 600; }
+  .weight-bold { font-weight: 700; }
+
+  /* Espaciado */
+  .padding-none { padding: 0; }
+  .padding-sm { padding: 0.5rem; }
+  .padding-md { padding: 0.75rem 1rem; }
+  .padding-lg { padding: 1rem 1.5rem; }
+  .padding-xl { padding: 1.25rem 2rem; }
+
+  /* Fondos */
+  .background-none { --link-bg: transparent; }
+  .background-subtle { 
+    --link-bg: rgba(var(--rv-light-rgb), 0.05);
+    --link-hover-bg: rgba(var(--rv-light-rgb), 0.1);
+  }
+  .background-solid { 
+    --link-bg: var(--rv-light);
+    --link-hover-bg: var(--rv-accent);
+  }
+  .background-gradient { 
+    --link-bg: linear-gradient(135deg, var(--rv-dark), var(--rv-accent));
+    --link-hover-bg: linear-gradient(135deg, var(--rv-accent), var(--rv-cta));
+  }
+
+  /* Bordes */
+  .border-none { --link-border: transparent; }
+  .border-subtle { --link-border: rgba(var(--rv-dark-rgb), 0.1); }
+  .border-solid { --link-border: var(--rv-dark); }
+
+  /* Radio de borde */
+  .radius-none { border-radius: 0; }
+  .radius-sm { border-radius: 0.25rem; }
+  .radius-md { border-radius: 0.5rem; }
+  .radius-lg { border-radius: 0.75rem; }
+  .radius-full { border-radius: 9999px; }
+
+  /* Transiciones */
+  .transition-fast { transition: all 0.15s ease; }
+  .transition-normal { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .transition-slow { transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+  /* Efectos hover */
+  .hover-scale:hover { transform: scale(1.05); }
+  .hover-lift:hover { transform: translateY(-2px); }
+  .hover-glow:hover { box-shadow: 0 0 20px rgba(var(--glow-color), 0.4); }
+  
+  .hover-translate.hover-direction-up:hover { transform: translateY(-4px); }
+  .hover-translate.hover-direction-down:hover { transform: translateY(4px); }
+  .hover-translate.hover-direction-left:hover { transform: translateX(-4px); }
+  .hover-translate.hover-direction-right:hover { transform: translateX(8px); }
+  
+  .hover-slide.hover-direction-right:hover { transform: translateX(8px); }
+  .hover-slide.hover-direction-left:hover { transform: translateX(-8px); }
+
+  /* Estados hover y active */
+  .header-link:hover {
+    color: var(--link-hover-color);
+    background: var(--link-hover-bg);
+    border-color: var(--link-hover-border);
+  }
+
+  .header-link.active {
+    color: var(--link-active-color);
+    background: var(--link-active-bg);
+    border-color: var(--link-active-border);
+  }
+
+  /* Indicadores activos */
+  .show-indicator.active::before,
+  .show-indicator:hover::before {
+    content: '';
+    position: absolute;
+    background: var(--indicator-color);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Posiciones del indicador */
+  .indicator-left.show-indicator.active::before,
+  .indicator-left.show-indicator:hover::before {
+    left: 0;
+    top: 0;
+    width: var(--indicator-width);
+    height: var(--indicator-height);
+    transform: scaleY(1);
+  }
+
+  .indicator-right.show-indicator.active::before,
+  .indicator-right.show-indicator:hover::before {
+    right: 0;
+    top: 0;
+    width: var(--indicator-width);
+    height: var(--indicator-height);
+    transform: scaleY(1);
+  }
+
+  .indicator-bottom.show-indicator.active::before,
+  .indicator-bottom.show-indicator:hover::before {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--indicator-width);
+    transform: scaleX(1);
+  }
+
+  .indicator-top.show-indicator.active::before,
+  .indicator-top.show-indicator:hover::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--indicator-width);
+    transform: scaleX(1);
+  }
+
+  /* Estilos del indicador */
+  .indicator-style-line::before {
+    background: linear-gradient(var(--rv-accent), var(--rv-cta));
+  }
+
+  .indicator-style-dot.indicator-left::before,
+  .indicator-style-dot.indicator-right::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .indicator-style-glow::before {
+    box-shadow: 0 0 10px var(--indicator-color);
+  }
+
+  .indicator-style-underline.indicator-bottom::before {
+    height: 2px;
+    background: var(--indicator-color);
+  }
+
+  /* Efectos before y after */
+  .show-before::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--glow-color), 0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: -1;
+  }
+
+  .show-before:hover::before {
+    left: 100%;
+  }
+
+  .show-after::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(var(--glow-color), 0.05);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .show-after:hover::after {
+    opacity: 1;
+  }
+
+  /* Intensidad de brillo */
+  .glow-low:hover { box-shadow: 0 0 10px rgba(var(--glow-color), 0.2); }
+  .glow-medium:hover { box-shadow: 0 0 15px rgba(var(--glow-color), 0.3); }
+  .glow-high:hover { box-shadow: 0 0 25px rgba(var(--glow-color), 0.5); }
+
+  /* Variantes predefinidas */
+  .variant-nav {
+    --link-color: white;
+    --link-hover-color: var(--rv-dark);
+    --link-active-color: var(--rv-dark);
+    --link-hover-bg: rgba(var(--rv-light-rgb), 0.9);
+    --link-active-bg: var(--rv-light);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .variant-mobile {
+    --link-color: var(--rv-accent);
+    --link-hover-color: white;
+    --link-active-color: white;
+    --link-hover-bg: linear-gradient(135deg, var(--rv-dark), var(--rv-cta));
+    --link-active-bg: linear-gradient(135deg, var(--rv-dark), var(--rv-accent));
+    --link-border: rgba(var(--rv-accent-rgb), 0.1);
+    --link-hover-border: rgba(var(--rv-accent-rgb), 0.3);
+    --link-active-border: var(--rv-cta);
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border-radius: 0.75rem;
+    padding: 1.2rem 2.5rem;
+    min-width: 280px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .variant-footer {
+    --link-color: var(--rv-light);
+    --link-hover-color: var(--rv-accent);
+    font-weight: 400;
+    padding: 0.25rem 0;
+  }
+
+  /* Accesibilidad */
+  .header-link:focus-visible {
+    outline: 2px solid var(--rv-accent);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(var(--rv-accent-rgb), 0.2);
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .variant-mobile {
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      min-width: 240px;
     }
+  }
 </style>

@@ -1,0 +1,40 @@
+---
+// src/components/navigation/NavLink.astro
+import type { NavItem } from "../../config/navigation";
+import { getLinkClasses } from "../../utils/navigation";
+
+interface Props {
+    item: NavItem;
+    isActive: boolean;
+    variant?: "desktop" | "mobile";
+    className?: string;
+}
+
+const { item, isActive, variant = "desktop", className = "" } = Astro.props;
+
+const baseClasses =
+    variant === "desktop"
+        ? `nav-link hidden lg:flex w-full h-full flex items-center justify-center text-center items-center rounded-full relative overflow-hidden -translate-y-14 ${
+              isActive ? "bg-active-nav" : "bg-transparent"
+          }`
+        : `mobile-nav-link block px-8 py-4 text-rv-dark text-xl font-medium rounded-full transition-all duration-300 min-w-[200px] text-center relative overflow-hidden ${
+              isActive ? "bg-active-nav-mobile" : "bg-transparent"
+          }`;
+
+const linkClasses = getLinkClasses(isActive, `${baseClasses} ${className}`);
+const textClasses =
+    variant === "desktop"
+        ? "nav-text font-secondary text-white relative z-10 transition-all duration-300"
+        : "mobile-nav-text relative z-10 transition-all duration-300";
+---
+
+<a
+    href={item.href}
+    class={linkClasses}
+    target={item.isExternal ? "_blank" : undefined}
+    rel={item.isExternal ? "noopener noreferrer" : undefined}
+>
+    <span class={textClasses}>
+        {item.label}
+    </span>
+</a>

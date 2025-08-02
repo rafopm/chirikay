@@ -1,0 +1,60 @@
+---
+
+import Container from '../shared/Container.astro';
+import Calendar from "../Icons/Calendar.astro";
+import CardPost from "../shared/CardPost.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+const posts = await getCollection("blog");
+
+posts.sort(
+  (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+    a.data.order - b.data.order,
+);
+---
+
+<section class="bg-rv-light">
+  <Container className="py-20">
+    <!-- Título -->
+    <h2 class="title pb-8">
+        Aprende más sobre la chirimoya
+    </h2>
+    
+    <!-- Grid de beneficios -->
+    <div class="post-cards">
+        {
+          posts.map((post) => (
+            <CardPost
+              title={post.data.title}
+              url={`/blog/${post.id}/`}
+              description={post.data.description}
+              thumbImage={post.data.imgthumburl}
+              date={post.data.pubDate}
+              slug={post.id}
+            />
+          ))
+        }
+      </div>
+    
+  </Container>
+</section>
+<style>
+    /* Estilos de los posts en cards */
+    .post-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3em;
+    }
+    
+    @media (max-width: 1024px) {
+      .post-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  
+    @media (max-width: 767px) {
+      .post-cards {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>

@@ -39,7 +39,7 @@ const { items} = Astro.props;
           <Container className="flex items-center justify-center gap-8 lg:gap-12">
             <!-- Ícono grande a la izquierda -->
             <div class="timeline-icon">
-              <Icon name={item.icon} size={200} inheritColor={false} class=" " />
+              <Icon name={item.icon} size={100} inheritColor={false} class=" " />
             </div>
 
             <!-- Card a la derecha -->
@@ -47,7 +47,7 @@ const { items} = Astro.props;
               <div class="card-content">
                 <h3 class="card-title">{item.title}</h3>
                 <span class="flex items-center gap-2 text-rv-dark pb-2">
-                  <Icon name="calendar" size={20} class="card-icon" />
+                  <Icon name="calendar" size={20} class="card-icon text-rv-cta" />
                   <p class="card-period">{item.period}</p>
                 </span>
                 <p class="card-description">{item.description}</p>
@@ -139,11 +139,11 @@ const { items} = Astro.props;
   }
 
   .card-period {
-    @apply text-sm md:text-base text-rv-dark font-medium  ;
+    @apply text-sm md:text-base text-rv-dark font-bold  ;
   }
 
   .card-description {
-    @apply text-sm font-secondary md:text-base lg:text-lg text-rv-dark leading-relaxed mb-2;
+    @apply text-sm font-secondary md:text-base lg:text-lg text-rv-dark mb-2;
   }
 
   .card-details {

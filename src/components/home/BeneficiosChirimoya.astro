@@ -1,0 +1,107 @@
+---
+import Button from '../shared/Button.astro';
+import Container from '../shared/Container.astro';
+import Icon from '../shared/Icon.astro';
+
+export interface Props {
+  title?: string;
+  blogUrl?: string;
+  buttonText?: string;
+}
+
+const { 
+  title = "Beneficios De La Chirimoya",
+  blogUrl = "/blog",
+  buttonText = "Descubre más en nuestro blog"
+} = Astro.props;
+
+interface Beneficio {
+  icon: string;
+  titulo: string;
+  descripcion: string;
+}
+
+const beneficios: Beneficio[] = [
+  {
+    icon: "mejora-digestion",
+    titulo: "Mejora Digestión",
+    descripcion: "Rica en fibra, ayuda a mantener un sistema digestivo saludable"
+  },
+  {
+    icon: "fortalece-inmunidad",
+    titulo: "Fortalece Inmunidad",
+    descripcion: "Alta en vitamina C y antioxidantes para defenderte naturalmente"
+  },
+  {
+    icon: "para-toda-la-familia",
+    titulo: "Para Toda la Familia",
+    descripcion: "Ideal para niños, gestantes y adultos mayores"
+  },
+  {
+    icon: "endulzante-natural",
+    titulo: "Endulzante Natural",
+    descripcion: "Dulzura natural sin dañar la salud"
+  }
+];
+---
+
+<section class="bg-rv-very-light">
+  <Container className="py-20">
+    <!-- Título -->
+    <h2 class="title pb-4">
+      {title}
+    </h2>
+    
+    <!-- Grid de beneficios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      {beneficios.map((beneficio) => (
+        <div class="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-center group">
+         
+          <div class=" flex items-center justify-center mx-auto mb-4   transition-colors duration-300">
+            
+                <Icon name={beneficio.icon} size={100} inheritColor={false} class="h-20  " />
+           
+          </div>
+          
+          <h3 class="card-title py-4">
+            {beneficio.titulo}
+          </h3>
+          
+          <p class="card-paragraph font-secondary">
+            {beneficio.descripcion}
+          </p>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Botón CTA -->
+    <div class="text-center">
+      <Button
+                    ariaLabel="Descubre más en nuestro blog"
+                    text="Descubre más en nuestro blog"
+                    href="#blog"
+                    icon="noticias"
+                    iconPosition="left"
+                    style="rounded"
+                    color="var(--rv-light)"
+                    textColor="var(--rv-dark)"
+                    hoverColor="var(--rv-dark)"
+                    hoverTextColor="var(--rv-light)"
+                    shadowColor="var(--rv-dark)"
+                    size="xl"
+                    class="px-[60px] font-secondary font-semibold"
+                />
+    </div>
+  </Container>
+</section>
+
+<style>
+  /* Estilos adicionales si necesitas personalización extra */
+  .beneficio-card {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .beneficio-card:hover {
+    transform: translateY(-2px);
+  }
+</style>

@@ -10,7 +10,7 @@ const timelineData = [
         period: "Julio",
         description:
             "Preparamos los árboles para que respiren mejor y crezcan con fuerza.",
-        icon: "clima-ideal",
+        icon: "poda",
         details:
             "Durante este proceso eliminamos ramas secas y damos forma al árbol para optimizar la entrada de luz y aire.",
     },
@@ -20,7 +20,7 @@ const timelineData = [
         period: "Agosto",
         description:
             "Desinfectamos, lavamos las plantas con jabón agrícola, abonamiento natural con bocashi.",
-        icon: "agricultura-en-familia",
+        icon: "riego-limpieza",
         details:
             "Aplicamos técnicas de agricultura sostenible utilizando productos naturales que nutren la tierra.",
     },
@@ -30,7 +30,7 @@ const timelineData = [
         period: "Todo el año",
         description:
             "Aprovechamos el terreno con cultivos como fresas, caihuas, ají, zapallo, maíz, etc.",
-        icon: "agricultura-en-familia",
+        icon: "cultivos-asociados",
         details:
             "La diversificación de cultivos mejora la salud del suelo y maximiza el uso del espacio disponible.",
     },
@@ -40,7 +40,7 @@ const timelineData = [
         period: "Febrero - Marzo",
         description:
             "La chirimoya va tomando forma y sabor con el sol de Huarochirí. Va terminando el ciclo de crecimiento.",
-        icon: "agricultura-en-familia",
+        icon: "sazon",
         details:
             "En esta etapa crítica, los frutos desarrollan su característico sabor dulce y cremoso.",
     },
@@ -50,7 +50,7 @@ const timelineData = [
         period: "Abril - Mayo",
         description:
             "El momento más esperado: recolectamos a mano, con cuidado, una a una.",
-        icon: "agricultura-en-familia",
+        icon: "cosecha",
         details:
             "Cada fruto se selecciona cuidadosamente en su punto óptimo de maduración para garantizar la mejor calidad.",
     },
@@ -60,7 +60,7 @@ const timelineData = [
         period: "Abril - Mayo",
         description:
             "Seleccionamos y empacamos con cariño para que llegue fresca y perfecta a tu mesa.",
-        icon: "agricultura-en-familia",
+        icon: "seleccion-distribucion",
         details:
             "Nuestro proceso de empaque asegura que el producto llegue en perfectas condiciones.",
     },
@@ -68,7 +68,15 @@ const timelineData = [
 ---
 
 <!-- Otros componentes de tu página -->
-<section class="my-20 overflow-hidden" id="proceso-cultivo">
-    <h2 class="title">Proceso de Cultivo</h2>
-    <HorizontalTimeLine items={timelineData} />
+<section class="py-20 overflow-hidden">
+    <div id="proceso-cultivo">
+        <h2 class="title">Proceso de Cultivo</h2>
+        <HorizontalTimeLine items={timelineData} />
+    </div>
 </section>
+
+<style>
+    #proceso-cultivo:target {
+        scroll-margin-top: 300px;
+    }
+</style>

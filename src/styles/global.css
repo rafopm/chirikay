@@ -59,7 +59,7 @@
     --rv-accent-rgb: 46, 45, 44;
 
     --font-primary: 'Spectral', serif;
-    --font-seconday: 'JetBrains Mono', monospace;
+    --font-secondary: 'JetBrains Mono', monospace;
 }
 
 /* === MODO OSCURO === */
@@ -166,6 +166,7 @@ p {
     font-family: var(--font-primary);
     color: var(--rv-dark);
     line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
 .subtitle {
@@ -208,17 +209,17 @@ p {
 /* === SCROLLBAR === */
 ::-webkit-scrollbar {
     width: 12px;
-}
+    }
 
 ::-webkit-scrollbar-thumb {
-    background-image: linear-gradient(to bottom, var(--rv-light), var(--rv-cta),var(--rv-dark),var(--rv-cta), var(--rv-light));
-    border: 1px solid var(--rv-very-light);
-    border-radius: 10px;
+    background-image: linear-gradient(to bottom, var(--rv-dark), var(--rv-cta),var(--rv-very-light),var(--rv-cta), var(--rv-dark));
+    /* border: 1px solid var(--rv-very-light); */
+    
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--rv-very-light);
-    border-radius: 10px;
+    background-color: var(--rv-dark);
+  
 }
 
 /* === MEDIA QUERIES === */

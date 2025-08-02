@@ -1,0 +1,18 @@
+---
+// components/HamburgerButton.astro
+---
+
+<button
+  id="toggle-menu"
+  type="button"
+  class="lg:hidden absolute right-4 w-[50px] h-[50px] md:w-[60px] md:h-[60px] text-sm text-rv-dark flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-105 bg-transparent border border-white/20 z-50"
+  aria-controls="navbar-cta"
+  aria-expanded="false"
+>
+  <span class="sr-only">Open main menu</span>
+  <div class="hamburger-icon flex flex-col items-center justify-center gap-1.5 w-6 h-6">
+    <span class="block w-6 h-0.5 bg-current rounded-full transition-all duration-300 transform"></span>
+    <span class="block w-6 h-0.5 bg-current rounded-full transition-all duration-300 transform"></span>
+    <span class="block w-6 h-0.5 bg-current rounded-full transition-all duration-300 transform"></span>
+  </div>
+</button>
