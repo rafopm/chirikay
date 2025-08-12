@@ -8,7 +8,7 @@ const url = Astro.url.pathname;
 
 <div class="hero-secondary">
     <img
-        src={image || "/images/home/campo-raiz-viva.webp"}
+        src={image || "/images/home/campos-cultivando-salud-chirikay.webp"}
         srcset={`${imagethumb} 767w, ${image} `}
         class="image-background"
         alt=""
@@ -28,18 +28,17 @@ const url = Astro.url.pathname;
 </div>
 
 <style define:vars={{ image }}>
-    .hero-secondary {
+     .hero-secondary {
         position: relative;
-        min-height: 500px;
+        min-height: 600px;
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-end; 
         overflow: hidden;
     }
 
-    /* Degradado superpuesto sobre la imagen */
-    .hero-secondary::after {
+     .hero-secondary::after {
         content: '';
         position: absolute;
         top: 0;
@@ -48,9 +47,9 @@ const url = Astro.url.pathname;
         bottom: 0;
         background: linear-gradient(
             to top,
-            rgba(0, 0, 0, 0.7) 0%,
-            rgba(0, 0, 0, 0.3) 60%,
-            transparent 100%
+            rgba(var(--rv-very-dark-rgb), 0.8) 0%,
+            rgba(var(--rv-dark-rgb), 0.4) 10%, 
+            transparent 30% 
         );
         z-index: 0;
         pointer-events: none;
@@ -77,6 +76,7 @@ const url = Astro.url.pathname;
         top: 0;
         left: 0;
         object-fit: cover;
+        object-position: top center; /* Asegura que la parte superior sea visible */
         z-index: -1;
     }
 
@@ -98,8 +98,9 @@ const url = Astro.url.pathname;
         justify-content: center;
         align-items: center;
         height: 100%;
-        min-height: 500px;
-        padding-top: 100px;
+        min-height: 600px;
+        padding-top: 100px; 
+        padding-bottom: 0; 
         position: relative;
         z-index: 1;
         text-align: center;
@@ -110,9 +111,14 @@ const url = Astro.url.pathname;
             background: linear-gradient(
                 to top,
                 rgba(0, 0, 0, 0.8) 0%,
-                rgba(0, 0, 0, 0.4) 50%,
-                transparent 100%
+                rgba(0, 0, 0, 0.4) 30%, /* Ajustado para móvil */
+                transparent 70% /* Ajustado para móvil */
             );
+        }
+        
+        .hero-content-wrapper {
+            padding-top: 30px; /* Reducido para móvil */
+            padding-bottom: 30px; /* Reducido para móvil */
         }
     }
 </style>
