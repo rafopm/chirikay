@@ -3,81 +3,66 @@ import Container from "../shared/Container.astro";
 import ScrollAnimation from "../shared/ScrollAnimation.astro";
 
 const logos = [
-    {
-        src: "/images/logos/logo-midagri.webp",
-        alt: "Logo Ministerio Desarrollo Agrario y Riego",
-        animationDelay: 1,
-    },
-    {
-        src: "/images/logos/logo-agrorural.webp",
-        alt: "Logo AgroRural",
-        animationDelay: 1.2,
-    },
-    {
-        src: "/images/logos/logo-avanzar-rural.webp",
-        alt: "Logo Avanzar Rural",
-        animationDelay: 1.4,
-    },
-    {
-        src: "/images/logos/logo-fida.webp",
-        alt: "Logo FIDA",
-        animationDelay: 1.6,
-    },
+    { src: "/images/logos/logo-midagri.webp", alt: "Logo Ministerio Desarrollo Agrario y Riego", animationDelay: 1 },
+    { src: "/images/logos/logo-agrorural.webp", alt: "Logo AgroRural", animationDelay: 1.2 },
+    { src: "/images/logos/logo-avanzar-rural.webp", alt: "Logo Avanzar Rural", animationDelay: 1.4 },
+    { src: "/images/logos/logo-fida.webp", alt: "Logo FIDA", animationDelay: 1.6 },
 ];
+
+// Esto será true para /blog y para cualquier ruta que empiece con /blog/
+const isBlogPage = Astro.url.pathname.startsWith("/blog");
 ---
 
-<section class="logos pb-12" id="logos">
-    <Container className="bg-rv-very-light py-12 lg:py-20 rounded-b-3xl">
-        <span class="font-bold text-ms-dark text-2xl"
-            >Con el cofinanciamiento de:</span
-        >
+<section class={`${isBlogPage ? "bg-rv-light" : "bg-rv-very-light"} py-12 lg:py-20 rounded-b-3xl`} id="logos">
+    <Container>
+        <span class="font-bold text-ms-dark text-2xl">
+            Con el cofinanciamiento de:
+        </span>
         <div class="carousel-container">
-            {
-                logos.map((logo) => (
-                    <ScrollAnimation
-                        animation="fadeInUp"
-                        delay={logo.animationDelay}
-                        duration={0.6}
-                        class="card-wrapper"
-                    >
-                        <img
-                            src={logo.src}
-                            alt={logo.alt}
-                            loading="lazy"
-                            width="auto"
-                            height="80"
-                        />
-                    </ScrollAnimation>
-                ))
-            }
+            {logos.map((logo) => (
+                <ScrollAnimation
+                    animation="fadeInUp"
+                    delay={logo.animationDelay}
+                    duration={0.6}
+                    class="card-wrapper"
+                >
+                    <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        loading="lazy"
+                        width="auto"
+                        height="80"
+                    />
+                </ScrollAnimation>
+            ))}
         </div>
     </Container>
-</div>
+</section>
 
 <style>
-    .carousel-container {
-        width: 100%;
-        overflow: visible;
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 4rem;
-        padding-top: 2rem;
-    }
+.carousel-container {
+    width: 100%;
+    overflow: visible;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+    padding-top: 2rem;
+}
 
-    .carousel-container img {
-        width: auto;
-        height: 80px;
-        object-fit: contain;
-        border-radius: 8px;
-        display: block;
-        transition: 0.5s ease-in-out;
-    }
+.carousel-container img {
+    width: auto;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+    transition: 0.5s ease-in-out;
+}
 
-    .carousel-container img:hover {
-        transform: scale(1.05);
-        transition: 0.5s ease-in-out;
-    }
+.carousel-container img:hover {
+    transform: scale(1.05);
+    transition: 0.5s ease-in-out;
+}
 </style>
