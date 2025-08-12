@@ -1,47 +1,44 @@
 ---
-import TikTokVideo from '../../components/shared/TikTokVideo.astro';
-import Container from '../shared/Container.astro';
-import VideoLazy from '../shared/VideoLazy.astro';
+import Container from "../shared/Container.astro";
+import ImageSlider from "../shared/ImageSlider.astro";
 
-interface Props {
-  videoId?: string;
-}
-//https://youtube.com/shorts/rROjCDD1BNU
-const { videoId = "rROjCDD1BNU" } = Astro.props;
+const images = [
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=450&fit=crop",
+  "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&h=450&fit=crop",
+  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=450&fit=crop",
+  "https://images.unsplash.com/photo-1484100356142-db6ab6244067?w=800&h=450&fit=crop",
+];
 ---
 
-<section class="bg-rv-light ">
+<section class="bg-rv-light">
+  <Container className="py-20">
+    <h2 class="title mb-12">Nuestra Historia</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="space-y-4 text-rv-dark leading-relaxed paragraph">
+        <blockquote
+          class="italic text-rv-dark border-l-4 border-[#4a5d3a] pl-4"
+        >
+          "No solo cultivamos fruta. Cultivamos unión, herencia y futuro."
+        </blockquote>
 
-  <Container className=" grid grid-cols-1 lg:grid-cols-2 gap-12 items-start py-20">
-    <!-- Content Section -->
-    <div class="space-y-6">
-      <h2 class="title">
-        Nuestra Historia
-      </h2>
-      
-      <blockquote class="text-lg italic text-rv-dark border-l-4 border-[#4a5d3a] pl-4">
-        "No solo cultivamos fruta. Cultivamos unión, herencia y futuro."
-      </blockquote>
-      
-      <div class="space-y-4 text-[#5a6b4a] leading-relaxed paragraph">
-        <p>
-          Somos una asociación de familias agricultoras de Huarochirí que ha trabajado la tierra por generaciones. 
-          Nuestra pasión por la chirimoya nació del amor por nuestra comunidad y el deseo de compartir los frutos 
-          más puros de nuestra tierra.
-        </p>
-        
-        <p>
-          Cada día trabajamos unidos, combinando la sabiduría ancestral con técnicas sostenibles modernas, para 
-          ofrecerte la mejor chirimoya del Perú.
+        <p class="text-lg">
+          Somos una asociación de familias agricultoras de Huarochirí que ha
+          trabajado la tierra por generaciones. Nuestra pasión por la chirimoya
+          nació del amor por nuestra comunidad y el deseo de compartir los
+          frutos más puros de nuestra tierra.
         </p>
 
-        
+        <p class="text-lg">
+          Cada día trabajamos unidos, combinando la sabiduría ancestral con
+          técnicas sostenibles modernas, para ofrecerte la mejor chirimoya del
+          Perú.
+        </p>
       </div>
-    </div>
-    
-    <!-- Video Section -->
-    <div class="flex justify-center lg:justify-end">
-      <VideoLazy videoId={videoId} title="Nuestra historia" />
+
+      <div class="flex justify-center lg:justify-end">
+        <ImageSlider images={images} alt="Paisaje natural"  />
+      </div>
     </div>
   </Container>
 </section>

@@ -100,8 +100,8 @@ export default {
             },
             p: {
               color: 'var(--rv-dark)',
-              fontFamily: theme('fontFamily.spectral'),
-              marginBottom: '1em',
+              fontFamily: theme('fontFamily.jetbrains-mono'),
+              marginBottom: '1.2em',
               '&:last-child': {
                 marginBottom: 0,
               },
@@ -112,7 +112,7 @@ export default {
             },
             a: {
               color: 'var(--rv-accent)',
-              fontFamily: theme('fontFamily.spectral'),
+              fontFamily: theme('fontFamily.jetbrains-mono'),
               textDecoration: 'none',
               fontWeight: 'normal',
               '&:hover': {

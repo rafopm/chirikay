@@ -3,7 +3,7 @@ export const SITE = {
   URL: "https://chirikay.pe",
   TITLE: "ChiriKay | Chirimoya Orgánica de Huarochirí",
   DESCRIPTION: "Chirimoyas 100% orgánicas cultivadas en comunidad en Huarochirí, Perú. Dulces, cremosas y saludables, fruto de la agricultura familiar andina.",
-  AUTHOR: "Asociación de Agricultores Orgánicos Cultivando Salud",
+  AUTHOR: "ChiriKay",
   MARCA: "ChiriKay",
   COPYRIGHT: `ChiriKay ${new Date().getFullYear()}`,
   LANGUAGE: "es",
@@ -100,19 +100,25 @@ export const EXTERNAL_RESOURCES = {
 export const CONTACT = {
   WHATSAPP: "+51913723496",
   PHONE: "+51913723496",
-  EMAIL: "rikchariychacrayoq@gmail.com",
-  ADDRESS: "Calle Lahuaytambo S/N, Lahuaytambo, Huarochirí, Lima - Perú",
+  EMAIL: "NFQOLIVIO2022@HOTMAIL.COM",
+  RAZON_SOCIAL: "ASOCIACION DE AGRICULTORES ORGANICOS CULTIVANDO SALUD",
+  DOMICILIO_FISCAL: "JR. MARISCAL RAIGADA NRO. 1017 (COLEGIO JOSE GALVEZ) PROV. CONST. DEL CALLAO - PROV. CONST. DEL CALLAO - CALLAO",
+  ADDRESS: "San José de Bellavista, San Antonio, Huarochirí, Lima - Perú",
   POSTAL_CODE: "15550",
-  COORDINATES: `${SITE.GEO.LATITUDE},${SITE.GEO.LONGITUDE}`
+  COORDINATES: `${SITE.GEO.LATITUDE},${SITE.GEO.LONGITUDE}`,
+  RUC: "20601261660",
+
+  MAP_URL: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d588.5993163687829!2d-76.63067355769003!3d-11.810734738039741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105fd006652b61d%3A0xbe8748d5d4d04d7c!2sChirikay%20(Cultivando%20Salud)!5e1!3m2!1ses-419!2spe!4v1754789651400!5m2!1ses-419!2spe"
 };
 
 // Redes sociales
 export const SOCIAL = {
-  FACEBOOK: "https://www.facebook.com/raizvivaperu",
-  INSTAGRAM: "",
+  FACEBOOK: "https://www.facebook.com/profile.php?id=61577742179101",
+  INSTAGRAM: "https://www.instagram.com/salud.cultivando",
   TWITTER: "",
   YOUTUBE: "",
   LINKEDIN: "",
+  TIKTOK: "https://www.tiktok.com/@cultivandosalud1",
   SHARE_BASE_URLS: {
     FACEBOOK: "https://www.facebook.com/sharer/sharer.php?u=",
     TWITTER: "https://twitter.com/intent/tweet?url=",

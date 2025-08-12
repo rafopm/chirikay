@@ -1,5 +1,4 @@
 ---
-// Importaciones
 import Layout from "../layouts/BlogPost.astro";
 import ScrollAnimation from "../components/shared/ScrollAnimation.astro";
 import Icon from "../components/shared/Icon.astro";
@@ -8,452 +7,289 @@ import { CONTACT, SOCIAL, SITE } from "../consts";
 import Container from "../components/shared/Container.astro";
 import Button from "../components/shared/Button.astro";
 
-// Datos de contacto mejorados
 const contactData = {
   hero: {
-    title: "Conectemos",
-    subtitle: "Desde los Andes del Perú hasta tu hogar",
-    description: SITE.DESCRIPTION,
+    title: "Hablemos",
+    subtitle: "Tu chirimoya orgánica está a un mensaje de distancia",
+    description: "Conecta directamente con los productores de ChiriKay",
   },
-  primaryContact: {
-    title: "¿Listo para hacer tu pedido?",
-    description: "Respuesta rápida y personalizada",
-    action: "Escribir por WhatsApp",
-    url: `https://wa.me/${CONTACT.WHATSAPP}?text=Hola,%20estoy%20interesado%20en%20comprar%20productos%20de%20RaízViva`,
-    phone: CONTACT.WHATSAPP,
+  primaryCTA: {
+    title: "¿Listo para ordenar?",
+    description: "Respuesta inmediata por WhatsApp",
+    url: `https://wa.me/51913723496?text=Hola,%20quiero%20información%20sobre%20ChiriKay`,
+    phone: "+51 913 723 496",
   },
-  contactMethods: [
+  contactChannels: [
     {
-      title: "WhatsApp Business",
-      description: "Atención directa para pedidos y consultas",
-      detail: "Respuesta en menos de 2 horas",
+      title: "WhatsApp",
+      description: "Pedidos y consultas inmediatas",
       icon: "whatsapp",
-      url: `https://wa.me/${CONTACT.WHATSAPP}?text=Hola,%20estoy%20interesado%20en%20comprar%20productos%20de%20RaízViva`,
-      color: "green",
-      badge: "Más rápido",
+      url: `https://wa.me/51913723496?text=Hola,%20quiero%20información%20sobre%20ChiriKay`,
+      featured: true,
     },
     {
-      title: "Correo electrónico",
-      description: CONTACT.EMAIL,
-      detail: "Ideal para consultas detalladas",
+      title: "Email",
+      description: "NFQOLIVIO2022@HOTMAIL.COM",
       icon: "email",
-      url: `mailto:${CONTACT.EMAIL}`,
-      color: "blue",
-      badge: null,
-    },
-    {
-      title: "Visítanos",
-      description: CONTACT.ADDRESS,
-      detail: "Conoce nuestras instalaciones",
-      icon: "location",
-      url: "#ubicacion",
-      color: "amber",
-      badge: null,
-    },
+      url: `mailto:NFQOLIVIO2022@HOTMAIL.COM?subject=Consulta%20ChiriKay`,
+      featured: false,
+    }
   ],
-  faq: [
+  socialChannels: [
     {
-      question: "¿Qué productos ofrecen?",
-      answer:
-        "Ofrecemos alfalfa fresca, cultivada orgánicamente a más de 3,300 metros de altura en los Andes peruanos.",
+      title: "Facebook",
+      icon: "facebook",
+      url: SOCIAL.FACEBOOK,
     },
     {
-      question: "¿Realizan envíos?",
-      answer:
-        "Sí, realizamos envíos. Los costos y tiempos varían según la ubicación. Contáctanos para más detalles.",
+      title: "Instagram", 
+      icon: "instagram",
+      url: SOCIAL.INSTAGRAM,
     },
     {
-      question: "¿Cuál es el pedido mínimo?",
-      answer:
-        "Vendemos por fardos. Escríbenos por WhatsApp para conocer disponibilidad y cantidades.",
-    },
+      title: "TikTok",
+      icon: "tiktok",
+      url: SOCIAL.TIKTOK,
+    }
   ],
+  location: {
+    title: "Origen",
+    place: "San José de Bellavista, San Antonio, Huarochirí",
+    description: "Desde los valles andinos hasta tu mesa",
+    coordinates: "1,589 msnm",
+  }
 };
 
-const mapEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2354.3986585818275!2d-76.63178053143815!3d-11.810572608246872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105fdf8db4438c7%3A0x17189c386dc6676b!2sIglesia%20de%20Bellavista!5e1!3m2!1ses-419!2spe!4v1754064131203!5m2!1ses-419!2spe";
+const mapEmbedUrl = CONTACT.MAP_URL;
 ---
 
 <Layout
   title="Contáctanos"
-  metatitle="Contáctanos | Asociación Rikchariy Chacrayoq – RaízViva"
-  metadescription="¿Quieres comprar alfalfa fresca o deshidratada? Escríbenos por WhatsApp o visítanos en nuestra comunidad andina. Somos Rikchariy Chacrayoq, una asociación rural con la marca RaízViva."
-  description="Contáctanos para adquirir alfalfa de altura, cultivada de forma orgánica y solidaria bajo nuestra marca RaízViva. Somos la Asociación Rikchariy Chacrayoq, una comunidad organizada desde los Andes del Perú."
-  heroimage="/images/home/campo-raiz-viva.webp"
-  heroimagethumb="/images/home/campo-raiz-viva.webp"
+  metatitle="Contáctanos | ChiriKay - Chirimoya Orgánica de Huarochirí"
+  metadescription="Conecta con ChiriKay para ordenar chirimoya orgánica premium. WhatsApp, email y redes sociales. Desde Huarochirí hasta tu mesa."
+  description="Contacta con los productores de ChiriKay para ordenar chirimoya orgánica de alta calidad cultivada en los valles de Huarochirí."
+  heroimage="/images/campos-cultivando-salud-chirikay.webp"
+  heroimagethumb="/images/campos-cultivando-salud-chirikay-mobile.webp"
   slug="/contactanos/"
 >
-  <!-- Hero Section -->
-  <section class="datos-de-contacto pt-8">
-    <Container className="bg-rv-very-light py-12 lg:py-16  rounded-t-3xl">
-      <div class="relative max-w-7xl mx-auto px-6">
-        <div class="text-center max-w-4xl mx-auto">
-          <ScrollAnimation animation="fadeInUp" delay={0.1}>
-            <div
-              class="inline-flex items-center bg-green-100 text-rv-dark px-4 py-2 rounded-full text-sm font-medium mb-6"
-            >
-              <Icon name="location" size={16} class="mr-2" />
-              Desde los Andes del Perú
+  <!-- Hero Minimalista -->
+  <section class="bg-rv-very-light">
+    <Container className="min-h-[80vh] flex flex-col items-center justify-center text-rv-very-dark">
+     
+        <ScrollAnimation animation="fadeInUp" delay={0.1}>
+          <h2 class="text-5xl md:text-7xl font-bold  mb-6 leading-tight">
+            {contactData.hero.title}
+          </h2>
+        </ScrollAnimation>
+        
+        <ScrollAnimation animation="fadeInUp" delay={0.3}>
+          <p class="text-xl md:text-2xl mb-8 font-light">
+            {contactData.hero.subtitle}
+          </p>
+        </ScrollAnimation>
+
+        <ScrollAnimation animation="fadeInUp" delay={0.5}>
+          <p class="text-lg max-w-2xl mx-auto mb-12">
+            {contactData.hero.description}
+          </p>
+        </ScrollAnimation>
+
+        <!-- CTA Principal -->
+        <ScrollAnimation animation="fadeInUp" delay={0.7}>
+          <div class="inline-flex flex-col items-center">
+            <Button
+              ariaLabel="Ordenar por WhatsApp"
+              text="Ordenar por WhatsApp"
+              icon="whatsapp"
+              iconPosition="left"
+              style="rounded"
+              color="#25D366"
+              textColor="white"
+              hoverColor="#128C7E"
+              shadowColor="#128C7E"
+              size="xl"
+              href={contactData.primaryCTA.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-12 py-4 text-lg font-medium"
+            />
+            <div class="mt-4 text-gray-400 text-sm">
+              {contactData.primaryCTA.phone}
             </div>
-          </ScrollAnimation>
-
-          <ScrollAnimation animation="fadeInUp" delay={0.3}>
-            <p class="text-xl md:text-2xl text-rv-dark mb-8 font-semibold">
-              {contactData.hero.subtitle}
-            </p>
-          </ScrollAnimation>
-
-          <ScrollAnimation animation="fadeInUp" delay={0.4}>
-            <p
-              class="text-lg text-rv-very-dark max-w-2xl mx-auto leading-relaxed"
-            >
-              {contactData.hero.description}
-            </p>
-          </ScrollAnimation>
-          <ScrollAnimation animation="fadeInUp" delay={0.4}>
-            <p
-              class="text-lg text-rv-very-dark max-w-2xl mx-auto leading-relaxed"
-            >
-              <span class="font-semibold">RUC:</span> 20611559918
-            </p>
-          </ScrollAnimation>
-          <ScrollAnimation animation="fadeInUp" delay={0.4}>
-            <p
-              class="text-lg text-rv-very-dark max-w-2xl mx-auto leading-relaxed"
-            >
-              <span class="font-semibold">Dirección:</span>
-              {CONTACT.ADDRESS}
-            </p>
-          </ScrollAnimation>
-        </div>
-      </div>
+            <ScrollAnimation animation="fadeInUp" delay={0.3}>
+              <p class="text-xl md:text-2xl mb-8 font-bold mt-12">
+                Asociación de Agricultores Orgánicos Cultivando Salud
+              </p>
+            </ScrollAnimation>
+            <ScrollAnimation animation="fadeInUp" delay={0.3}>
+              <p class="text-xl md:text-2xl mb-8 font-light">
+                RUC: {CONTACT.RUC}
+              </p>
+            </ScrollAnimation>
+          </div>
+        </ScrollAnimation>
+     
     </Container>
   </section>
 
-  <!-- CTA Principal -->
-  <section class="call-to-action pt-0">
-    <Container className="bg-rv-light py-12 lg:py-16">
-      <div class="max-w-4xl mx-auto px-6 text-center">
+  <!-- Canales de Contacto -->
+  <section class="contact-channels bg-rv-light">
+    <Container className="py-20">
+    
         <ScrollAnimation animation="fadeInUp" delay={0.2}>
-          <div
-            class="bg-gradient-to-r from-rv-accent to-rv-dark rounded-3xl p-8 md:p-12 text-white shadow-2xl"
-          >
-            <div class="flex items-center justify-center mb-6">
-              <div
-                class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center"
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold mb-4  text-rv-very-dark">Múltiples formas de conectar</h2>
+          </div>
+        </ScrollAnimation>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {contactData.contactChannels.map((channel, index) => (
+            <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
+              <a
+                href={channel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`group block p-8 rounded-2xl transition-all duration-300 hover:shadow-lg relative ${
+                  channel.featured 
+                    ? 'bg-green-50 border-2 border-green-200 hover:border-green-300' 
+                    : 'bg-gray-50 border border-gray-200 hover:border-gray-300'
+                }`}
               >
-                <Icon name="whatsapp" size={32} />
-              </div>
-            </div>
-            <h2 class="text-2xl md:text-3xl font-medium text-rv-light mb-4">
-              {contactData.primaryContact.title}
-            </h2>
-            <p class="text-green-100 mb-8 text-lg">
-              {contactData.primaryContact.description}
-            </p>
-            <Button
-              ariaLabel="Quiero Comprar Alfalfa"
-              text="Quiero Comprar Alfalfa"
-              icon="whatsapp"
-              iconPosition="left"
-              style="classic"
-              color="var(--rv-accent)"
-              textColor="var(--rv-very-light)"
-              hoverColor="var(--rv-dark)"
-              shadowColor="var(--rv-dark)"
-              size="xl"
-              href={contactData.primaryContact.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="px-8"
-            />
-            <div class="mt-6 text-green-100 text-sm">
-              <Icon name="phone" size={18} class="inline mr-2" />
-              {contactData.primaryContact.phone}
-            </div>
-          </div>
-        </ScrollAnimation>
-      </div>
-    </Container>
-  </section>
-
-  <!-- Métodos de contacto -->
-  <section class="formas-de-contacto pt-0">
-    <Container className="bg-rv-very-light py-12 lg:py-16">
-      <div class="max-w-6xl mx-auto px-6">
-        <ScrollAnimation animation="fadeInUp" delay={0.2}>
-          <div class="text-center mb-16">
-            <h2 class="title">Todas las formas de contacto</h2>
-            <p class="paragraph">
-              Elige la opción que mejor se adapte a tu consulta
-            </p>
-          </div>
-        </ScrollAnimation>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          {
-            contactData.contactMethods.map((method, index) => (
-              <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
-                <div class="relative">
-                  {method.badge && (
-                    <div class="absolute -top-3 -right-3 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium z-10">
-                      {method.badge}
-                    </div>
-                  )}
-                  <a
-                    href={method.url}
-                    target={
-                      method.url.startsWith("http") ? "_blank" : undefined
-                    }
-                    class="group block bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 h-full"
-                  >
-                    <div
-                      class={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
-                        method.color === "green"
-                          ? "bg-green-100 text-green-600"
-                          : method.color === "blue"
-                            ? "bg-blue-100 text-blue-600"
-                            : "bg-amber-100 text-amber-600"
-                      }`}
-                    >
-                      <Icon name={method.icon} size={28} />
-                    </div>
-                    <h3 class="text-xl font-medium text-rv-very-dark mb-3">
-                      {method.title}
-                    </h3>
-                    <p class="text-rv-dark mb-3 leading-relaxed">
-                      {method.description}
-                    </p>
-                    <p class="text-sm text-gray-500">{method.detail}</p>
-                    <div class="mt-6 flex items-center text-green-600 font-medium">
-                      <span class="group-hover:translate-x-1 transition-transform">
-                        {method.url.startsWith("http")
-                          ? "Contactar"
-                          : "Ver ubicación"}
-                      </span>
-                      <Icon
-                        name="arrow-right"
-                        size={20}
-                        class="ml-2 group-hover:translate-x-1 transition-transform"
-                      />
-                    </div>
-                  </a>
-                </div>
-              </ScrollAnimation>
-            ))
-          }
-        </div>
-      </div>
-    </Container>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="preguntas-frecuentes pt-0">
-    <Container className="bg-rv-light py-12 lg:py-16">
-      <div class="max-w-4xl mx-auto px-6">
-        <ScrollAnimation animation="fadeInUp" delay={0.2}>
-          <div class="text-center mb-16">
-            <h2 class="title">Preguntas frecuentes</h2>
-            <p class="paragraph">Respuestas a las consultas más comunes</p>
-          </div>
-        </ScrollAnimation>
-
-        <div class="space-y-4">
-          {
-            contactData.faq.map((item, index) => (
-              <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
-                <details class="group bg-gray-50 rounded-2xl p-6 hover:bg-gray-100 transition-colors">
-                  <summary class="flex justify-between items-center cursor-pointer list-none">
-                    <h3 class="text-lg font-semibold text-rv-very-dark pr-4">
-                      {item.question}
-                    </h3>
-                    <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 group-open:rotate-45 transition-transform">
-                      <Icon name="plus" size={16} />
-                    </div>
-                  </summary>
-                  <div class="mt-4 pt-4 border-t border-gray-200">
-                    <p class="text-rv-dark leading-relaxed">{item.answer}</p>
+                {/* Badge "Recomendado" posicionado en esquina superior derecha */}
+                {channel.featured && (
+                  <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                    Recomendado
                   </div>
-                </details>
-              </ScrollAnimation>
-            ))
-          }
+                )}
+                
+                <div class="flex items-start space-x-4">
+                  <div class={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    channel.featured ? 'bg-green-500 text-white' : 'bg-rv-accent text-white'
+                  }`}>
+                    <Icon name={channel.icon} size={24} />
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-xl font-semibold  text-rv-accent mb-2">
+                      {channel.title}
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                      {channel.description}
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </ScrollAnimation>
+          ))}
         </div>
+     
+    </Container>
+  </section>
 
-        <ScrollAnimation animation="fadeInUp" delay={0.6}>
-          <div class="text-center mt-12">
-            <p class="text-rv-dark mb-6">
-              ¿No encontraste la respuesta que buscabas?
-            </p>
-            <Button
-              ariaLabel="Hacer consulta personalizada"
-              text="Hacer consulta personalizada"
-              icon="whatsapp"
-              iconPosition="left"
-              style="classic"
-              color="var(--rv-accent)"
-              textColor="var(--rv-very-light)"
-              hoverColor="var(--rv-dark)"
-              shadowColor="var(--rv-dark)"
-              size="xl"
-              href={contactData.primaryContact.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="px-8"
-            />
-          </div>
+  <!-- Redes Sociales -->
+  <section class="social-section bg-rv-very-light">
+    <Container className="py-20 ">
+     
+        <ScrollAnimation animation="fadeInUp" delay={0.2}>
+          <h2 class="text-3xl font-bold text-center text-rv-very-dark mb-12">Síguenos</h2>
         </ScrollAnimation>
-      </div>
+
+        <div class="flex justify-center space-x-8">
+          {contactData.socialChannels.map((social, index) => (
+            <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex flex-col items-center space-y-3 p-6 rounded-2xl hover:bg-white transition-all duration-300"
+                aria-label={`Seguir en ${social.title}`}
+              >
+                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-green-900 group-hover:text-white transition-all duration-300">
+                  <Icon name={social.icon} size={28} />
+                </div>
+                <span class="text-gray-700 font-medium">{social.title}</span>
+              </a>
+            </ScrollAnimation>
+          ))}
+        </div>
+      
     </Container>
   </section>
 
   <!-- Ubicación -->
-  <section class="ubicacion pt-0" id="ubicacion">
-    <Container className="bg-rv-very-light py-12 lg:py-16">
-      <div class="max-w-6xl mx-auto px-6">
-        <ScrollAnimation animation="fadeInUp" delay={0.2}>
-          <div class="text-center mb-16">
-            <h2 class="title">Nuestra ubicación en los Andes</h2>
-            <div class="w-24 h-1 bg-green-500 mx-auto mb-6 rounded-full"></div>
-            <p class="paragraph">
-              Somos Rikchariy Chacrayoq, una asociación agrícola organizada en
-              los Andes, a más de 3,300 metros de altura. Nuestra marca,
-              RaízViva, nace del trabajo comunitario, la altura y la esperanza
-              de una economía solidaria.
-            </p>
-          </div>
-        </ScrollAnimation>
-
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+  <section class="location-section bg-rv-light">
+    <Container className="py-20">
+             <div class="grid lg:grid-cols-2 gap-16 items-center">
           <ScrollAnimation animation="fadeInLeft" delay={0.3}>
-            <div class="space-y-6">
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0"
-                >
-                  <Icon name="location" size={20} class="text-white" />
-                </div>
+            <div>
+              <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                {contactData.location.title}
+              </h2>
+              <div class="space-y-6">
                 <div>
-                  <h3 class="text-xl font-medium text-rv-very-dark mb-2">
-                    Dirección
+                  <h3 class="text-2xl font-semibold text-green-600 mb-2">
+                    {contactData.location.place}
                   </h3>
-                  <p class="text-rv-dark">{CONTACT.ADDRESS}</p>
-                </div>
-              </div>
-
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0"
-                >
-                  <Icon name="mountain" size={20} class="text-white" />
-                </div>
-                <div>
-                  <h3 class="text-xl font-medium text-rv-very-dark mb-2">
-                    Altitud
-                  </h3>
-                  <p class="text-rv-dark">
-                    3,304 metros sobre el nivel del mar
+                  <p class="text-gray-600 text-lg">
+                    {contactData.location.description}
                   </p>
                 </div>
-              </div>
-
-              <div class="flex items-start space-x-4">
-                <div
-                  class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0"
-                >
-                  <Icon name="users" size={20} class="text-white" />
-                </div>
-                <div>
-                  <h3 class="text-xl font-medium text-rv-very-dark mb-2">
-                    Asociación
-                  </h3>
-                  <p class="text-rv-dark">
-                    Rikchariy - Trabajo comunitario y economía solidaria
-                  </p>
+                <div class="flex items-center space-x-3 text-gray-500">
+                  <Icon name="mountain" size={20} />
+                  <span>{contactData.location.coordinates}</span>
                 </div>
               </div>
             </div>
           </ScrollAnimation>
 
           <ScrollAnimation animation="fadeInRight" delay={0.4}>
-            <div class="bg-white rounded-3xl p-4 shadow-2xl">
+            <div class="rounded-3xl overflow-hidden shadow-2xl">
               <Map
                 mapEmbedUrl={mapEmbedUrl}
-                title="Ubicación de nuestros campos de cultivo orgánico"
-                badgeText="🌱 Campos Orgánicos"
+                title="Ubicación ChiriKay en Huarochirí"
+                badgeText="🍃 ChiriKay"
                 aspectRatio={null}
-                height="100%"
-                badgePosition="bottom-right"
-                borderRadius="3xl"
-                shadow="xl"
-                ariaLabel="Mapa interactivo mostrando la ubicación de nuestros campos"
+                height="400px"
+                badgePosition="bottom-left"
+                borderRadius="none"
+                shadow="none"
+                ariaLabel="Mapa de ubicación en Huarochirí, Lima"
                 className="h-full"
               />
             </div>
           </ScrollAnimation>
         </div>
-      </div>
-    </Container>
+        </Container>
   </section>
 
-  <!-- Footer CTA -->
-  <section class="porque-nuestra-alfalfa pt-0">
-    <Container className="bg-rv-light py-12 lg:py-16">
-      <div class="max-w-4xl mx-auto px-6 text-center">
+  <!-- CTA Final -->
+  <section class="final-cta bg-rv-very-dark text-white">
+    <Container className="py-20 text-center">
+    
         <ScrollAnimation animation="fadeInUp" delay={0.2}>
-          <div
-            class="border-2 border-green-200 rounded-3xl p-8 md:p-12 bg-gradient-to-r from-green-50 to-green-100"
-          >
-            <h2 class="text-2xl md:text-3xl font-light text-rv-very-dark mb-4">
-              ¿Listo para conocer RaízViva?
-            </h2>
-            <p class="text-rv-dark mb-8 max-w-2xl mx-auto">
-              Descubre la calidad de nuestros productos cultivados en los Andes.
-              Somos más que una marca, somos una comunidad comprometida con la
-              agricultura sostenible.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                ariaLabel="Contactar ahora"
-                text="Contactar ahora"
-                icon="whatsapp"
-                iconPosition="left"
-                style="classic"
-                color="var(--rv-accent)"
-                textColor="var(--rv-very-light)"
-                hoverColor="var(--rv-dark)"
-                shadowColor="var(--rv-dark)"
-                size="xl"
-                href={contactData.primaryContact.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-
-              <Button
-                ariaLabel="Ver ubicación"
-                text="Ver ubicación"
-                href="#ubicacion"
-                icon="location"
-                iconPosition="left"
-                style="classic"
-                color="var(--rv-light)"
-                textColor="var(--rv-dark)"
-                hoverColor="var(--rv-dark)"
-                hoverTextColor="var(--rv-light)"
-                shadowColor="var(--rv-dark)"
-                size="xl"
-                class=""
-              />
-            </div>
-          </div>
+          <h2 class="text-4xl font-bold mb-6 text-rv-cta  ">
+            ¿Listo para probar la diferencia?
+          </h2>
+          <p class="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+            Chirimoya orgánica premium cultivada con pasión en los valles de Huarochirí
+          </p>
+          <Button
+            ariaLabel="Contactar ahora"
+            text="Contactar ahora"
+            icon="whatsapp"
+            iconPosition="left"
+            style="rounded"
+            color="white"
+            textColor="#065F46"
+            hoverColor="#F3F4F6"
+            shadowColor="#059669"
+            size="xl"
+            href={contactData.primaryCTA.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-12 py-4 text-lg font-semibold"
+          />
         </ScrollAnimation>
-      </div>
+      
     </Container>
   </section>
 </Layout>
-
-<style>
-  #ubicacion {
-    scroll-margin-top: 100px;
-  }
-</style>

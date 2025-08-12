@@ -33,16 +33,16 @@ const cardsData = [
     <!-- Imagen del hero -->
     <picture class="hero-image">
         <source
-            srcset="/images/home/campo-raiz-viva-mobile.webp"
+            srcset="/images/home/chirikay-cultivando-salud-chirimoya-mobile.webp"
             media="(max-width: 480px)"
         />
         <source
-            srcset="/images/home/campo-raiz-viva-tablet.webp"
+            srcset="/images/home/chirikay-cultivando-salud-chirimoya-tablet.webp"
             media="(max-width: 768px)"
         />
         <img
-            src="/images/chirikay-campo-de-chirimoyas.jpg"
-            alt="Productos Raíz Viva"
+            src="/images/home/chirikay-cultivando-salud-chirimoya.webp"
+            alt="Productos ChiriKay"
             class="hero-image"
             loading="eager"
         />
@@ -73,9 +73,10 @@ const cardsData = [
             </p>
 
             <div
-                class="animate__animated animate__fadeInLeft delay-2s flex gap-8 justify-center items-center mt-8 md:mt-12 hidden md:flex"
+                class="hidden md:flex gap-8 justify-center items-center mt-8 md:mt-12 flex-col md:flex-row"
             >
-                <Button
+        <span class="animate__animated animate__fadeInLeft delay-2s ">
+            <Button
                     ariaLabel="Conocer el proceso"
                     text="Conocer el proceso"
                     icon="apoyo"
@@ -92,8 +93,9 @@ const cardsData = [
                     rel="noopener noreferrer"
                     class="font-secondary font-semibold"
                 />
-
-                <Button
+        </span>
+        <span class="animate__animated animate__fadeInRight delay-2s ">
+            <Button
                     ariaLabel="Comprar ahora"
                     text="Comprar ahora"
                     href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
@@ -108,6 +110,10 @@ const cardsData = [
                     size="xl"
                     class="px-[60px] font-secondary font-semibold"
                 />
+        </span>
+                
+
+                
             </div>
         </div>
     </div>

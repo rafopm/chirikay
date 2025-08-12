@@ -1,0 +1,205 @@
+---
+export interface Props {
+  images: string[];
+  alt?: string;
+  className?: string;
+}
+
+const { images, alt = "Slider image", className = "" } = Astro.props;
+const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div
+  class={`relative w-full max-w-2xl mx-auto ${className}`}
+  data-slider-id={sliderId}
+  tabindex="0"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="Image slider"
+>
+  <!-- Contenedor de imágenes -->
+  <div
+    class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl"
+  >
+    <div class="aspect-video w-full relative">
+      {
+        images.map((image, index) => (
+          <div
+            class={`absolute inset-0 transition-all duration-700 ease-out transform ${index === 0 ? "opacity-100 scale-100" : "opacity-0 scale-105"}`}
+            data-slide={index}
+          >
+            <img
+              src={image}
+              alt={`${alt} ${index + 1}`}
+              class="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+          </div>
+        ))
+      }
+
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none"
+      >
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20 flex items-center justify-center transition-all duration-300 hover:bg-white hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 group"
+    data-direction="prev"
+    aria-label="Imagen anterior"
+  >
+    <svg
+      class="w-5 h-5 text-gray-700 transition-transform duration-300 group-hover:-translate-x-0.5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2.5"
+        d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+
+  <button
+    class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20 flex items-center justify-center transition-all duration-300 hover:bg-white hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 group"
+    data-direction="next"
+    aria-label="Siguiente imagen"
+  >
+    <svg
+      class="w-5 h-5 text-gray-700 transition-transform duration-300 group-hover:translate-x-0.5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2.5"
+        d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+
+  <div class="flex justify-center mt-6 space-x-2">
+    {
+      images.map((_, index) => (
+        <button
+          class={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${index === 0 ? "bg-blue-600 w-8" : "bg-gray-300 hover:bg-gray-400"}`}
+          data-slide-to={index}
+          aria-label={`Ir a imagen ${index + 1}`}
+        />
+      ))
+    }
+  </div>
+
+  <!-- Contador -->
+  <div
+    class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium"
+  >
+    <span data-current>1</span>/<span data-total>{images.length}</span>
+  </div>
+</div>
+
+<script define:vars={{ sliderId }}>
+  document.addEventListener("astro:page-load", () => {
+    const slider = document.querySelector(`[data-slider-id="${sliderId}"]`);
+    if (!slider) return console.warn("Slider no encontrado:", sliderId);
+
+    const slides = Array.from(slider.querySelectorAll("[data-slide]"));
+    const indicators = Array.from(slider.querySelectorAll("[data-slide-to]"));
+    const prevBtn = slider.querySelector('[data-direction="prev"]');
+    const nextBtn = slider.querySelector('[data-direction="next"]');
+    const currentCounter = slider.querySelector("[data-current]");
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let autoPlayInterval;
+
+    function updateSlider(newIndex) {
+      if (newIndex < 0 || newIndex >= totalSlides) return;
+
+      slides[currentSlide].classList.remove("opacity-100", "scale-100");
+      slides[currentSlide].classList.add("opacity-0", "scale-105");
+      indicators[currentSlide].classList.remove("bg-blue-600", "w-8");
+      indicators[currentSlide].classList.add("bg-gray-300");
+
+      currentSlide = newIndex;
+
+      setTimeout(() => {
+        slides[currentSlide].classList.remove("opacity-0", "scale-105");
+        slides[currentSlide].classList.add("opacity-100", "scale-100");
+      }, 50);
+
+      indicators[currentSlide].classList.remove("bg-gray-300");
+      indicators[currentSlide].classList.add("bg-blue-600", "w-8");
+
+      if (currentCounter) currentCounter.textContent = String(currentSlide + 1);
+    }
+
+    function nextSlide() {
+      updateSlider(currentSlide === totalSlides - 1 ? 0 : currentSlide + 1);
+    }
+
+    function prevSlide() {
+      updateSlider(currentSlide === 0 ? totalSlides - 1 : currentSlide - 1);
+    }
+
+    // Controles manuales
+    if (nextBtn) nextBtn.addEventListener("click", nextSlide);
+    if (prevBtn) prevBtn.addEventListener("click", prevSlide);
+
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener("click", () => {
+        if (index !== currentSlide) updateSlider(index);
+      });
+    });
+
+    slider.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        nextSlide();
+      }
+    });
+
+    // --- Autoplay ---
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(nextSlide, 4000); // 4s por slide
+    }
+
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+    }
+
+    startAutoPlay();
+
+    slider.addEventListener("mouseenter", stopAutoPlay);
+    slider.addEventListener("mouseleave", startAutoPlay);
+  });
+</script>
+
+
+<style>
+  [data-slide] {
+    transition:
+      opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-slide-to]:hover {
+    transform: scale(1.2);
+  }
+
+  button[data-direction] {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button[data-direction]:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+</style>
