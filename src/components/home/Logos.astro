@@ -15,7 +15,7 @@ const isBlogPage = Astro.url.pathname.startsWith("/blog");
 
 <section class={`${isBlogPage ? "bg-rv-light" : "bg-rv-very-light"} py-12 lg:py-20 rounded-b-3xl`} id="logos">
     <Container>
-        <span class="font-bold text-ms-dark text-2xl">
+        <span class="font-bold text-ms-dark text-2xl text-center block w-full md:text-left">
             Con el cofinanciamiento de:
         </span>
         <div class="carousel-container">
@@ -40,29 +40,35 @@ const isBlogPage = Astro.url.pathname.startsWith("/blog");
 </section>
 
 <style>
-.carousel-container {
-    width: 100%;
-    overflow: visible;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 4rem;
-    padding-top: 2rem;
-}
-
-.carousel-container img {
-    width: auto;
-    height: 80px;
-    object-fit: contain;
-    border-radius: 8px;
-    display: block;
-    transition: 0.5s ease-in-out;
-}
-
-.carousel-container img:hover {
-    transform: scale(1.05);
-    transition: 0.5s ease-in-out;
-}
-</style>
+    .carousel-container {
+        width: 100%;
+        overflow: visible;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4rem;
+        padding-top: 2rem;
+        justify-content: center; /* Centrado por defecto para móviles */
+    }
+    
+    @media (min-width: 768px) {
+        .carousel-container {
+            justify-content: space-between; /* Distribución normal en pantallas más grandes */
+        }
+    }
+    
+    .carousel-container img {
+        width: auto;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 8px;
+        display: block;
+        transition: 0.5s ease-in-out;
+    }
+    
+    .carousel-container img:hover {
+        transform: scale(1.05);
+        transition: 0.5s ease-in-out;
+    }
+    </style>

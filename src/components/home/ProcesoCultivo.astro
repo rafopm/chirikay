@@ -1,5 +1,4 @@
 ---
-// ejemplo-uso.astro
 import Container from "../shared/Container.astro";
 import HorizontalTimeLine from "./HorizontalTimeLine.astro";
 
@@ -67,11 +66,24 @@ const timelineData = [
 ];
 ---
 
-<!-- Otros componentes de tu página -->
-<section class="py-20 overflow-hidden">
-    <div id="proceso-cultivo">
-        <h2 class="title">Proceso de Cultivo</h2>
-        <HorizontalTimeLine items={timelineData} />
+<section class="py-20 overflow-hidden relative">
+    <!-- Fondo fijo para solo esta sección -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        <div class="sticky top-0 h-screen">
+            <img 
+                src="/images/chirimoya-chirikay.webp" 
+                alt="Fondo tenue" 
+                class="absolute inset-0 w-full h-full object-cover opacity-30"
+            />
+        </div>
+    </div>
+    
+    <!-- Contenido -->
+    <div class="relative z-10">
+        <div id="proceso-cultivo">
+            <h2 class="title">Proceso de Cultivo</h2>
+            <HorizontalTimeLine items={timelineData} />
+        </div>
     </div>
 </section>
 
