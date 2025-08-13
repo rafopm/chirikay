@@ -127,7 +127,7 @@ export const SOCIAL = {
 };
 
 // Logos
-export const LOGO_MOBILE = "/images/logo/logo.png";
+export const LOGO_MOBILE = "/images/logo/logo-mobile.webp";
 export const LOGO_DESKTOP = "/images/logo/logo.webp";
 
 // Horario de atención

@@ -63,9 +63,9 @@ const ogImage = Astro.site ? new URL(image, Astro.site) : image;
 )}
 
 
-{META.FAVICON.SVG && (
+<!-- {META.FAVICON.SVG && (
   <link rel="icon" href={META.FAVICON.SVG} type="image/svg+xml" />
-)}
+)} -->
 {META.FAVICON.ICO && (
   <link rel="alternate icon" href={META.FAVICON.ICO} type="image/x-icon" />
 )}
