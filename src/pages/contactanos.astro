@@ -142,37 +142,37 @@ const mapEmbedUrl = CONTACT.MAP_URL;
           </div>
         </ScrollAnimation>
 
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto px-4">
           {contactData.contactChannels.map((channel, index) => (
             <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
               <a
                 href={channel.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class={`group block p-8 rounded-2xl transition-all duration-300 hover:shadow-lg relative ${
+                class={`group block p-4 md:p-8 rounded-2xl transition-all duration-300 hover:shadow-lg relative ${
                   channel.featured 
                     ? 'bg-green-50 border-2 border-green-200 hover:border-green-300' 
                     : 'bg-gray-50 border border-gray-200 hover:border-gray-300'
                 }`}
               >
-                {/* Badge "Recomendado" posicionado en esquina superior derecha */}
+                {/* Badge "Recomendado" solo en desktop */}
                 {channel.featured && (
-                  <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md hidden md:inline-block">
                     Recomendado
                   </div>
                 )}
                 
-                <div class="flex items-start space-x-4">
-                  <div class={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                <div class="flex items-start space-x-3 md:space-x-4">
+                  <div class={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center ${
                     channel.featured ? 'bg-green-500 text-white' : 'bg-rv-accent text-white'
                   }`}>
-                    <Icon name={channel.icon} size={24} />
+                    <Icon name={channel.icon} size={20} class="md:w-6 md:h-6" />
                   </div>
                   <div class="flex-1">
-                    <h3 class="text-xl font-semibold  text-rv-accent mb-2">
+                    <h3 class="text-lg md:text-xl font-semibold text-rv-accent mb-1 md:mb-2">
                       {channel.title}
                     </h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <p class="text-sm md:text-base text-gray-600 leading-relaxed">
                       {channel.description}
                     </p>
                   </div>

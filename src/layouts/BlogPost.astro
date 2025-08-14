@@ -58,6 +58,14 @@ const {
   customNav = false,
 } = Astro.props;
 const { pathname } = Astro.url;
+
+
+let isDesktop = false;
+
+if (typeof window !== "undefined") {
+  isDesktop = window.innerWidth >= 1024;
+}
+
 ---
 <!DOCTYPE html>
 <html lang="es">

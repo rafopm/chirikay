@@ -7,9 +7,16 @@ const url = Astro.url.pathname;
 ---
 
 <div class="hero-secondary">
-    <img
+    <!-- <img
         src={image || "/images/home/campos-cultivando-salud-chirikay.webp"}
         srcset={`${imagethumb} 767w, ${image} `}
+        class="image-background"
+        alt=""
+    /> -->
+
+    <img
+        src="/images/campos-cultivando-salud-chirikay.webp"
+        srcset="/images/campos-cultivando-salud-chirikay-mobile.webp 767w, /images/campos-cultivando-salud-chirikay.webp"
         class="image-background"
         alt=""
     />
