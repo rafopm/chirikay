@@ -1,0 +1,263 @@
+---
+// src/components/shared/Animate.astro
+interface Props {
+  type?: "fadeIn" | "fadeInUp" | "fadeInDown" | "fadeInLeft" | "fadeInRight" | "zoomIn" | "zoomOut" | "bounceIn" | "flipInX" | "rotateIn";
+  delay?: number;
+  duration?: number;
+  easing?: string;
+  threshold?: number;
+  rootMargin?: string;
+  triggerOnce?: boolean;
+}
+
+const {
+  type = "fadeInUp",
+  delay = 0,
+  duration = 600,
+  easing = "ease-out",
+  threshold = 0.1,
+  rootMargin = "0px",
+  triggerOnce = true,
+} = Astro.props as Props;
+---
+
+<div
+  class="scroll-animate"
+  data-animation={type}
+  data-delay={`${delay}ms`}
+  data-duration={`${duration}ms`}
+  data-threshold={threshold}
+  data-root-margin={rootMargin}
+  data-trigger-once={triggerOnce}
+  style={`
+    --delay: ${delay}ms;
+    --duration: ${duration}ms;
+    --easing: ${easing};
+  `}
+>
+  <slot />
+</div>
+
+<style>
+  /* Estado inicial - visible pero preparado para animación */
+  .scroll-animate {
+    opacity: 1;
+    transform: none;
+    animation-fill-mode: both;
+  }
+
+  /* Estado inicial para animaciones específicas */
+  .scroll-animate[data-animation="fadeInUp"] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .scroll-animate[data-animation="fadeInDown"] {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  .scroll-animate[data-animation="fadeInLeft"] {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  .scroll-animate[data-animation="fadeInRight"] {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .scroll-animate[data-animation="zoomIn"] {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  .scroll-animate[data-animation="zoomOut"] {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  .scroll-animate[data-animation="bounceIn"] {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  .scroll-animate[data-animation="flipInX"] {
+    opacity: 0;
+    transform: perspective(400px) rotateX(90deg);
+  }
+  .scroll-animate[data-animation="rotateIn"] {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+
+  /* Clase de animación activa */
+  .scroll-animate.animate {
+    opacity: 1;
+    transform: none;
+  }
+  /* Keyframes */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes zoomOut {
+    from {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes flipInX {
+    from {
+      opacity: 0;
+      transform: perspective(400px) rotateX(90deg);
+    }
+    to {
+      opacity: 1;
+      transform: perspective(400px) rotateX(0);
+    }
+  }
+
+  @keyframes rotateIn {
+    from {
+      opacity: 0;
+      transform: rotate(-180deg);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0);
+    }
+  }
+</style>
+
+
+<script is:inline>
+    document.addEventListener("astro:page-load", () => {
+      const manager = {
+        observers: new Map(),
+  
+        init() {
+          this.cleanup();
+          this.setupAnimations();
+        },
+  
+        cleanup() {
+          this.observers.forEach(observer => observer.disconnect());
+          this.observers.clear();
+        },
+  
+        setupAnimations() {
+          const elements = document.querySelectorAll('.scroll-animate:not(.animate)');
+          
+          if (!elements.length) return;
+  
+          elements.forEach(element => {
+            const threshold = parseFloat(element.dataset.threshold) || 0.1;
+            const rootMargin = element.dataset.rootMargin || "0px";
+            const key = `${threshold}_${rootMargin}`;
+            
+            if (!this.observers.has(key)) {
+              this.observers.set(key, new IntersectionObserver(
+                (entries) => {
+                  entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                      const el = entry.target;
+                      const animation = el.dataset.animation || 'fadeInUp';
+                      
+                      el.classList.add('animate');
+                      el.style.animation = `${animation} ${el.dataset.duration} ${el.dataset.easing || 'ease-out'} ${el.dataset.delay} forwards`;
+                      
+                      if (el.dataset.triggerOnce === 'true') {
+                        this.observers.get(key)?.unobserve(el);
+                      }
+                    }
+                  });
+                },
+                { threshold, rootMargin }
+              ));
+            }
+            
+            this.observers.get(key)?.observe(element);
+          });
+        }
+      };
+  
+      manager.init();
+      document.addEventListener("astro:after-swap", () => manager.init());
+    });
+  </script>

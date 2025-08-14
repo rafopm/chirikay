@@ -59,19 +59,12 @@ const {
 } = Astro.props;
 const { pathname } = Astro.url;
 
-
-let isDesktop = false;
-
-if (typeof window !== "undefined") {
-  isDesktop = window.innerWidth >= 1024;
-}
-
 ---
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <BaseHead title={metatitle} metadescription={metadescription} image={heroimage} updateDate={lastModified} />
-    {isDesktop && <ClientRouter />}
+    <ClientRouter />
   </head>
   <body class="overflow-x-hidden">
     <div itemscope itemtype="https://schema.org/WebSite">
