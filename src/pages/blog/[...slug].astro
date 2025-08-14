@@ -6,11 +6,11 @@ import Lightbox from "../../components/shared/Lightbox.astro";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-	const posts = await getCollection("blog");
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
 }
 
 type Props = CollectionEntry<"blog">;
@@ -19,90 +19,82 @@ const post = Astro.props;
 const { Content } = await render(post);
 
 const posts = (await getCollection("blog"))
-	.filter((postItem) => postItem.id !== post.id)
-	.sort((a, b) => a.data.order - b.data.order);
+  .filter((postItem) => postItem.id !== post.id)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout
-	title={post.data.title}
-	metatitle={post.data.metatitle}
-	description={post.data.description}
-	metadescription={post.data.metadescription}
-	heroimage={post.data.imgurl}
-	heroimagethumb={post.data.imgthumburl}
-	slug={post.id}
+  title={post.data.title}
+  metatitle={post.data.metatitle}
+  description={post.data.description}
+  metadescription={post.data.metadescription}
+  heroimage={post.data.imgurl}
+  heroimagethumb={post.data.imgthumburl}
+  slug={post.id}
 >
-	<main class="pt-8">
-		<Container className="bg-rv-very-light py-12 lg:py-16  rounded-t-3xl">
-			<div class="flex flex-col lg:flex-row gap-10">
-				<div class="lg:w-2/3 w-full flex flex-col gap-4">
-					<div class="prose">
-						<Content />
-					</div>
-				</div>
+  <main class="pt-8">
+    <Container className="bg-rv-very-light py-12 lg:py-16  rounded-t-3xl">
+      <div class="flex flex-col lg:flex-row gap-10">
+        <div class="lg:w-2/3 w-full flex flex-col gap-4">
+          <div class="prose">
+            <Content />
+          </div>
+        </div>
 
-				<div
-					class="lg:w-1/3 w-full mt-4 lg:mt-0 bg-rv-light p-10 rounded-lg"
-				>
-					<img
-						src={post.data.imgthumburl}
-						alt={`Imagen de ${post.data.title}`}
-						class="w-full h-auto rounded-lg shadow-lg object-cover hero-image"
-						id="hero-image"
-						data-lightbox-src={post.data.imgurl}
-						loading="lazy"
-					/>
+        <div class="lg:w-1/3 w-full mt-4 lg:mt-0 bg-rv-light p-10 rounded-lg">
+          <img
+            src={post.data.imgthumburl}
+            alt={`Imagen de ${post.data.title}`}
+            class="w-full h-auto rounded-lg shadow-lg object-cover hero-image"
+            id="hero-image"
+            data-lightbox-src={post.data.imgurl}
+            loading="lazy"
+            style="cursor: pointer;"
+          />
 
-					<h2 class="text-lg font-semibold m-2 underline">
-						Otros artículos:
-					</h2>
-					<ul class="flex flex-col gap-2">
-						{
-							posts.map((postItem) => (
-								<li class="text-sm text-rv-dark">
-									<a
-										href={`/blog/${postItem.id}`}
-										class="hover:underline"
-									>
-										{postItem.data.title}
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</div>
-			</div>
-		</Container>
-	</main>
+          <h2 class="text-lg font-semibold m-2 underline">Otros artículos:</h2>
+          <ul class="flex flex-col gap-2">
+            {
+              posts.map((postItem) => (
+                <li class="text-sm text-rv-dark">
+                  <a href={`/blog/${postItem.id}`} class="hover:underline">
+                    {postItem.data.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </Container>
+  </main>
 </Layout>
 
 <Lightbox id="honey-lightbox" />
 
-<style>
-	.hero-image {
-		cursor: pointer;
-	}
-</style>
-
 <script>
-	// Usar event delegation - más robusto para SPA
-	document.addEventListener("click", function(event) {
-		const target = event.target as HTMLElement;
-		
-		// Verificar si el clic fue en la imagen hero
-		if (target && target.id === "hero-image") {
-			const heroImage = target as HTMLImageElement;
-			const lightboxSrc = heroImage.getAttribute("data-lightbox-src") || heroImage.src;
-			
-			// Nombre correcto de las funciones del lightbox
-			const lightboxFunctions = (window as any)["honey-lightboxFunctions"];
+  // Usar event delegation - más robusto para SPA
+  document.addEventListener("click", function (event) {
+    const target = event.target as HTMLElement;
 
-			if (lightboxFunctions && lightboxSrc) {
-				lightboxFunctions.open(lightboxSrc, heroImage.alt);
-			} else {
-				console.error("Lightbox functions not found or no image source");
-				console.log("Available window properties:", Object.keys(window).filter(key => key.includes('lightbox')));
-			}
-		}
-	});
+    // Verificar si el clic fue en la imagen hero
+    if (target && target.id === "hero-image") {
+      const heroImage = target as HTMLImageElement;
+      const lightboxSrc =
+        heroImage.getAttribute("data-lightbox-src") || heroImage.src;
+
+      // Nombre correcto de las funciones del lightbox
+      const lightboxFunctions = (window as any)["honey-lightboxFunctions"];
+
+      if (lightboxFunctions && lightboxSrc) {
+        lightboxFunctions.open(lightboxSrc, heroImage.alt);
+      } else {
+        console.error("Lightbox functions not found or no image source");
+        console.log(
+          "Available window properties:",
+          Object.keys(window).filter((key) => key.includes("lightbox"))
+        );
+      }
+    }
+  });
 </script>

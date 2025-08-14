@@ -2,48 +2,48 @@
 import Container from "../shared/Container.astro";
 
 const datacardsagricultura = [
-    {
-        mainTitle: "Certificados Que Respaldan Nuestra Calidad",
-        mainCard: {
-            titleLines: ["AGRICULTURA", "FAMILIAR", "DEL PERÚ"],
-            badgeText: "Certificación Oficial",
-            description:
-                "Somos parte de la Agricultura Familiar del Perú, una distinción otorgada por el Ministerio de Desarrollo Agrario y Riego que garantiza nuestro compromiso con la calidad y sostenibilidad.",
-            details: [
-                {
-                    icon: "document",
-                    text: "Licencia N°: 00570-2024-MCAF-MIDAGRI",
-                },
-                {
-                    icon: "package",
-                    text: "Productos certificados: Chirimoya y Palta",
-                },
-                { icon: "calendar", text: "Vigencia: Desde 2024" },
-            ],
+  {
+    mainTitle: "Certificados Que Respaldan Nuestra Calidad",
+    mainCard: {
+      titleLines: ["AGRICULTURA", "FAMILIAR", "DEL PERÚ"],
+      badgeText: "Certificación Oficial",
+      description:
+        "Somos parte de la Agricultura Familiar del Perú, una distinción otorgada por el Ministerio de Desarrollo Agrario y Riego que garantiza nuestro compromiso con la calidad y sostenibilidad.",
+      details: [
+        {
+          icon: "document",
+          text: "Licencia N°: 00570-2024-MCAF-MIDAGRI",
         },
-        featureCards: [
-            {
-                title: "100% Orgánico",
-                description: "Sin químicos ni pesticidas",
-                icon: "check",
-            },
-            {
-                title: "Comercio Justo",
-                description: "Precios justos para agricultores",
-                icon: "heart",
-            },
-            {
-                title: "Sostenible",
-                description: "Cuidamos el medio ambiente",
-                icon: "refresh",
-            },
-            {
-                title: "Calidad Premium",
-                description: "Selección rigurosa de frutos",
-                icon: "star",
-            },
-        ],
+        {
+          icon: "package",
+          text: "Productos certificados: Chirimoya y Palta",
+        },
+        { icon: "calendar", text: "Vigencia: Desde 2024" },
+      ],
     },
+    featureCards: [
+      {
+        title: "100% Orgánico",
+        description: "Sin químicos ni pesticidas",
+        icon: "check",
+      },
+      {
+        title: "Comercio Justo",
+        description: "Precios justos para agricultores",
+        icon: "heart",
+      },
+      {
+        title: "Sostenible",
+        description: "Cuidamos el medio ambiente",
+        icon: "refresh",
+      },
+      {
+        title: "Calidad Premium",
+        description: "Selección rigurosa de frutos",
+        icon: "star",
+      },
+    ],
+  },
 ];
 
 // Extraemos los datos para facilitar el acceso
@@ -51,350 +51,344 @@ const { mainTitle, mainCard, featureCards } = datacardsagricultura[0];
 ---
 
 <section class="certificado bg-rv-light" id="certificado">
-    <Container className=" py-12 lg:py-16">
-        <!-- Main Title -->
-        <h2 class="title mb-8">
-            {mainTitle}
-        </h2>
+  <Container className=" py-12 lg:py-16">
+    <!-- Main Title -->
+    <h2 class="title mb-8">
+      {mainTitle}
+    </h2>
 
-        <!-- Main Certificate Card -->
-        <div class="mx-auto mb-16">
-            <div
-                class="bg-rv-very-light backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-green-200/50"
-            >
-                <div class="flex flex-col lg:flex-row items-center gap-8">
-                    <!-- Logo Section -->
-                    <div class="flex flex-col md:flex-row gap-8">
-                        <!-- Logo Section (35% en desktop) -->
-                        <div class="w-full md:w-[35%] flex-shrink-0">
-                            <div class="p-0 h-full lg-p6">
-                                <img
-                                    src="/images/home/logo-agricultura-familiar-peru.svg"
-                                    alt="Agricultura Familiar del Perú"
-                                    class="w-full shadow-lg rounded-3xl"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Content Section (65% en desktop) -->
-                        <div class="w-full md:w-[65%] space-y-6">
-                            <!-- Official Badge -->
-                            <div
-                                class="inline-flex items-center gap-2 bg-rv-very-dark text-white px-4 py-2 rounded-full font-bold font-primary hover:bg-rv-dark transition-colors duration-300"
-                            >
-                                <svg
-                                    width="17"
-                                    height="17"
-                                    viewBox="0 0 17 17"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M8.5 0L10.26 1.9317L12.75 1.13878L13.3083 3.69167L15.8612 4.25L15.0683 6.74003L17 8.5L15.0683 10.26L15.8612 12.75L13.3083 13.3083L12.75 15.8612L10.26 15.0683L8.5 17L6.74003 15.0683L4.25 15.8612L3.69167 13.3083L1.13878 12.75L1.9317 10.26L0 8.5L1.9317 6.74003L1.13878 4.25L3.69167 3.69167L4.25 1.13878L6.74003 1.9317L8.5 0Z"
-                                        fill="#E6FACD"></path>
-                                </svg>
-
-                                {mainCard.badgeText}
-                            </div>
-
-                            <!-- Description -->
-                            <p
-                                class="card-description text-lg font-secondary text-rv-dark"
-                            >
-                                {mainCard.description}
-                            </p>
-
-                            <!-- Certificate Details -->
-                            <div class="space-y-4">
-                                {
-                                    mainCard.details.map((detail, index) => (
-                                        <div class="flex justify-start bg-rv-light p-2 rounded-xl font-secondary text-md items-center gap-3 text-rv-very-dark hover:text-rv-dark transition-colors duration-300">
-                                            {detail.icon === "document" && (
-                                                <svg
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <g clip-path="url(#clip0_14028_780)">
-                                                        <path
-                                                            d="M18 4H6C4.34315 4 3 5.34315 3 7V17C3 18.6569 4.34315 20 6 20H18C19.6569 20 21 18.6569 21 17V7C21 5.34315 19.6569 4 18 4Z"
-                                                            stroke="#21272A"
-                                                            stroke-width="2"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                        />
-                                                        <path
-                                                            d="M9 12C10.1046 12 11 11.1046 11 10C11 8.89543 10.1046 8 9 8C7.89543 8 7 8.89543 7 10C7 11.1046 7.89543 12 9 12Z"
-                                                            stroke="#21272A"
-                                                            stroke-width="2"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                        />
-                                                        <path
-                                                            d="M15 8H17"
-                                                            stroke="#21272A"
-                                                            stroke-width="2"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                        />
-                                                        <path
-                                                            d="M15 12H17"
-                                                            stroke="#21272A"
-                                                            stroke-width="2"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                        />
-                                                        <path
-                                                            d="M7 16H17"
-                                                            stroke="#21272A"
-                                                            stroke-width="2"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                        />
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_14028_780">
-                                                            <rect
-                                                                width="24"
-                                                                height="24"
-                                                                fill="white"
-                                                            />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            )}
-                                            {detail.icon === "package" && (
-                                                <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_14029_807)">
-<path d="M19.1791 12.8782C19.2074 12.9725 19.2169 13.0715 19.207 13.1695C19.1971 13.2675 19.168 13.3626 19.1213 13.4494C19.0746 13.5361 19.0113 13.6128 18.935 13.6751C18.8587 13.7374 18.7709 13.784 18.6765 13.8124C14.1351 15.1758 10.6905 17.1858 7.77962 20.211C8.80374 21.4372 10.2091 22.3049 11.8414 22.699C14.0071 23.2219 16.3531 22.8822 18.625 21.7176C20.6531 20.678 21.8887 19.1819 23.0838 17.7344C24.5916 15.9084 26.0161 14.1836 28.999 13.4749C29.3297 13.3953 29.5749 13.1683 29.6581 12.8639C29.7513 12.515 29.6295 12.1746 29.291 11.8498C28.4987 11.0893 25.826 9.74102 22.7244 8.80281C17.7417 7.29493 14.5744 7.65084 12.7943 8.21497C10.4955 8.94453 8.55268 10.5086 7.39698 12.5104C7.17853 12.8873 6.98865 13.2801 6.82893 13.6855C6.10791 15.5268 6.14463 17.4273 6.92329 18.9361C9.96576 15.8489 13.5547 13.783 18.2444 12.3737C18.3389 12.3453 18.438 12.3358 18.5362 12.3458C18.6343 12.3558 18.7296 12.3851 18.8164 12.432C18.9032 12.4788 18.98 12.5424 19.0422 12.6189C19.1044 12.6955 19.1509 12.7836 19.1791 12.8782Z" fill="#21272A"/>
-<path d="M6.23319 21.9708C6.73279 21.3483 7.24675 20.7628 7.77824 20.2106C7.49312 19.8694 7.23936 19.5032 7.02006 19.1163C6.98643 19.0574 6.95414 18.9971 6.92313 18.9364C6.26789 19.6029 5.64719 20.3025 5.06349 21.0324C4.99936 21.1089 4.95115 21.1975 4.92169 21.2928C4.89223 21.3882 4.88211 21.4885 4.89191 21.5879C4.90172 21.6872 4.93126 21.7836 4.97881 21.8714C5.02635 21.9592 5.09094 22.0366 5.16879 22.099C5.24663 22.1615 5.33617 22.2079 5.43216 22.2353C5.52814 22.2627 5.62863 22.2707 5.72775 22.2588C5.82686 22.2469 5.9226 22.2153 6.00936 22.166C6.09611 22.1166 6.17213 22.0503 6.23296 21.9712L6.23319 21.9708Z" fill="#21272A"/>
-</g>
-<defs>
-<clipPath id="clip0_14029_807">
-<rect width="24" height="24" fill="white" transform="translate(32.7847 12) rotate(120)"/>
-</clipPath>
-</defs>
-</svg>
-
-                                            )}
-                                            {detail.icon === "calendar" && (
-                                                <svg
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M20 10V8C20 7.73478 19.8946 7.48043 19.7071 7.29289C19.5196 7.10536 19.2652 7 19 7H18V8C18 8.26522 17.8946 8.51957 17.7071 8.70711C17.5196 8.89464 17.2652 9 17 9C16.7348 9 16.4804 8.89464 16.2929 8.70711C16.1054 8.51957 16 8.26522 16 8V7H8V8C8 8.26522 7.89464 8.51957 7.70711 8.70711C7.51957 8.89464 7.26522 9 7 9C6.73478 9 6.48043 8.89464 6.29289 8.70711C6.10536 8.51957 6 8.26522 6 8V7H5C4.73478 7 4.48043 7.10536 4.29289 7.29289C4.10536 7.48043 4 7.73478 4 8V10H20ZM20 12H4V18C4 18.2652 4.10536 18.5196 4.29289 18.7071C4.48043 18.8946 4.73478 19 5 19H19C19.2652 19 19.5196 18.8946 19.7071 18.7071C19.8946 18.5196 20 18.2652 20 18V12ZM18 5H19C19.7956 5 20.5587 5.31607 21.1213 5.87868C21.6839 6.44129 22 7.20435 22 8V18C22 18.7956 21.6839 19.5587 21.1213 20.1213C20.5587 20.6839 19.7956 21 19 21H5C4.20435 21 3.44129 20.6839 2.87868 20.1213C2.31607 19.5587 2 18.7956 2 18V8C2 7.20435 2.31607 6.44129 2.87868 5.87868C3.44129 5.31607 4.20435 5 5 5H6V4C6 3.73478 6.10536 3.48043 6.29289 3.29289C6.48043 3.10536 6.73478 3 7 3C7.26522 3 7.51957 3.10536 7.70711 3.29289C7.89464 3.48043 8 3.73478 8 4V5H16V4C16 3.73478 16.1054 3.48043 16.2929 3.29289C16.4804 3.10536 16.7348 3 17 3C17.2652 3 17.5196 3.10536 17.7071 3.29289C17.8946 3.48043 18 3.73478 18 4V5Z"
-                                                        fill="#21272A"
-                                                    />
-                                                </svg>
-                                            )}
-                                            <span>{detail.text}</span>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Main Certificate Card -->
+    <div class="mx-auto mb-16">
+      <div
+        class="bg-rv-very-light backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-green-200/50"
+      >
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+          <!-- Logo Section -->
+          <div class="flex flex-col md:flex-row gap-8">
+            <!-- Logo Section (35% en desktop) -->
+            <div class="w-full md:w-[35%] flex-shrink-0">
+              <div class="p-0 h-full lg-p6">
+                <img
+                  src="/images/home/logo-agricultura-familiar-peru.svg"
+                  alt="Agricultura Familiar del Perú"
+                  class="w-full shadow-lg rounded-3xl"
+                />
+              </div>
             </div>
-        </div>
 
-        <!-- Feature Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {
-                featureCards.map((card, index) => (
-                    <div class="bg-rv-very-light backdrop-blur-sm rounded-2xl p-6 text-center shadow-md hover:shadow-xl hover:bg-green-100/60 transition-all duration-500 hover:-translate-y-2 border border-green-200/30 group">
-                        <div class="w-16 h-16 bg-rv-dark rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-800 group-hover:scale-110 transition-all duration-300">
-                            {card.icon === "check" && (
-                                <svg
-                                    width="40"
-                                    height="40"
-                                    viewBox="0 0 40 40"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0_14029_837)">
-                                        <path
-                                            d="M15 20.0001L18.3333 23.3334L25 16.6667"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20 5C23.8931 8.44429 28.9742 10.2376 34.1667 10C34.9227 12.5717 35.154 15.2691 34.8469 17.932C34.5398 20.5948 33.7006 23.1688 32.3791 25.5009C31.0575 27.833 29.2807 29.8756 27.1541 31.5075C25.0276 33.1393 22.5947 34.327 20 35C17.4054 34.327 14.9725 33.1393 12.846 31.5075C10.7194 29.8756 8.94257 27.833 7.62104 25.5009C6.29952 23.1688 5.46027 20.5948 5.15317 17.932C4.84608 15.2691 5.0774 12.5717 5.83338 10C11.0259 10.2376 16.107 8.44429 20 5"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_14029_837">
-                                            <rect
-                                                width="40"
-                                                height="40"
-                                                fill="white"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            )}
-                            {card.icon === "heart" && (
-                                <svg
-                                    width="40"
-                                    height="40"
-                                    viewBox="0 0 40 40"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0_14029_830)">
-                                        <path
-                                            d="M32.4999 20.9534L19.9999 33.3334L7.49993 20.9534C6.67544 20.1511 6.026 19.1867 5.59251 18.1211C5.15902 17.0555 4.95087 15.9116 4.98116 14.7616C5.01145 13.6116 5.27954 12.4803 5.76853 11.4389C6.25752 10.3976 6.95682 9.46881 7.82241 8.71102C8.68799 7.95323 9.70111 7.38287 10.798 7.03585C11.8948 6.68884 13.0516 6.57269 14.1955 6.69472C15.3395 6.81675 16.4458 7.17431 17.4447 7.74489C18.4437 8.31548 19.3137 9.08672 19.9999 10.01C20.6892 9.09342 21.5602 8.32892 22.5584 7.76439C23.5567 7.19986 24.6608 6.84747 25.8015 6.72925C26.9422 6.61103 28.0951 6.72955 29.1879 7.07737C30.2807 7.42519 31.29 7.99484 32.1525 8.75066C33.0151 9.50647 33.7123 10.4322 34.2006 11.4699C34.689 12.5076 34.9578 13.6349 34.9904 14.7812C35.0231 15.9276 34.8187 17.0684 34.3902 18.1321C33.9616 19.1959 33.3181 20.1598 32.4999 20.9634"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20 10L14.5117 15.4883C14.1992 15.8009 14.0237 16.2247 14.0237 16.6667C14.0237 17.1086 14.1992 17.5325 14.5117 17.845L15.4167 18.75C16.5667 19.9 18.4333 19.9 19.5833 18.75L21.25 17.0833C22.2446 16.0888 23.5935 15.53 25 15.53C26.4065 15.53 27.7554 16.0888 28.75 17.0833L32.5 20.8333"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20.8333 25.8333L24.1666 29.1666"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M25 21.6667L28.3333 25.0001"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_14029_830">
-                                            <rect
-                                                width="40"
-                                                height="40"
-                                                fill="white"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            )}
-                            {card.icon === "refresh" && (
-                                <svg
-                                    width="40"
-                                    height="40"
-                                    viewBox="0 0 40 40"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0_14029_830)">
-                                        <path
-                                            d="M32.4999 20.9534L19.9999 33.3334L7.49993 20.9534C6.67544 20.1511 6.026 19.1867 5.59251 18.1211C5.15902 17.0555 4.95087 15.9116 4.98116 14.7616C5.01145 13.6116 5.27954 12.4803 5.76853 11.4389C6.25752 10.3976 6.95682 9.46881 7.82241 8.71102C8.68799 7.95323 9.70111 7.38287 10.798 7.03585C11.8948 6.68884 13.0516 6.57269 14.1955 6.69472C15.3395 6.81675 16.4458 7.17431 17.4447 7.74489C18.4437 8.31548 19.3137 9.08672 19.9999 10.01C20.6892 9.09342 21.5602 8.32892 22.5584 7.76439C23.5567 7.19986 24.6608 6.84747 25.8015 6.72925C26.9422 6.61103 28.0951 6.72955 29.1879 7.07737C30.2807 7.42519 31.29 7.99484 32.1525 8.75066C33.0151 9.50647 33.7123 10.4322 34.2006 11.4699C34.689 12.5076 34.9578 13.6349 34.9904 14.7812C35.0231 15.9276 34.8187 17.0684 34.3902 18.1321C33.9616 19.1959 33.3181 20.1598 32.4999 20.9634"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20 10L14.5117 15.4883C14.1992 15.8009 14.0237 16.2247 14.0237 16.6667C14.0237 17.1086 14.1992 17.5325 14.5117 17.845L15.4167 18.75C16.5667 19.9 18.4333 19.9 19.5833 18.75L21.25 17.0833C22.2446 16.0888 23.5935 15.53 25 15.53C26.4065 15.53 27.7554 16.0888 28.75 17.0833L32.5 20.8333"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20.8333 25.8333L24.1666 29.1666"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M25 21.6667L28.3333 25.0001"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_14029_830">
-                                            <rect
-                                                width="40"
-                                                height="40"
-                                                fill="white"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            )}
-                            {card.icon === "star" && (
-                                <svg
-                                    width="40"
-                                    height="40"
-                                    viewBox="0 0 40 40"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0_14029_1437)">
-                                        <path
-                                            d="M20 25C25.5228 25 30 20.5228 30 15C30 9.47715 25.5228 5 20 5C14.4772 5 10 9.47715 10 15C10 20.5228 14.4772 25 20 25Z"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M20.0032 25.0056L25.6698 34.8206L28.3333 29.4338L34.3301 29.8206L28.6634 20.0056"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                        <path
-                                            d="M11.3364 20.0056L5.66976 29.8206L11.6666 29.4338L14.33 34.8206L19.9967 25.0056"
-                                            stroke="#F5FDE8"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_14029_1437">
-                                            <rect
-                                                width="40"
-                                                height="40"
-                                                fill="white"
-                                            />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            )}
-                        </div>
-                        <h3 class="card-title mb-2 group-hover:text-green-900 transition-colors duration-300">
-                            {card.title}
-                        </h3>
-                        <p class="card-paragraph font-secondary text-sm group-hover:text-gray-700 transition-colors duration-300">
-                            {card.description}
-                        </p>
+            <!-- Content Section (65% en desktop) -->
+            <div class="w-full md:w-[65%] space-y-6">
+              <!-- Official Badge -->
+              <div
+                class="inline-flex items-center gap-2 bg-rv-very-dark text-white px-4 py-2 rounded-full font-bold font-primary hover:bg-rv-dark transition-colors duration-300"
+              >
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.5 0L10.26 1.9317L12.75 1.13878L13.3083 3.69167L15.8612 4.25L15.0683 6.74003L17 8.5L15.0683 10.26L15.8612 12.75L13.3083 13.3083L12.75 15.8612L10.26 15.0683L8.5 17L6.74003 15.0683L4.25 15.8612L3.69167 13.3083L1.13878 12.75L1.9317 10.26L0 8.5L1.9317 6.74003L1.13878 4.25L3.69167 3.69167L4.25 1.13878L6.74003 1.9317L8.5 0Z"
+                    fill="#E6FACD"></path>
+                </svg>
+
+                {mainCard.badgeText}
+              </div>
+
+              <!-- Description -->
+              <p class="card-description text-lg font-secondary text-rv-dark">
+                {mainCard.description}
+              </p>
+
+              <!-- Certificate Details -->
+              <div class="space-y-4">
+                {
+                  mainCard.details.map((detail, index) => (
+                    <div class="flex justify-start bg-rv-light p-2 rounded-xl font-secondary text-md items-center gap-3 text-rv-very-dark hover:text-rv-dark transition-colors duration-300">
+                      {detail.icon === "document" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_14028_780)">
+                            <path
+                              d="M18 4H6C4.34315 4 3 5.34315 3 7V17C3 18.6569 4.34315 20 6 20H18C19.6569 20 21 18.6569 21 17V7C21 5.34315 19.6569 4 18 4Z"
+                              stroke="#21272A"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M9 12C10.1046 12 11 11.1046 11 10C11 8.89543 10.1046 8 9 8C7.89543 8 7 8.89543 7 10C7 11.1046 7.89543 12 9 12Z"
+                              stroke="#21272A"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M15 8H17"
+                              stroke="#21272A"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M15 12H17"
+                              stroke="#21272A"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M7 16H17"
+                              stroke="#21272A"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_14028_780">
+                              <rect width="24" height="24" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      )}
+                      {detail.icon === "package" && (
+                        <svg
+                          width="33"
+                          height="33"
+                          viewBox="0 0 33 33"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_14029_807)">
+                            <path
+                              d="M19.1791 12.8782C19.2074 12.9725 19.2169 13.0715 19.207 13.1695C19.1971 13.2675 19.168 13.3626 19.1213 13.4494C19.0746 13.5361 19.0113 13.6128 18.935 13.6751C18.8587 13.7374 18.7709 13.784 18.6765 13.8124C14.1351 15.1758 10.6905 17.1858 7.77962 20.211C8.80374 21.4372 10.2091 22.3049 11.8414 22.699C14.0071 23.2219 16.3531 22.8822 18.625 21.7176C20.6531 20.678 21.8887 19.1819 23.0838 17.7344C24.5916 15.9084 26.0161 14.1836 28.999 13.4749C29.3297 13.3953 29.5749 13.1683 29.6581 12.8639C29.7513 12.515 29.6295 12.1746 29.291 11.8498C28.4987 11.0893 25.826 9.74102 22.7244 8.80281C17.7417 7.29493 14.5744 7.65084 12.7943 8.21497C10.4955 8.94453 8.55268 10.5086 7.39698 12.5104C7.17853 12.8873 6.98865 13.2801 6.82893 13.6855C6.10791 15.5268 6.14463 17.4273 6.92329 18.9361C9.96576 15.8489 13.5547 13.783 18.2444 12.3737C18.3389 12.3453 18.438 12.3358 18.5362 12.3458C18.6343 12.3558 18.7296 12.3851 18.8164 12.432C18.9032 12.4788 18.98 12.5424 19.0422 12.6189C19.1044 12.6955 19.1509 12.7836 19.1791 12.8782Z"
+                              fill="#21272A"
+                            />
+                            <path
+                              d="M6.23319 21.9708C6.73279 21.3483 7.24675 20.7628 7.77824 20.2106C7.49312 19.8694 7.23936 19.5032 7.02006 19.1163C6.98643 19.0574 6.95414 18.9971 6.92313 18.9364C6.26789 19.6029 5.64719 20.3025 5.06349 21.0324C4.99936 21.1089 4.95115 21.1975 4.92169 21.2928C4.89223 21.3882 4.88211 21.4885 4.89191 21.5879C4.90172 21.6872 4.93126 21.7836 4.97881 21.8714C5.02635 21.9592 5.09094 22.0366 5.16879 22.099C5.24663 22.1615 5.33617 22.2079 5.43216 22.2353C5.52814 22.2627 5.62863 22.2707 5.72775 22.2588C5.82686 22.2469 5.9226 22.2153 6.00936 22.166C6.09611 22.1166 6.17213 22.0503 6.23296 21.9712L6.23319 21.9708Z"
+                              fill="#21272A"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_14029_807">
+                              <rect
+                                width="24"
+                                height="24"
+                                fill="white"
+                                transform="translate(32.7847 12) rotate(120)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      )}
+                      {detail.icon === "calendar" && (
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 10V8C20 7.73478 19.8946 7.48043 19.7071 7.29289C19.5196 7.10536 19.2652 7 19 7H18V8C18 8.26522 17.8946 8.51957 17.7071 8.70711C17.5196 8.89464 17.2652 9 17 9C16.7348 9 16.4804 8.89464 16.2929 8.70711C16.1054 8.51957 16 8.26522 16 8V7H8V8C8 8.26522 7.89464 8.51957 7.70711 8.70711C7.51957 8.89464 7.26522 9 7 9C6.73478 9 6.48043 8.89464 6.29289 8.70711C6.10536 8.51957 6 8.26522 6 8V7H5C4.73478 7 4.48043 7.10536 4.29289 7.29289C4.10536 7.48043 4 7.73478 4 8V10H20ZM20 12H4V18C4 18.2652 4.10536 18.5196 4.29289 18.7071C4.48043 18.8946 4.73478 19 5 19H19C19.2652 19 19.5196 18.8946 19.7071 18.7071C19.8946 18.5196 20 18.2652 20 18V12ZM18 5H19C19.7956 5 20.5587 5.31607 21.1213 5.87868C21.6839 6.44129 22 7.20435 22 8V18C22 18.7956 21.6839 19.5587 21.1213 20.1213C20.5587 20.6839 19.7956 21 19 21H5C4.20435 21 3.44129 20.6839 2.87868 20.1213C2.31607 19.5587 2 18.7956 2 18V8C2 7.20435 2.31607 6.44129 2.87868 5.87868C3.44129 5.31607 4.20435 5 5 5H6V4C6 3.73478 6.10536 3.48043 6.29289 3.29289C6.48043 3.10536 6.73478 3 7 3C7.26522 3 7.51957 3.10536 7.70711 3.29289C7.89464 3.48043 8 3.73478 8 4V5H16V4C16 3.73478 16.1054 3.48043 16.2929 3.29289C16.4804 3.10536 16.7348 3 17 3C17.2652 3 17.5196 3.10536 17.7071 3.29289C17.8946 3.48043 18 3.73478 18 4V5Z"
+                            fill="#21272A"
+                          />
+                        </svg>
+                      )}
+                      <span>{detail.text}</span>
                     </div>
-                ))
-            }
+                  ))
+                }
+              </div>
+            </div>
+          </div>
         </div>
-    </Container>
+      </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        featureCards.map((card, index) => (
+          <div class="bg-rv-very-light backdrop-blur-sm rounded-2xl p-6 text-center shadow-md hover:shadow-xl hover:bg-green-100/60 transition-all duration-500 hover:-translate-y-2 border border-green-200/30 group">
+            <div class="w-16 h-16 bg-rv-dark rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-800 group-hover:scale-110 transition-all duration-300">
+              {card.icon === "check" && (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_14029_837)">
+                    <path
+                      d="M15 20.0001L18.3333 23.3334L25 16.6667"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20 5C23.8931 8.44429 28.9742 10.2376 34.1667 10C34.9227 12.5717 35.154 15.2691 34.8469 17.932C34.5398 20.5948 33.7006 23.1688 32.3791 25.5009C31.0575 27.833 29.2807 29.8756 27.1541 31.5075C25.0276 33.1393 22.5947 34.327 20 35C17.4054 34.327 14.9725 33.1393 12.846 31.5075C10.7194 29.8756 8.94257 27.833 7.62104 25.5009C6.29952 23.1688 5.46027 20.5948 5.15317 17.932C4.84608 15.2691 5.0774 12.5717 5.83338 10C11.0259 10.2376 16.107 8.44429 20 5"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14029_837">
+                      <rect width="40" height="40" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+              {card.icon === "heart" && (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_14029_830)">
+                    <path
+                      d="M32.4999 20.9534L19.9999 33.3334L7.49993 20.9534C6.67544 20.1511 6.026 19.1867 5.59251 18.1211C5.15902 17.0555 4.95087 15.9116 4.98116 14.7616C5.01145 13.6116 5.27954 12.4803 5.76853 11.4389C6.25752 10.3976 6.95682 9.46881 7.82241 8.71102C8.68799 7.95323 9.70111 7.38287 10.798 7.03585C11.8948 6.68884 13.0516 6.57269 14.1955 6.69472C15.3395 6.81675 16.4458 7.17431 17.4447 7.74489C18.4437 8.31548 19.3137 9.08672 19.9999 10.01C20.6892 9.09342 21.5602 8.32892 22.5584 7.76439C23.5567 7.19986 24.6608 6.84747 25.8015 6.72925C26.9422 6.61103 28.0951 6.72955 29.1879 7.07737C30.2807 7.42519 31.29 7.99484 32.1525 8.75066C33.0151 9.50647 33.7123 10.4322 34.2006 11.4699C34.689 12.5076 34.9578 13.6349 34.9904 14.7812C35.0231 15.9276 34.8187 17.0684 34.3902 18.1321C33.9616 19.1959 33.3181 20.1598 32.4999 20.9634"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20 10L14.5117 15.4883C14.1992 15.8009 14.0237 16.2247 14.0237 16.6667C14.0237 17.1086 14.1992 17.5325 14.5117 17.845L15.4167 18.75C16.5667 19.9 18.4333 19.9 19.5833 18.75L21.25 17.0833C22.2446 16.0888 23.5935 15.53 25 15.53C26.4065 15.53 27.7554 16.0888 28.75 17.0833L32.5 20.8333"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20.8333 25.8333L24.1666 29.1666"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M25 21.6667L28.3333 25.0001"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14029_830">
+                      <rect width="40" height="40" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+              {card.icon === "refresh" && (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_14029_830)">
+                    <path
+                      d="M32.4999 20.9534L19.9999 33.3334L7.49993 20.9534C6.67544 20.1511 6.026 19.1867 5.59251 18.1211C5.15902 17.0555 4.95087 15.9116 4.98116 14.7616C5.01145 13.6116 5.27954 12.4803 5.76853 11.4389C6.25752 10.3976 6.95682 9.46881 7.82241 8.71102C8.68799 7.95323 9.70111 7.38287 10.798 7.03585C11.8948 6.68884 13.0516 6.57269 14.1955 6.69472C15.3395 6.81675 16.4458 7.17431 17.4447 7.74489C18.4437 8.31548 19.3137 9.08672 19.9999 10.01C20.6892 9.09342 21.5602 8.32892 22.5584 7.76439C23.5567 7.19986 24.6608 6.84747 25.8015 6.72925C26.9422 6.61103 28.0951 6.72955 29.1879 7.07737C30.2807 7.42519 31.29 7.99484 32.1525 8.75066C33.0151 9.50647 33.7123 10.4322 34.2006 11.4699C34.689 12.5076 34.9578 13.6349 34.9904 14.7812C35.0231 15.9276 34.8187 17.0684 34.3902 18.1321C33.9616 19.1959 33.3181 20.1598 32.4999 20.9634"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20 10L14.5117 15.4883C14.1992 15.8009 14.0237 16.2247 14.0237 16.6667C14.0237 17.1086 14.1992 17.5325 14.5117 17.845L15.4167 18.75C16.5667 19.9 18.4333 19.9 19.5833 18.75L21.25 17.0833C22.2446 16.0888 23.5935 15.53 25 15.53C26.4065 15.53 27.7554 16.0888 28.75 17.0833L32.5 20.8333"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20.8333 25.8333L24.1666 29.1666"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M25 21.6667L28.3333 25.0001"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14029_830">
+                      <rect width="40" height="40" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+              {card.icon === "star" && (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_14029_1437)">
+                    <path
+                      d="M20 25C25.5228 25 30 20.5228 30 15C30 9.47715 25.5228 5 20 5C14.4772 5 10 9.47715 10 15C10 20.5228 14.4772 25 20 25Z"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20.0032 25.0056L25.6698 34.8206L28.3333 29.4338L34.3301 29.8206L28.6634 20.0056"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.3364 20.0056L5.66976 29.8206L11.6666 29.4338L14.33 34.8206L19.9967 25.0056"
+                      stroke="#F5FDE8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14029_1437">
+                      <rect width="40" height="40" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+            </div>
+            <h3 class="card-title mb-2 group-hover:text-green-900 transition-colors duration-300">
+              {card.title}
+            </h3>
+            <p class="card-paragraph font-secondary text-sm group-hover:text-gray-700 transition-colors duration-300">
+              {card.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
 </section>
