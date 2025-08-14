@@ -68,36 +68,22 @@ const navClasses = `fixed w-full ${navStyles.spacing.navHeight} py-3 z-50 ${navS
   import { MobileMenuController } from '../../utils/navigation';
 
   document.addEventListener("astro:page-load", () => {
-    // Initialize scroll effects
-    const scrollEffects = new ScrollEffects();
-    
-    // Initialize mobile menu controller
-    const mobileMenu = new MobileMenuController();
-    
-    // Bind mobile menu events
-    const toggleButton = document.getElementById("toggle-menu");
-    toggleButton?.addEventListener("click", () => mobileMenu.toggle());
+  // Mover las instancias a nivel superior si es posible
+  const scrollEffects = new ScrollEffects();
+  const mobileMenu = new MobileMenuController();
 
-    // Close menu on outside click
-    document.addEventListener("click", (e) => mobileMenu.closeOnOutsideClick(e));
+  // Simplificar los event listeners
+  const toggleButton = document.getElementById("toggle-menu");
+  toggleButton?.addEventListener("click", () => mobileMenu.toggle());
 
-    // Close mobile menu on resize
-    window.addEventListener("resize", () => mobileMenu.closeOnResize());
+  // Limpiar listeners previos al agregar nuevos
+  const cleanup = () => {
+    toggleButton?.removeEventListener("click", () => mobileMenu.toggle());
+    scrollEffects.destroy();
+  };
 
-    // Close mobile menu when clicking nav links
-    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        const navbar = document.getElementById("navbar-cta");
-        if (!navbar?.classList.contains("hidden")) {
-          mobileMenu.toggle();
-        }
-      });
-    });
-
-    // Cleanup on page unload
-    window.addEventListener("beforeunload", () => {
-      scrollEffects.destroy();
-    });
-  });
+  // Limpiar al recargar
+  window.addEventListener("beforeunload", cleanup);
+  Astro.addEventListener("beforeunload", cleanup);
+});
 </script>

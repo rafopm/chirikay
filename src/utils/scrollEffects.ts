@@ -7,10 +7,10 @@ export class ScrollEffects {
       menuItems: NodeListOf<Element>;
       hamburger: HTMLElement | null;
     };
-    
+
     private ticking: boolean = false;
     private readonly scrollThreshold: number = 50;
-  
+
     constructor() {
       this.elements = {
         mainNav: document.getElementById("main-nav"),
@@ -43,10 +43,10 @@ export class ScrollEffects {
       
       this.toggleScrolledClass(shouldAddScrolledClass);
     }
-  
+
     private toggleScrolledClass(add: boolean): void {
       const { mainNav, navInner, logoImage, menuItems, hamburger } = this.elements;
-      
+
       mainNav?.classList.toggle("scrolled", add);
       navInner?.classList.toggle("scrolled", add);
       logoImage?.classList.toggle("scrolled", add);

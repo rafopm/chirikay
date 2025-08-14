@@ -44,7 +44,7 @@ export const FONTS: Record<string, Record<string, string>> = {
   SPECTRAL: {
     REGULAR: "/fonts/Spectral-Regular.woff2",
     SEMIBOLD: "/fonts/Spectral-SemiBold.woff2",
-    BOLD: "/fonts/Spectral-Bold.woff"
+    BOLD: "/fonts/Spectral-Bold.woff2"
   },
   JETBRAINSMONO: {
     VARIABLE: "/fonts/JetBrainsMono.woff2"
