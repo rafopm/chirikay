@@ -30,9 +30,15 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
   <div class="aspect-video w-full relative">
     {
       images.map((image, index) => {
-        const imgSrc = typeof image === 'string' ? image : image.mobile;
-        const imgAlt = typeof image === 'string' ? `${alt} ${index + 1}` : image.alt || `${alt} ${index + 1}`;
-        const imgDesktopSrc = typeof image === 'string' ? image : image.desktop;
+        const imgSrc = typeof image === 'string' 
+          ? image 
+          : `${image.mobile}?width=396&height=223`;
+        const imgAlt = typeof image === 'string' 
+          ? `${alt} ${index + 1}` 
+          : image.alt || `${alt} ${index + 1}`;
+        const imgDesktopSrc = typeof image === 'string' 
+          ? `${image}?width=800&height=450`
+          : `${image.desktop}?width=800&height=450`;
   
         return (
           <div
@@ -41,13 +47,19 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
           >
             <img
               src={imgSrc}
-              srcset={`${imgSrc} 396w, ${imgDesktopSrc} 800w`}
+              srcset={`
+                ${typeof image === 'string' ? image : image.mobile}?width=396&height=223 396w,
+                ${typeof image === 'string' ? image : image.mobile}?width=792&height=446 792w,
+                ${typeof image === 'string' ? image : image.desktop}?width=800&height=450 800w,
+                ${typeof image === 'string' ? image : image.desktop}?width=1600&height=900 1600w
+              `}
               sizes="(max-width: 768px) 396px, 800px"
               alt={imgAlt}
               class="w-full h-full object-cover"
-              loading={index === 0 ? "eager" : "lazy"}
-              width={index === 0 ? 396 : undefined}
-              height={index === 0 ? 223 : undefined}
+              loading={index <= 1 ? "eager" : "lazy"}
+              width={396}
+              height={223}
+              decoding="async"
             />
           </div>
         )
@@ -158,7 +170,6 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
       updateSlider(currentSlide === 0 ? totalSlides - 1 : currentSlide - 1);
     }
 
-    // Controles manuales
     if (nextBtn) nextBtn.addEventListener("click", nextSlide);
     if (prevBtn) prevBtn.addEventListener("click", prevSlide);
 
@@ -178,9 +189,8 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
       }
     });
 
-    // --- Autoplay ---
     function startAutoPlay() {
-      autoPlayInterval = setInterval(nextSlide, 4000); // 4s por slide
+      autoPlayInterval = setInterval(nextSlide, 4000);
     }
 
     function stopAutoPlay() {
