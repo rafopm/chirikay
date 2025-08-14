@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/BlogPost.astro";
-import ScrollAnimation from "../components/shared/ScrollAnimation.astro";
 import Icon from "../components/shared/Icon.astro";
 import Map from "../components/shared/Map.astro";
 import { CONTACT, SOCIAL, SITE } from "../consts";
@@ -75,29 +74,27 @@ const mapEmbedUrl = CONTACT.MAP_URL;
 >
   <!-- Hero Minimalista -->
   <section class="bg-rv-very-light">
-    <Container
-      className="min-h-[80vh] flex flex-col items-center justify-center text-rv-very-dark"
-    >
+    <Container className="min-h-[80vh] flex flex-col items-center justify-center text-rv-very-dark">
       <Animate type="fadeInUp" delay={200} threshold={0.2}>
         <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
           {contactData.hero.title}
         </h2>
       </Animate>
 
-      <Animate type="fadeInUp" delay={200} threshold={0.2}>
+      <Animate type="fadeInUp" delay={300} threshold={0.2}>
         <p class="text-xl md:text-2xl mb-8 font-light">
           {contactData.hero.subtitle}
         </p>
       </Animate>
 
-      <Animate type="fadeInUp" delay={200} threshold={0.2}>
+      <Animate type="fadeInUp" delay={400} threshold={0.2}>
         <p class="text-lg max-w-2xl mx-auto mb-12">
           {contactData.hero.description}
         </p>
       </Animate>
 
       <!-- CTA Principal -->
-      <Animate type="fadeInUp" delay={200} threshold={0.2}>
+      <Animate type="fadeInUp" delay={500} threshold={0.2}>
         <div class="inline-flex flex-col items-center">
           <Button
             ariaLabel="Ordenar por WhatsApp"
@@ -120,107 +117,103 @@ const mapEmbedUrl = CONTACT.MAP_URL;
           </div>
         </div>
       </Animate>
-      <Animate type="fadeInUp" delay={200} threshold={0.2}>
-          <p class="text-xl md:text-2xl mb-8 font-bold mt-12">
-            Asociación de Agricultores Orgánicos Cultivando Salud
-          </p>
-        </Animate>
-        <Animate type="fadeInUp" delay={200} threshold={0.2}>
-          <p class="text-xl md:text-2xl mb-8 font-light">
-            RUC: {CONTACT.RUC}
-          </p>
-        </Animate>
       
+      <Animate type="fadeInUp" delay={600} threshold={0.2}>
+        <p class="text-xl md:text-2xl mb-8 font-bold mt-12">
+          Asociación de Agricultores Orgánicos Cultivando Salud
+        </p>
+      </Animate>
+      
+      <Animate type="fadeInUp" delay={700} threshold={0.2}>
+        <p class="text-xl md:text-2xl mb-8 font-light">
+          RUC: {CONTACT.RUC}
+        </p>
+      </Animate>
     </Container>
   </section>
 
   <!-- Canales de Contacto -->
   <section class="contact-channels bg-rv-light">
     <Container className="py-20">
-      <ScrollAnimation animation="fadeInUp" delay={0.2}>
+      <Animate type="fadeInUp" delay={200} threshold={0.2}>
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold mb-4 text-rv-very-dark">
             Múltiples formas de conectar
           </h2>
         </div>
-      </ScrollAnimation>
+      </Animate>
 
       <div class="grid md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto px-4">
-        {
-          contactData.contactChannels.map((channel, index) => (
-            <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
-              <a
-                href={channel.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={`group block p-4 md:p-8 rounded-2xl transition-all duration-300 hover:shadow-lg relative ${
-                  channel.featured
-                    ? "bg-green-50 border-2 border-green-200 hover:border-green-300"
-                    : "bg-gray-50 border border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                {/* Badge "Recomendado" solo en desktop */}
-                {channel.featured && (
-                  <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md hidden md:inline-block">
-                    Recomendado
-                  </div>
-                )}
-
-                <div class="flex items-start space-x-3 md:space-x-4">
-                  <div
-                    class={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center ${
-                      channel.featured
-                        ? "bg-green-500 text-white"
-                        : "bg-rv-accent text-white"
-                    }`}
-                  >
-                    <Icon name={channel.icon} size={20} class="md:w-6 md:h-6" />
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg md:text-xl font-semibold text-rv-accent mb-1 md:mb-2">
-                      {channel.title}
-                    </h3>
-                    <p class="text-sm md:text-base text-gray-600 leading-relaxed">
-                      {channel.description}
-                    </p>
-                  </div>
+        {contactData.contactChannels.map((channel, index) => (
+          <Animate type="fadeInUp" delay={300 + index * 100} threshold={0.2}>
+            <a
+              href={channel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`group block p-4 md:p-8 rounded-2xl transition-all duration-300 hover:shadow-lg relative ${
+                channel.featured
+                  ? "bg-green-50 border-2 border-green-200 hover:border-green-300"
+                  : "bg-gray-50 border border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              {channel.featured && (
+                <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md hidden md:inline-block">
+                  Recomendado
                 </div>
-              </a>
-            </ScrollAnimation>
-          ))
-        }
+              )}
+
+              <div class="flex items-start space-x-3 md:space-x-4">
+                <div
+                  class={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center ${
+                    channel.featured
+                      ? "bg-green-500 text-white"
+                      : "bg-rv-accent text-white"
+                  }`}
+                >
+                  <Icon name={channel.icon} size={20} class="md:w-6 md:h-6" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg md:text-xl font-semibold text-rv-accent mb-1 md:mb-2">
+                    {channel.title}
+                  </h3>
+                  <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                    {channel.description}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </Animate>
+        ))}
       </div>
     </Container>
   </section>
 
   <!-- Redes Sociales -->
   <section class="social-section bg-rv-very-light">
-    <Container className="py-20 ">
-      <ScrollAnimation animation="fadeInUp" delay={0.2}>
+    <Container className="py-20">
+      <Animate type="fadeInUp" delay={200} threshold={0.2}>
         <h2 class="text-3xl font-bold text-center text-rv-very-dark mb-12">
           Síguenos
         </h2>
-      </ScrollAnimation>
+      </Animate>
 
-      <div class="flex justify-center space-x-8">
-        {
-          contactData.socialChannels.map((social, index) => (
-            <ScrollAnimation animation="fadeInUp" delay={0.3 + index * 0.1}>
-              <a
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group flex flex-col items-center space-y-3 p-6 rounded-2xl hover:bg-white transition-all duration-300"
-                aria-label={`Seguir en ${social.title}`}
-              >
-                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-green-900 group-hover:text-white transition-all duration-300">
-                  <Icon name={social.icon} size={28} />
-                </div>
-                <span class="text-gray-700 font-medium">{social.title}</span>
-              </a>
-            </ScrollAnimation>
-          ))
-        }
+      <div class="flex flex-wrap justify-center gap-8">
+        {contactData.socialChannels.map((social, index) => (
+          <Animate type="fadeInUp" delay={300 + index * 100} threshold={0.2}>
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex flex-col items-center space-y-3 p-6 rounded-2xl hover:bg-white transition-all duration-300"
+              aria-label={`Seguir en ${social.title}`}
+            >
+              <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-green-900 group-hover:text-white transition-all duration-300">
+                <Icon name={social.icon} size={28} />
+              </div>
+              <span class="text-gray-700 font-medium">{social.title}</span>
+            </a>
+          </Animate>
+        ))}
       </div>
     </Container>
   </section>
@@ -229,7 +222,7 @@ const mapEmbedUrl = CONTACT.MAP_URL;
   <section class="location-section bg-rv-light">
     <Container className="py-20">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
-        <ScrollAnimation animation="fadeInLeft" delay={0.3}>
+        <Animate type="fadeInLeft" delay={300} threshold={0.2}>
           <div>
             <h2 class="text-4xl font-bold text-gray-900 mb-6">
               {contactData.location.title}
@@ -249,9 +242,9 @@ const mapEmbedUrl = CONTACT.MAP_URL;
               </div>
             </div>
           </div>
-        </ScrollAnimation>
+        </Animate>
 
-        <ScrollAnimation animation="fadeInRight" delay={0.4}>
+        <Animate type="fadeInRight" delay={400} threshold={0.2}>
           <div class="rounded-3xl overflow-hidden shadow-2xl">
             <Map
               mapEmbedUrl={mapEmbedUrl}
@@ -266,7 +259,7 @@ const mapEmbedUrl = CONTACT.MAP_URL;
               className="h-full"
             />
           </div>
-        </ScrollAnimation>
+        </Animate>
       </div>
     </Container>
   </section>
@@ -274,7 +267,7 @@ const mapEmbedUrl = CONTACT.MAP_URL;
   <!-- CTA Final -->
   <section class="final-cta bg-rv-very-dark text-white">
     <Container className="py-20 text-center">
-      <ScrollAnimation animation="fadeInUp" delay={0.2}>
+      <Animate type="fadeInUp" delay={200} threshold={0.2}>
         <h2 class="text-4xl font-bold mb-6 text-rv-cta">
           ¿Listo para probar la diferencia?
         </h2>
@@ -298,7 +291,7 @@ const mapEmbedUrl = CONTACT.MAP_URL;
           rel="noopener noreferrer"
           class="px-12 py-4 text-lg font-semibold"
         />
-      </ScrollAnimation>
+      </Animate>
     </Container>
   </section>
 </Layout>

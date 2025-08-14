@@ -1,7 +1,7 @@
 ---
 import { CONTACT, SITE } from "../../consts";
 import Button from "../shared/Button.astro";
-
+import Animate from "../shared/Animate.astro";
 ---
 
 <section class="hero-container">
@@ -20,76 +20,69 @@ import Button from "../shared/Button.astro";
             alt="Productos ChiriKay"
             class="hero-image"
             loading="eager"
-             fetchpriority="high"
+            fetchpriority="high"
         />
     </picture>
 
     <!-- Contenido del hero -->
-    <div
-        class="mx-auto my-auto relative w-full h-full flex items-center justify-center"
-    >
+    <div class="mx-auto my-auto relative w-full h-full flex items-center justify-center">
         <div class="text-content gap-4 relative z-50 bg-none mx-2 text-center">
-            <h1
-                class="animate__animated animate__fadeInLeft delay-0s font-primary text-white mt-0 text-4xl md:text-6xl lg:text-5xl xl:text-7xl leading-tight font-bold-custom"
-            >
-                Cultivamos Salud y Sabor
-                <br class="hidden md:block" />
-                <span
-                    class="text-rv-light text-4xl md:text-6xl lg:text-5xl xl:text-7xl"
-                    >desde Huarochirí - Lima</span
-                >
-            </h1>
+            <Animate type="fadeInUp" delay={100} duration={2200} threshold={0.05}>
+                <h1 class="font-primary text-white mt-0 text-4xl md:text-6xl lg:text-5xl xl:text-7xl leading-tight font-bold-custom">
+                    Cultivamos Salud y Sabor
+                    <br class="hidden md:block" />
+                    <span class="text-rv-light text-4xl md:text-6xl lg:text-5xl xl:text-7xl">
+                        desde Huarochirí - Lima
+                    </span>
+                </h1>
+            </Animate>
 
-            <p
-                class="animate__animated animate__fadeInLeft delay-1s font-secondary text-white mt-8 text-3xl lg:text-3xl xl:text-3xl hidden lg:block mx-auto max-w-4xl"
-            >
-                Chirimoya natural, orgánica y deliciosa,
-                <br class="hidden md:block" />
-                <span> de nuestras manos a tu mesa </span>
-            </p>
+            <Animate type="fadeInUp" delay={300} duration={2200} threshold={0.05}>
+                <p class="font-secondary text-white mt-8 text-3xl lg:text-3xl xl:text-3xl hidden lg:block mx-auto max-w-4xl">
+                    Chirimoya natural, orgánica y deliciosa,
+                    <br class="hidden md:block" />
+                    <span>de nuestras manos a tu mesa</span>
+                </p>
+            </Animate>
 
-            <div
-                class="hidden md:flex gap-8 justify-center items-center mt-8 md:mt-12 flex-col md:flex-row"
-            >
-        <span class="animate__animated animate__fadeInLeft delay-2s ">
-            <Button
-                    ariaLabel="Conocer el proceso"
-                    text="Conocer el proceso"
-                    icon="apoyo"
-                    iconPosition="left"
-                    style="rounded"
-                    color="var(--rv-cta)"
-                    textColor="var(--rv-very-dark)"
-                    hoverColor="var(--rv-dark)"
-                    hoverTextColor="var(--rv-very-light)"
-                    shadowColor="var(--rv-dark)"
-                    size="xl"
-                    href="#proceso-cultivo"
-                    target="_self"
-                    rel="noopener noreferrer"
-                    class="font-secondary font-semibold"
-                />
-        </span>
-        <span class="animate__animated animate__fadeInRight delay-2s ">
-            <Button
-                    ariaLabel="Comprar ahora"
-                    text="Comprar ahora"
-                    href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
-                    icon="whatsapp"
-                    iconPosition="left"
-                    style="rounded"
-                    color="var(--rv-light)"
-                    textColor="var(--rv-dark)"
-                    hoverColor="var(--rv-dark)"
-                    hoverTextColor="var(--rv-light)"
-                    shadowColor="var(--rv-dark)"
-                    size="xl"
-                    class="px-[60px] font-secondary font-semibold"
-                />
-        </span>
-                
+            <div class="hidden md:flex gap-8 justify-center items-center mt-8 md:mt-12 flex-col md:flex-row">
+                <Animate type="fadeInLeft" delay={500} duration={2100} threshold={0.05}>
+                    <Button
+                        ariaLabel="Conocer el proceso"
+                        text="Conocer el proceso"
+                        icon="apoyo"
+                        iconPosition="left"
+                        style="rounded"
+                        color="var(--rv-cta)"
+                        textColor="var(--rv-very-dark)"
+                        hoverColor="var(--rv-dark)"
+                        hoverTextColor="var(--rv-very-light)"
+                        shadowColor="var(--rv-dark)"
+                        size="xl"
+                        href="#proceso-cultivo"
+                        target="_self"
+                        rel="noopener noreferrer"
+                        class="font-secondary font-semibold"
+                    />
+                </Animate>
 
-                
+                <Animate type="fadeInRight" delay={500} duration={2100} threshold={0.05}>
+                    <Button
+                        ariaLabel="Comprar ahora"
+                        text="Comprar ahora"
+                        href={`https://wa.me/${CONTACT.WHATSAPP}?text=Me%20interesa%20su%20producto%20${SITE.URL}`}
+                        icon="whatsapp"
+                        iconPosition="left"
+                        style="rounded"
+                        color="var(--rv-light)"
+                        textColor="var(--rv-dark)"
+                        hoverColor="var(--rv-dark)"
+                        hoverTextColor="var(--rv-light)"
+                        shadowColor="var(--rv-dark)"
+                        size="xl"
+                        class="px-[60px] font-secondary font-semibold"
+                    />
+                </Animate>
             </div>
         </div>
     </div>

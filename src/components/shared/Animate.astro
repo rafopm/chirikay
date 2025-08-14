@@ -8,16 +8,20 @@ interface Props {
   threshold?: number;
   rootMargin?: string;
   triggerOnce?: boolean;
+  distance?: number;
+  scale?: number;
 }
 
 const {
-  type = "fadeInUp",
-  delay = 0,
-  duration = 600,
-  easing = "ease-out",
-  threshold = 0.1,
+  type = "fadeIn",
+  delay = 100,
+  duration = 400,
+  easing = "cubic-bezier(0.16, 1, 0.3, 1)",
+  threshold = 0.05,
   rootMargin = "0px",
   triggerOnce = true,
+  distance = 12,
+  scale = 0.95,
 } = Astro.props as Props;
 ---
 
@@ -33,76 +37,80 @@ const {
     --delay: ${delay}ms;
     --duration: ${duration}ms;
     --easing: ${easing};
+    --distance: ${distance}px;
+    --scale: ${scale};
   `}
 >
   <slot />
 </div>
 
 <style>
-  /* Estado inicial - visible pero preparado para animación */
+  /* Estado inicial - más suave */
   .scroll-animate {
     opacity: 1;
     transform: none;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
 
-  /* Estado inicial para animaciones específicas */
+  /* Estados iniciales con variables CSS para mayor control */
+  .scroll-animate[data-animation="fadeIn"] { opacity: 0; }
   .scroll-animate[data-animation="fadeInUp"] {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--distance));
   }
   .scroll-animate[data-animation="fadeInDown"] {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(calc(var(--distance) * -1));
   }
   .scroll-animate[data-animation="fadeInLeft"] {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(calc(var(--distance) * -1));
   }
   .scroll-animate[data-animation="fadeInRight"] {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(var(--distance));
   }
   .scroll-animate[data-animation="zoomIn"] {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(var(--scale));
   }
   .scroll-animate[data-animation="zoomOut"] {
     opacity: 0;
-    transform: scale(1.5);
+    transform: scale(calc(1 + (1 - var(--scale))));
   }
   .scroll-animate[data-animation="bounceIn"] {
     opacity: 0;
-    transform: scale(0.3);
+    transform: scale(0.9);
   }
   .scroll-animate[data-animation="flipInX"] {
     opacity: 0;
-    transform: perspective(400px) rotateX(90deg);
+    transform: perspective(1000px) rotateX(15deg);
   }
   .scroll-animate[data-animation="rotateIn"] {
     opacity: 0;
-    transform: rotate(-180deg);
+    transform: rotate(-15deg);
   }
 
-  /* Clase de animación activa */
+  /* Animación activa - más suave */
   .scroll-animate.animate {
     opacity: 1;
     transform: none;
+    transition: 
+      opacity var(--duration) var(--easing) var(--delay),
+      transform var(--duration) var(--easing) var(--delay);
   }
-  /* Keyframes */
+
+  /* Keyframes más suaves */
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(var(--distance));
     }
     to {
       opacity: 1;
@@ -113,7 +121,7 @@ const {
   @keyframes fadeInDown {
     from {
       opacity: 0;
-      transform: translateY(-20px);
+      transform: translateY(calc(var(--distance) * -1));
     }
     to {
       opacity: 1;
@@ -124,7 +132,7 @@ const {
   @keyframes fadeInLeft {
     from {
       opacity: 0;
-      transform: translateX(-20px);
+      transform: translateX(calc(var(--distance) * -1));
     }
     to {
       opacity: 1;
@@ -135,7 +143,7 @@ const {
   @keyframes fadeInRight {
     from {
       opacity: 0;
-      transform: translateX(20px);
+      transform: translateX(var(--distance));
     }
     to {
       opacity: 1;
@@ -146,7 +154,7 @@ const {
   @keyframes zoomIn {
     from {
       opacity: 0;
-      transform: scale(0.5);
+      transform: scale(var(--scale));
     }
     to {
       opacity: 1;
@@ -157,7 +165,7 @@ const {
   @keyframes zoomOut {
     from {
       opacity: 0;
-      transform: scale(1.5);
+      transform: scale(calc(1 + (1 - var(--scale))));
     }
     to {
       opacity: 1;
@@ -168,14 +176,14 @@ const {
   @keyframes bounceIn {
     0% {
       opacity: 0;
-      transform: scale(0.3);
+      transform: scale(0.9);
     }
     50% {
       opacity: 1;
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
     70% {
-      transform: scale(0.9);
+      transform: scale(0.98);
     }
     100% {
       transform: scale(1);
@@ -185,18 +193,18 @@ const {
   @keyframes flipInX {
     from {
       opacity: 0;
-      transform: perspective(400px) rotateX(90deg);
+      transform: perspective(1000px) rotateX(15deg);
     }
     to {
       opacity: 1;
-      transform: perspective(400px) rotateX(0);
+      transform: perspective(1000px) rotateX(0);
     }
   }
 
   @keyframes rotateIn {
     from {
       opacity: 0;
-      transform: rotate(-180deg);
+      transform: rotate(-15deg);
     }
     to {
       opacity: 1;
@@ -205,59 +213,64 @@ const {
   }
 </style>
 
-
 <script is:inline>
-    document.addEventListener("astro:page-load", () => {
-      const manager = {
-        observers: new Map(),
-  
-        init() {
-          this.cleanup();
-          this.setupAnimations();
-        },
-  
-        cleanup() {
-          this.observers.forEach(observer => observer.disconnect());
-          this.observers.clear();
-        },
-  
-        setupAnimations() {
-          const elements = document.querySelectorAll('.scroll-animate:not(.animate)');
+  document.addEventListener("astro:page-load", () => {
+    const manager = {
+      observers: new Map(),
+
+      init() {
+        this.cleanup();
+        this.setupAnimations();
+      },
+
+      cleanup() {
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers.clear();
+      },
+
+      setupAnimations() {
+        const elements = document.querySelectorAll('.scroll-animate:not(.animate)');
+        
+        if (!elements.length) return;
+
+        elements.forEach(element => {
+          const threshold = parseFloat(element.dataset.threshold) || 0.05;
+          const rootMargin = element.dataset.rootMargin || "0px";
+          const key = `${threshold}_${rootMargin}`;
           
-          if (!elements.length) return;
-  
-          elements.forEach(element => {
-            const threshold = parseFloat(element.dataset.threshold) || 0.1;
-            const rootMargin = element.dataset.rootMargin || "0px";
-            const key = `${threshold}_${rootMargin}`;
-            
-            if (!this.observers.has(key)) {
-              this.observers.set(key, new IntersectionObserver(
-                (entries) => {
-                  entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                      const el = entry.target;
-                      const animation = el.dataset.animation || 'fadeInUp';
-                      
-                      el.classList.add('animate');
-                      el.style.animation = `${animation} ${el.dataset.duration} ${el.dataset.easing || 'ease-out'} ${el.dataset.delay} forwards`;
-                      
-                      if (el.dataset.triggerOnce === 'true') {
-                        this.observers.get(key)?.unobserve(el);
-                      }
+          if (!this.observers.has(key)) {
+            this.observers.set(key, new IntersectionObserver(
+              (entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const animation = el.dataset.animation || 'fadeIn';
+                    
+                    el.classList.add('animate');
+                    el.style.animation = `
+                      ${animation} 
+                      ${el.dataset.duration} 
+                      ${el.style.getPropertyValue('--easing') || 'cubic-bezier(0.16, 1, 0.3, 1)'} 
+                      ${el.dataset.delay} 
+                      forwards
+                    `;
+                    
+                    if (el.dataset.triggerOnce === 'true') {
+                      this.observers.get(key)?.unobserve(el);
                     }
-                  });
-                },
-                { threshold, rootMargin }
-              ));
-            }
-            
-            this.observers.get(key)?.observe(element);
-          });
-        }
-      };
-  
-      manager.init();
-      document.addEventListener("astro:after-swap", () => manager.init());
-    });
-  </script>
+                  }
+                });
+              },
+              { threshold, rootMargin }
+            ));
+          }
+          
+          this.observers.get(key)?.observe(element);
+        });
+      }
+    };
+
+    manager.init();
+    document.addEventListener("astro:after-swap", () => manager.init());
+  });
+</script>

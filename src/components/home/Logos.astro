@@ -1,29 +1,32 @@
 ---
 import Container from "../shared/Container.astro";
-import ScrollAnimation from "../shared/ScrollAnimation.astro";
+import Animate from "../shared/Animate.astro";
 
 const logos = [
-    { src: "/images/logos/logo-midagri.webp", alt: "Logo Ministerio Desarrollo Agrario y Riego", animationDelay: 1 },
-    { src: "/images/logos/logo-agrorural.webp", alt: "Logo AgroRural", animationDelay: 1.2 },
-    { src: "/images/logos/logo-avanzar-rural.webp", alt: "Logo Avanzar Rural", animationDelay: 1.4 },
-    { src: "/images/logos/logo-fida.webp", alt: "Logo FIDA", animationDelay: 1.6 },
+    { src: "/images/logos/logo-midagri.webp", alt: "Logo Ministerio Desarrollo Agrario y Riego" },
+    { src: "/images/logos/logo-agrorural.webp", alt: "Logo AgroRural" },
+    { src: "/images/logos/logo-avanzar-rural.webp", alt: "Logo Avanzar Rural" },
+    { src: "/images/logos/logo-fida.webp", alt: "Logo FIDA" },
 ];
 
-// Esto será true para /blog y para cualquier ruta que empiece con /blog/
 const isBlogPage = Astro.url.pathname.startsWith("/blog");
 ---
 
 <section class={`${isBlogPage ? "bg-rv-light" : "bg-rv-very-light"} py-12 lg:py-20 rounded-b-3xl`} id="logos">
     <Container>
-        <span class="font-bold text-ms-dark text-2xl text-center block w-full md:text-left">
-            Con el cofinanciamiento de:
-        </span>
+        <Animate type="fadeInUp" delay={100} duration={600} threshold={0.05}>
+            <span class="font-bold text-ms-dark text-2xl text-center block w-full md:text-left">
+                Con el cofinanciamiento de:
+            </span>
+        </Animate>
+        
         <div class="carousel-container">
-            {logos.map((logo) => (
-                <ScrollAnimation
-                    animation="fadeInUp"
-                    delay={logo.animationDelay}
-                    duration={0.6}
+            {logos.map((logo, index) => (
+                <Animate 
+                    type="fadeInUp" 
+                    delay={100 + (index * 150)} 
+                    duration={4000} 
+                    threshold={0.05}
                     class="card-wrapper"
                 >
                     <img
@@ -32,8 +35,9 @@ const isBlogPage = Astro.url.pathname.startsWith("/blog");
                         loading="lazy"
                         width="auto"
                         height="80"
+                        class="logo-image"
                     />
-                </ScrollAnimation>
+                </Animate>
             ))}
         </div>
     </Container>
@@ -58,17 +62,23 @@ const isBlogPage = Astro.url.pathname.startsWith("/blog");
         }
     }
     
-    .carousel-container img {
+    .logo-image {
         width: auto;
         height: 80px;
         object-fit: contain;
         border-radius: 8px;
         display: block;
-        transition: 0.5s ease-in-out;
+        transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        will-change: transform;
     }
     
-    .carousel-container img:hover {
+    .logo-image:hover {
         transform: scale(1.05);
-        transition: 0.5s ease-in-out;
     }
-    </style>
+
+    /* Asegurar que las animaciones se vean bien */
+    .card-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+</style>
