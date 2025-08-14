@@ -71,7 +71,7 @@ if (typeof window !== "undefined") {
 <html lang="es">
   <head>
     <BaseHead title={metatitle} metadescription={metadescription} image={heroimage} updateDate={lastModified} />
-    <ClientRouter />
+    {isDesktop && <ClientRouter />}
   </head>
   <body class="overflow-x-hidden">
     <div itemscope itemtype="https://schema.org/WebSite">
