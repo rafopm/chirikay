@@ -3,11 +3,31 @@ import Container from "../shared/Container.astro";
 import ImageSlider from "../shared/ImageSlider.astro";
 
 const images = [
-  "/images/home/slider/cultivando-salud-chirikay-1.webp",
-  "/images/home/slider/cultivando-salud-chirikay-2.webp",
-  "/images/home/slider/cultivando-salud-chirikay-3.webp",
-  "/images/home/slider/cultivando-salud-chirikay-4.webp",
-  "/images/home/slider/cultivando-salud-chirikay-5.webp",
+  {
+    mobile: "/images/home/slider/cultivando-salud-chirikay-1-mobile.webp",
+    desktop: "/images/home/slider/cultivando-salud-chirikay-1.webp",
+    alt: "Cultivando salud en Chirikay",
+  },
+  {
+    mobile: "/images/home/slider/cultivando-salud-chirikay-2-mobile.webp",
+    desktop: "/images/home/slider/cultivando-salud-chirikay-2.webp",
+    alt: "Cultivando salud en Chirikay",
+  },
+  {
+    mobile: "/images/home/slider/cultivando-salud-chirikay-3-mobile.webp",
+    desktop: "/images/home/slider/cultivando-salud-chirikay-3.webp",
+    alt: "Cultivando salud en Chirikay",
+  },
+  {
+    mobile: "/images/home/slider/cultivando-salud-chirikay-4-mobile.webp",
+    desktop: "/images/home/slider/cultivando-salud-chirikay-4.webp",
+    alt: "Cultivando salud en Chirikay",
+  },
+  {
+    mobile: "/images/home/slider/cultivando-salud-chirikay-5-mobile.webp",
+    desktop: "/images/home/slider/cultivando-salud-chirikay-5.webp",
+    alt: "Cultivando salud en Chirikay",
+  },
 ];
 ---
 
@@ -37,8 +57,9 @@ const images = [
       </div>
 
       <div class="flex justify-center lg:justify-end">
-        <ImageSlider images={images} alt="Paisaje natural"  />
+        <ImageSlider images={images} alt="Paisaje natural" />
       </div>
+
     </div>
   </Container>
 </section>

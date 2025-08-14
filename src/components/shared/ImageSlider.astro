@@ -1,6 +1,12 @@
 ---
+export interface ImageItem {
+  mobile: string;
+  desktop: string;
+  alt?: string;
+}
+
 export interface Props {
-  images: string[];
+  images: string[] | ImageItem[];
   alt?: string;
   className?: string;
 }
@@ -17,32 +23,37 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
   aria-roledescription="carousel"
   aria-label="Image slider"
 >
-  <!-- Contenedor de imágenes -->
+
   <div
     class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl"
   >
-    <div class="aspect-video w-full relative">
-      {
-        images.map((image, index) => (
+  <div class="aspect-video w-full relative">
+    {
+      images.map((image, index) => {
+        const imgSrc = typeof image === 'string' ? image : image.mobile;
+        const imgAlt = typeof image === 'string' ? `${alt} ${index + 1}` : image.alt || `${alt} ${index + 1}`;
+        const imgDesktopSrc = typeof image === 'string' ? image : image.desktop;
+  
+        return (
           <div
             class={`absolute inset-0 transition-all duration-700 ease-out transform ${index === 0 ? "opacity-100 scale-100" : "opacity-0 scale-105"}`}
             data-slide={index}
           >
             <img
-              src={image}
-              alt={`${alt} ${index + 1}`}
+              src={imgSrc}
+              srcset={`${imgSrc} 396w, ${imgDesktopSrc} 800w`}
+              sizes="(max-width: 768px) 396px, 800px"
+              alt={imgAlt}
               class="w-full h-full object-cover"
               loading={index === 0 ? "eager" : "lazy"}
+              width={index === 0 ? 396 : undefined}
+              height={index === 0 ? 223 : undefined}
             />
           </div>
-        ))
-      }
-
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none"
-      >
-      </div>
-    </div>
+        )
+      })
+    }
+  </div>
   </div>
 
   <button
@@ -182,7 +193,6 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
     slider.addEventListener("mouseleave", startAutoPlay);
   });
 </script>
-
 
 <style>
   [data-slide] {
