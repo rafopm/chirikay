@@ -8,6 +8,7 @@ export interface NavItem {
   export interface NavigationConfig {
     logo: {
       src: string;
+      srcMobile?: string; 
       alt: string;
       width: {
         mobile: string;
@@ -23,6 +24,7 @@ export interface NavItem {
   export const navigationConfig: NavigationConfig = {
     logo: {
       src: "/images/logo/logo.webp",
+      srcMobile: "/images/logo/logo-mobile.webp",
       alt: "Logo ChiriKay",
       width: {
         mobile: "w-[160px]",

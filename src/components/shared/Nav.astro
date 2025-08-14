@@ -38,27 +38,22 @@ const { pathname } = Astro.url;
         <div
           class="flex-1 flex justify-start lg:justify-center transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
         >
-          <a
-            href="/"
-            class="block w-auto h-auto relative focus:outline-none hover:scale-105 transition-transform duration-200"
-          >
-            <picture>
-              <source
-                srcset="/images/logo/logo-mobile.webp"
-                media="(max-width: 1023px)"
-                type="image/webp"
-              />
-              <source srcset="/images/logo/logo.webp" type="image/webp" />
-              <img
-                src="/images/logo/logo.webp"
-                alt="logo ChiriKay"
-                class="logo-image w-[180px] lg:w-[180px] xl:w-[300px] transition-all duration-500 relative z-10"
-                height="auto"
-                fetchpriority="high"
-                decoding="async"
-              />
-            </picture>
+        <div class="flex-1 flex justify-start lg:justify-center">
+          <a href="/" class="block w-auto h-auto focus:outline-none">
+            
+            <img
+              src="/images/logo/logo-mobile.webp"
+              alt="Logo ChiriKay"
+              class="logo-mobile w-32 sm:w-40 lg:hidden transition-all duration-300"
+            />
+           
+            <img
+              src="/images/logo/logo.webp"
+              alt="Logo ChiriKay"
+              class="logo-desktop hidden lg:block w-[180px] xl:w-[300px] transition-all duration-300"
+            />
           </a>
+        </div>
         </div>
 
         <div

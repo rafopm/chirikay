@@ -1,34 +1,39 @@
 ---
-// src/components/navigation/Logo.astro
-import type { NavigationConfig } from '../../config/navigation';
+import type { NavigationConfig } from "../../config/navigation";
 
 interface Props {
-  config: NavigationConfig['logo'];
+  config: NavigationConfig["logo"];
   onClick?: () => void;
 }
 
 const { config, onClick } = Astro.props;
 ---
 
-<div class="flex-1 flex justify-start lg:justify-center transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">
-  <a 
-    href="/" 
+<div
+  class="flex-1 flex justify-start lg:justify-center transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+>
+  <a
+    href="/"
     class="block w-auto h-auto relative focus:outline-none hover:scale-105 transition-transform duration-200"
     onclick={onClick ? "scrollToTop()" : undefined}
   >
-  <img
-  src={config.src}
-  alt={config.alt}
-  class={`logo-image ${config.width.mobile} lg:${config.width.desktop} xl:${config.width.xl} transition-all duration-500 relative z-10 filter drop-shadow-2xl`}
-  height="auto"
-  fetchpriority="high"
-/>
+    <picture>
+      <source
+        srcset={config.srcMobile || config.src}
+        media="(max-width: 1023px)"
+      />
+      <img
+        src={config.src}
+        alt={config.alt}
+        class={`logo-image ${config.width.mobile} lg:${config.width.desktop} xl:${config.width.xl} transition-all duration-500 relative z-10 filter drop-shadow-2xl`}
+        height="auto"
+        fetchpriority="high"
+      />
+    </picture>
   </a>
 </div>
 
 <script>
-  import { scrollToTop } from '../../utils/navigation';
-  
-  // Make scrollToTop available globally for onclick handler
+  import { scrollToTop } from "../../utils/navigation";
   (window as any).scrollToTop = scrollToTop;
 </script>

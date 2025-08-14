@@ -6,25 +6,31 @@ const logoSize = {
 ---
 
 <a href="/" class="block w-auto h-auto relative focus:outline-none hover:scale-105 transition-transform duration-200">
-  <img
-    src="/images/logo/logo.webp"
-    alt="ChiriKay"
-    class={`logo-image ${logoSize.default} transition-all duration-500 relative z-10`}
-    height="auto"
-    fetchpriority="high"
-  />
+  <picture>
+
+    <source
+      srcset="/images/logo/logo-mobile.webp"
+      media="(max-width: 1023px)"
+    />
+
+    <img
+      src="/images/logo/logo.webp"
+      alt="ChiriKay"
+      class={`logo-image ${logoSize.default} transition-all duration-500 relative z-10`}
+      height="auto"
+      fetchpriority="high"
+    />
+  </picture>
 </a>
 
 <style is:global>
   nav.scrolled .logo-image,
-  nav.not-home .logo-image,
-  .logo-image.scrolled {
+  nav.not-home .logo-image {
     width: 110px !important;
   }
   @media (min-width: 640px) {
     nav.scrolled .logo-image,
-    nav.not-home .logo-image,
-    .logo-image.scrolled {
+    nav.not-home .logo-image {
       width: 160px !important;
     }
   }
