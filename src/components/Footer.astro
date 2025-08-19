@@ -60,7 +60,7 @@ const quickLinks = [
             loading="lazy"
           />
         </a>
-        <p class="text-rv-very-light   text-sm leading-relaxed max-w-md mb-6">
+        <p class="text-rv-very-light   text-lg leading-relaxed max-w-md mb-6">
           {SITE.DESCRIPTION}
         </p>
         
@@ -82,7 +82,7 @@ const quickLinks = [
 
       <!-- Quick Links -->
       <div>
-        <h3 class="text-sm font-semibold text-rv-cta  mb-4">
+        <h3 class=" uppercase  text-lg font-semibold text-rv-cta  mb-4 ">
           Enlaces
         </h3>
         <ul class="space-y-3">
@@ -90,7 +90,7 @@ const quickLinks = [
             <li>
               <a
                 href={link.href}
-                class="text-sm text-rv-very-light   hover:text-rv-cta  transition-colors duration-200"
+                class="text-lg text-rv-very-light   hover:text-rv-cta  transition-colors duration-200"
               >
                 {link.name}
               </a>
@@ -101,7 +101,7 @@ const quickLinks = [
 
       <!-- Latest Posts -->
       <div>
-        <h3 class="text-sm font-semibold text-rv-cta  mb-4">
+        <h3 class=" uppercase  text-lg font-semibold text-rv-cta  mb-4">
           Últimas Entradas
         </h3>
         <ul class="space-y-3">
@@ -109,7 +109,7 @@ const quickLinks = [
             <li>
               <a
                 href={`/blog/${post.id}`}
-                class="text-sm text-rv-very-light   hover:text-rv-cta  transition-colors duration-200 line-clamp-2"
+                class="text-lg text-rv-very-light   hover:text-rv-cta  transition-colors duration-200 line-clamp-2"
               >
                 {post.data.title}
               </a>
