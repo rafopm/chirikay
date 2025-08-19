@@ -12,8 +12,8 @@ export interface NavItem {
       alt: string;
       width: {
         mobile: string;
+        tablet: string;
         desktop: string;
-        xl: string;
       };
     };
     leftItems: NavItem[];
@@ -28,8 +28,8 @@ export interface NavItem {
       alt: "Logo ChiriKay",
       width: {
         mobile: "w-[160px]",
-        desktop: "w-[180px]",
-        xl: "w-[300px]"
+        tablet: "w-[200px]",
+        desktop: "w-[300px]"
       }
     },
     leftItems: [
@@ -60,7 +60,7 @@ export interface NavItem {
     },
     spacing: {
       navHeight: "h-24 min-h-[100px]",
-      navHeightScrolled: "h-20 min-h-[80px]",
+      navHeightScrolled: "h-[160px] min-h-[160px]",
       menuHeight: "h-16",
       menuWidth: "min-w-[200px]"
     }

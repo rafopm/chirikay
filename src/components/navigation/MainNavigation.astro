@@ -1,89 +1,515 @@
 ---
 // src/components/navigation/MainNavigation.astro
-import { navigationConfig, navStyles } from '../../config/navigation';
-import { getNavClasses, isHomePage } from '../../utils/navigation';
-import Logo from './Logo.astro';
-import DesktopMenu from './DesktopMenu.astro';
-import MobileMenu from './MobileMenu.astro';
-import HamburgerButton from './HamburgerButton.astro';
 
-interface Props {
-  config?: typeof navigationConfig;
-}
+const navigationConfig = {
+  logo: {
+    src: "/images/logo/logo.webp",
+    srcMobile: "/images/logo/logo-mobile.webp",
+    alt: "Logo ChiriKay",
+    width: {
+      mobile: "w-[160px]",
+      tablet: "w-[200px]",
+      desktop: "w-[300px]",
+    },
+  },
+  leftItems: [{ href: "/blog", label: "Blog" }],
+  rightItems: [{ href: "/contactanos", label: "Contáctanos" }],
+  mobileItems: [
+    { href: "/blog", label: "Blog" },
+    { href: "/contactanos", label: "Contáctanos" },
+  ],
+};
 
-const { config = navigationConfig } = Astro.props;
+const isActiveRoute = (currentPath: string, href: string): boolean => {
+  // Elimina posibles trailing slashes para consistencia
+  const cleanCurrent = currentPath.replace(/\/+$/, "");
+  const cleanHref = href.replace(/\/+$/, "");
 
-const isHome = isHomePage(Astro.url.pathname);
-const navClass = getNavClasses(isHome);
+  // Home exacto
+  if (cleanHref === "") return cleanCurrent === "";
+
+  // Coincidencia exacta o subruta
+  return cleanCurrent === cleanHref || cleanCurrent.startsWith(`${cleanHref}/`);
+};
+
+const { leftItems, rightItems, mobileItems, logo } = navigationConfig;
 const { pathname } = Astro.url;
 
-const navClasses = `fixed w-full ${navStyles.spacing.navHeight} py-3 z-50 ${navStyles.transitions.fast} ${navClass}`;
+const isHomePage = pathname === "/";
 ---
 
-<nav 
-  id="main-nav" 
-  class={navClasses}
+<nav
+  id="main-nav"
+  class={`fixed w-full z-50 transition-all duration-300 ${!isHomePage ? "scrolled" : ""}`}
 >
-  <!-- Navigation Background -->
-  <div class="nav-background absolute inset-0 bg-transparent backdrop-blur-none opacity-0 transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] -z-10"></div>
-  
-  <div class="mx-auto max-w-7xl relative w-full px-4">
-    <div 
-      id="nav-inner" 
-      class="flex items-center justify-between px-0 md:px-4 py-2 transition-all duration-400 ease-in-out relative"
+  <div
+    class="nav-container mx-auto max-w-7xl flex items-center justify-between px-6 md:px-8 py-2"
+  >
+    <!-- Menú izquierdo escritorio -->
+    <ul class="hidden lg:flex gap-4">
+      {
+        leftItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`menu-item  px-3 py-2  transition ${
+                isActiveRoute(pathname, item.href) ? "bg-active-nav" : ""
+              }`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Logo -->
+    <a href="/" class="transition-all duration-300 mt-4">
+      <picture>
+        <source
+          srcset={logo.srcMobile || logo.src}
+          media="(max-width: 1023px)"
+        />
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          class="logo-image w-[160px] lg:w-[300px]"
+          fetchpriority="high"
+        />
+      </picture>
+    </a>
+
+    <!-- Menú derecho escritorio -->
+    <ul class="hidden lg:flex gap-4">
+      {
+        rightItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`menu-item  px-3 py-2 transition ${
+                isActiveRoute(pathname, item.href) ? "bg-active-nav" : ""
+              }`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Botón hamburguesa -->
+    <button
+      id="toggle-menu"
+      class="lg:hidden p-2 rounded bg-rv-cta z-50 relative"
+      aria-label="Toggle menu"
+      aria-expanded="false"
     >
-      <div class="flex items-center justify-between w-full">
-        <!-- Left Desktop Menu -->
-        <DesktopMenu 
-          items={config.leftItems}
-          currentPath={pathname}
-          position="left"
-        />
-
-        <!-- Centered Logo -->
-        <Logo config={config.logo} />
-
-        <!-- Right Desktop Menu -->
-        <DesktopMenu 
-          items={config.rightItems}
-          currentPath={pathname}
-          position="right"
-        />
-
-        <!-- Mobile Hamburger Button -->
-        <HamburgerButton />
+      <div class="hamburger-icon">
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
       </div>
-    </div>
+    </button>
   </div>
 
-  <!-- Mobile Menu -->
-  <MobileMenu 
-    items={config.mobileItems}
-    currentPath={pathname}
-  />
+  <!-- Menú móvil -->
+  <div id="mobile-menu" class="mobile-menu-overlay">
+    <div class="mobile-menu-content">
+      {
+        mobileItems.map((item) => (
+          <a
+            href={item.href}
+            class={`mobile-menu-item ${
+              isActiveRoute(pathname, item.href) ? "active" : ""
+            }`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </nav>
 
-<script>
-  import { ScrollEffects } from '../../utils/scrollEffects';
-  import { MobileMenuController } from '../../utils/navigation';
-
+<script is:inline>
   document.addEventListener("astro:page-load", () => {
-  // Mover las instancias a nivel superior si es posible
-  const scrollEffects = new ScrollEffects();
-  const mobileMenu = new MobileMenuController();
+    const mainNav = document.getElementById("main-nav");
+    const logoImage = document.querySelector(".logo-image");
+    const toggleBtn = document.getElementById("toggle-menu");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-  // Simplificar los event listeners
-  const toggleButton = document.getElementById("toggle-menu");
-  toggleButton?.addEventListener("click", () => mobileMenu.toggle());
+    // Función para manejar el estado de navegación
+    // En tu script existente, modifica la función handleNavigationState
+    function handleNavigationState() {
+      const isHome = window.location.pathname === "/";
+      const scrolled = window.scrollY > 50;
 
-  // Limpiar listeners previos al agregar nuevos
-  const cleanup = () => {
-    toggleButton?.removeEventListener("click", () => mobileMenu.toggle());
-    scrollEffects.destroy();
-  };
+      // Usar requestAnimationFrame para animaciones más suaves
+      requestAnimationFrame(() => {
+        if (isHome) {
+          // En home, aplicar scrolled solo si se ha hecho scroll
+          if (scrolled) {
+            mainNav?.classList.add("scrolled");
+            logoImage?.classList.add("scrolled");
+          } else {
+            mainNav?.classList.remove("scrolled");
+            logoImage?.classList.remove("scrolled");
+          }
+        } else {
+          // No es home - siempre scrolled
+          mainNav?.classList.add("scrolled");
+          logoImage?.classList.add("scrolled");
+        }
+      });
+    }
 
-  // Limpiar al recargar
-  window.addEventListener("beforeunload", cleanup);
-  Astro.addEventListener("beforeunload", cleanup);
-});
+    // Función debounce para optimizar el evento de scroll
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Versión debounced de la función
+    const debouncedHandleNavigationState = debounce(handleNavigationState, 10);
+
+    // Inicializar el estado al cargar
+    document.addEventListener("DOMContentLoaded", handleNavigationState);
+
+    // Manejar eventos de navegación
+    if (typeof window !== "undefined") {
+      // Astro events
+      document.addEventListener("astro:after-swap", handleNavigationState);
+      document.addEventListener("astro:page-load", handleNavigationState);
+
+      // Eventos estándar
+      window.addEventListener("scroll", debouncedHandleNavigationState);
+      window.addEventListener("popstate", handleNavigationState);
+      window.addEventListener("load", handleNavigationState);
+    }
+
+    // Clase para manejar el menú móvil
+    class MobileMenuController {
+      constructor() {
+        this.toggleButton = document.getElementById("toggle-menu");
+        this.mobileMenu = document.getElementById("mobile-menu");
+        this.body = document.body;
+        this.isOpen = false;
+      }
+
+      toggle() {
+        if (!this.toggleButton || !this.mobileMenu) return;
+
+        this.isOpen = !this.isOpen;
+        this.toggleButton.setAttribute("aria-expanded", this.isOpen.toString());
+
+        if (this.isOpen) {
+          this.open();
+        } else {
+          this.close();
+        }
+      }
+
+      open() {
+        this.isOpen = true;
+        this.mobileMenu?.classList.add("active");
+        this.toggleButton?.classList.add("active");
+        if (this.body) this.body.style.overflow = "hidden";
+      }
+
+      close() {
+        this.isOpen = false;
+        this.mobileMenu?.classList.remove("active");
+        this.toggleButton?.classList.remove("active");
+        if (this.body) this.body.style.overflow = "";
+      }
+
+      closeOnResize() {
+        if (window.innerWidth >= 1024 && this.isOpen) {
+          this.close();
+        }
+      }
+
+      closeOnOutsideClick(event) {
+        const target = event.target;
+        if (
+          this.isOpen &&
+          !this.mobileMenu?.contains(target) &&
+          !this.toggleButton?.contains(target)
+        ) {
+          this.close();
+        }
+      }
+
+      closeOnLinkClick(event) {
+        const target = event.target;
+        if (target.classList.contains("mobile-menu-item")) {
+          this.close();
+        }
+      }
+    }
+
+    // Inicializar controlador
+    const mobileMenuController = new MobileMenuController();
+
+    // Event listeners
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        mobileMenuController.toggle();
+      });
+    }
+
+    // Escuchar cambios de tamaño de pantalla
+    window.addEventListener("resize", () => {
+      mobileMenuController.closeOnResize();
+    });
+
+    // Escuchar clicks fuera del menú
+    document.addEventListener("click", (e) => {
+      mobileMenuController.closeOnOutsideClick(e);
+    });
+
+    // Cerrar menú al hacer clic en enlaces
+    if (mobileMenu) {
+      mobileMenu.addEventListener("click", (e) => {
+        mobileMenuController.closeOnLinkClick(e);
+      });
+    }
+  });
 </script>
+
+<style>
+  /* Estilos de navegación */
+  nav {
+    transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  nav.scrolled {
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--rv-very-dark-rgb), 0.9),
+      rgba(var(--rv-dark-rgb), 0.7)
+    );
+    backdrop-filter: blur(10px);
+    height: 100px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    animation: navSlideIn 0.5s ease-out;
+  }
+
+  @media screen and (max-width: 1023px) {
+    nav.scrolled#main-nav .nav-container{
+      align-items: center !important;
+    }
+  }
+  
+  /* Animación de deslizamiento suave */
+  @keyframes navSlideIn {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  nav.scrolled#main-nav .nav-container {
+    align-items: start;
+  }
+
+  nav.scrolled#main-nav .nav-container ul {
+    padding-top: 20px;
+  }
+
+  nav#main-nav .nav-container ul li a.menu-item {
+    width: 200px;
+    background-color: var(--rv-dark);
+    display: inline-block;
+    text-align: center;
+    border-color: var(--rv-cta);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 9999px;
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    transform: scale(1);
+  }
+
+  nav.scrolled#main-nav .nav-container ul li a.menu-item {
+    transform: scale(0.95);
+  }
+
+  nav#main-nav .nav-container ul li a.menu-item:hover {
+    background-color: var(--rv-light);
+    color: var(--rv-dark);
+  }
+
+  nav.scrolled#main-nav .nav-container ul li a.menu-item:hover {
+    transform: scale(1) translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Transición mejorada para el logo */
+  .logo-image {
+    transition: all 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .logo-image.scrolled {
+    transform: scale(0.5) translateY(0);
+    margin-top: -5rem;
+    animation: logoScale 0.5s ease-out;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .logo-image.scrolled {
+      transform: scale(0.8) translateY(0);
+      margin-top: -1.8rem;
+      margin-left: -1rem;
+    }
+  }
+
+  /* Animación de escala para el logo */
+  @keyframes logoScale {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(0.85);
+    }
+  }
+
+  .bg-active-nav {
+    background-color: var(--rv-cta) !important;
+  }
+
+  /* Estilos del botón hamburguesa */
+  .hamburger-icon {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .line {
+    width: 100%;
+    height: 3px;
+    background-color: currentColor;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  /* Animación del botón hamburguesa a X */
+  #toggle-menu.active .line1 {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  #toggle-menu.active .line2 {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  #toggle-menu.active .line3 {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  /* Estilos del menú móvil */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--rv-very-dark);
+    backdrop-filter: blur(10px);
+    z-index: 40;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .mobile-menu-item {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  /* Animación escalonada de los elementos del menú */
+  .mobile-menu-overlay.active .mobile-menu-item {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .mobile-menu-overlay.active .mobile-menu-item:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+
+  .mobile-menu-overlay.active .mobile-menu-item:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+
+  .mobile-menu-overlay.active .mobile-menu-item:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+
+  .mobile-menu-overlay.active .mobile-menu-item:nth-child(4) {
+    transition-delay: 0.4s;
+  }
+
+  .mobile-menu-item:hover {
+    background-color: rgba(var(--rv-cta), 0.2);
+    transform: scale(1.05);
+  }
+
+  .mobile-menu-item.active {
+    background-color: rgba(var(--rv-cta), 0.3);
+    transform: scale(1.05);
+  }
+
+  /* Efectos adicionales */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-overlay,
+    .mobile-menu-item,
+    .line {
+      transition-duration: 0.1s;
+    }
+  }
+</style>
