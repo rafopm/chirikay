@@ -47,9 +47,9 @@ const { items} = Astro.props;
               <div class="card-content">
                 <h3 class="card-title">{item.title}</h3>
                 <span class="flex items-center gap-2 text-rv-dark pb-2">
-                  <Icon name="calendar" size={20} class="card-icon text-rv-cta" />
-                  <p class="card-period">{item.period}</p>
-                </span>
+  <Icon name="calendar" size={20} class="card-icon text-rv-cta" />
+  <span class="card-period">{item.period}</span>
+</span>
                 <p class="card-description">{item.description}</p>
                 {item.details && <p class="card-details">{item.details}</p>}
               </div>
@@ -264,8 +264,10 @@ const { items} = Astro.props;
       this.track = document.getElementById("timeline-track");
       this.items = document.querySelectorAll(".timeline-item");
 
-      if (this.wrapper && this.track && this.items.length > 0) {
+      if (this.wrapper && this.track && this.items && this.items.length > 0) {
         this.init();
+      } else {
+        console.error("No se encontraron elementos del timeline");
       }
     }
 
@@ -276,7 +278,8 @@ const { items} = Astro.props;
       this.updateTimelineLines();
     }
 
-    private setupEventListeners(): void {
+    private setupEventListeners = (): void => {
+      if (!this.wrapper) return;
       this.wrapper.addEventListener("wheel", this.handleWheel.bind(this), {
         passive: false,
       });
@@ -294,7 +297,8 @@ const { items} = Astro.props;
       document.addEventListener("keydown", this.handleKeydown.bind(this));
     }
 
-    private handleWheel(e: WheelEvent): void {
+    private handleWheel = (e: WheelEvent): void => {
+      if (!this.wrapper) return;
       const now = Date.now();
 
       if (now - this.lastScrollTime < this.SCROLL_COOLDOWN) {
@@ -447,6 +451,25 @@ const { items} = Astro.props;
       this.observer?.disconnect();
       document.body.classList.remove("timeline-active");
     }
+
+    private handleTouchStart = (e: TouchEvent): void => {
+  this.touchStartX = e.changedTouches[0].clientX;
+}
+
+private handleTouchEnd = (e: TouchEvent): void => {
+  this.touchEndX = e.changedTouches[0].clientX;
+  if (this.touchEndX < this.touchStartX - 50) {
+    this.nextSlide();
+  } else if (this.touchEndX > this.touchStartX + 50) {
+    this.prevSlide();
+  }
+}
+
+private handleKeydown = (e: KeyboardEvent): void => {
+  if (e.key === "ArrowRight") this.nextSlide();
+  if (e.key === "ArrowLeft") this.prevSlide();
+}
+
   }
 
   // Inicialización
@@ -456,6 +479,8 @@ const { items} = Astro.props;
     timelineInstance?.destroy();
     timelineInstance = new HorizontalTimeline();
   }
+
+  
 
   document.addEventListener("astro:page-load", initTimeline);
   document.addEventListener("astro:after-swap", initTimeline);
