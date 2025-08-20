@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && purgecss --css dist/_astro/**/*.css --content dist/**/*.html --output dist/_astro",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -19,7 +19,6 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^7.0.2",
     "@tailwindcss/typography": "^0.5.15"
   }
 }

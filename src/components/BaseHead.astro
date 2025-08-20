@@ -106,6 +106,9 @@ const ogImage = Astro.site ? new URL(image, Astro.site) : image;
 <meta name="title" content={title ? title : SITE.TITLE} />
 <meta name="description" content={metadescription} />
 
+<link rel="preload" href="/_astro/_slug_.CNxMHUfp.css" as="style">
+<link rel="preload" href="/_astro/ClientRouter.astro_ast….DZnDNxNb.js" as="script">
+<link rel="preload" href="/_astro/index.CogwbvHJ.css" as="style">
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalURL} />
@@ -120,6 +123,7 @@ const ogImage = Astro.site ? new URL(image, Astro.site) : image;
 <meta property="twitter:title" content={title ?  title : SITE.TITLE} />
 <meta property="twitter:description" content={metadescription} />
 <meta property="twitter:image" content={ogImage} />
+
 
 <LocalBusinessJSON />
 <BreadcrumbJsonLd />
