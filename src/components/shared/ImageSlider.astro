@@ -39,15 +39,22 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
         const imgDesktopSrc = typeof image === 'string' 
           ? `${image}?width=800&height=450`
           : `${image.desktop}?width=800&height=450`;
-  
+    
         return (
           <div
             class={`absolute inset-0 transition-all duration-700 ease-out transform ${index === 0 ? "opacity-100 scale-100" : "opacity-0 scale-105"}`}
             data-slide={index}
           >
             <img
-              src={imgSrc}
-              srcset={`
+              src={index <= 1 ? imgSrc : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='396' height='223' viewBox='0 0 396 223' fill='%23f3f4f6'%3E%3C/svg%3E"}
+              data-src={imgSrc}
+              srcset={index <= 1 ? `
+                ${typeof image === 'string' ? image : image.mobile}?width=396&height=223 396w,
+                ${typeof image === 'string' ? image : image.mobile}?width=792&height=446 792w,
+                ${typeof image === 'string' ? image : image.desktop}?width=800&height=450 800w,
+                ${typeof image === 'string' ? image : image.desktop}?width=1600&height=900 1600w
+              ` : ""}
+              data-srcset={`
                 ${typeof image === 'string' ? image : image.mobile}?width=396&height=223 396w,
                 ${typeof image === 'string' ? image : image.mobile}?width=792&height=446 792w,
                 ${typeof image === 'string' ? image : image.desktop}?width=800&height=450 800w,
@@ -60,6 +67,12 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
               width={396}
               height={223}
               decoding="async"
+              onLoad={(e) => {
+                if (index > 1) {
+                  e.target.src = e.target.dataset.src;
+                  e.target.srcset = e.target.dataset.srcset;
+                }
+              }}
             />
           </div>
         )
